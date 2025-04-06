@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(menuName ="CaiDan/PackageTable",fileName ="packageTable")]
+[CreateAssetMenu(menuName ="SOInfo/PackageTable",fileName ="packageTable")]
 public class BackpackTable : ScriptableObject
 {
     public List<PackageTableItem> DataList = new List<PackageTableItem>();

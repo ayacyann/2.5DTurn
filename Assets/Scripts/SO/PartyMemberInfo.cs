@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //资源菜单
-[CreateAssetMenu(menuName="New Party Member")]
+[CreateAssetMenu(menuName="SOInfo/New Party Member")]
 public class PartyMemberInfo : ScriptableObject
 {
     public string MemberName;

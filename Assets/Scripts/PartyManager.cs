@@ -9,17 +9,17 @@ public class PartyManager : MonoBehaviour
     [SerializeField] private PartyMemberInfo defaultPartMember;
 
     private Vector3 playerPosition;//玩家的三维坐标
-    private static GameObject instance;
+    public static PartyManager Instance{ get; private set; }
 
     private void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(this.gameObject);
         }
         else
         {
-            instance = this.gameObject;
+            Instance = this;
             AddMemberToPartyByName(defaultPartMember.MemberName);//添加角色信息
         }
         DontDestroyOnLoad(gameObject);

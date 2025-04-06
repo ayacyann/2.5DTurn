@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f28879514965a38449ba8cff09670bff, type: 3}
+  m_Name: ItemInfos
+  m_EditorClassIdentifier: 
+  items:
+  - dropType: 0
+    name: BloodVial
+    sprite: {fileID: 1990662691, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}
+    description: +30HP
+    health: 30
+    attack: 0
+    speed: 0
+    defence: 0
+    probability: 0.6
+  - dropType: 1
+    name: GreenVase
+    sprite: {fileID: 189166917, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}
+    description: +3Speed
+    health: 0
+    attack: 0
+    speed: 3
+    defence: 0
+    probability: 0.3
+  - dropType: 2
+    name: Heart
+    sprite: {fileID: 263331153, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}
+    description: Heal all health
+    health: 999
+    attack: 0
+    speed: 0
+    defence: 0
+    probability: 0.3
+  - dropType: 3
+    name: Star
+    sprite: {fileID: 812114484, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}
+    description: +5Attack
+    health: 0
+    attack: 5
+    speed: 0
+    defence: 0
+    probability: 0.3

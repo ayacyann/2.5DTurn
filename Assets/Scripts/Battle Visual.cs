@@ -24,7 +24,6 @@ public class BattleVisual : MonoBehaviour
     void Awake()
     {
         anim = gameObject.GetComponent<Animator>();
-        
     }
 
     //更新角色信息

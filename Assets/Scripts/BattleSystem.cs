@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-
 //没看懂
 public class BattleSystem : MonoBehaviour
 {
@@ -121,7 +120,8 @@ public class BattleSystem : MonoBehaviour
             if (currTarget.CurrHealth <= 0)//若目标的当前血量为0,播放死亡动画
             {
                 //导入击败文本
-                bottomText.text = string.Format("{0} defeated {1}", currAttacker.Name, currTarget.Name); ;
+                bottomText.text = string.Format("{0} defeated {1}", currAttacker.Name, currTarget.Name);
+                DropItem();
                 yield return new WaitForSeconds(TURN_DURATION);
                 EnemyBattlers.Remove(currTarget);//将目标敌人从敌人列表中移除
                 allBattlers.Remove(currTarget);//将敌人从所有成员的列表中移除
@@ -166,6 +166,23 @@ public class BattleSystem : MonoBehaviour
             }
         }
     }
+
+    public void DropItem()
+    {
+        ItemInfo itemInfo = BackpackManager.Instance.itemInfo;
+        foreach (var item in itemInfo.items)
+        {
+            float rand = Random.value;
+            if (rand < item.probability)
+            {
+                Item newItem = new Item(item.dropType);
+                BackpackManager.Instance.AddItem(newItem);
+                Debug.Log($"掉落{newItem.name}");
+            }
+        }
+    }
+    
+    
     private void RemoveDeadBattlers()//删除死去的玩家角色
     {
         for(int i = 0; i < allBattlers.Count; i++)

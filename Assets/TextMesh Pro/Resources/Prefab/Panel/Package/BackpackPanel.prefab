@@ -200,15 +200,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 42
+    m_Left: 0
     m_Right: 0
-    m_Top: 31
+    m_Top: 16
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 103.9, y: 121.8}
-  m_Spacing: {x: 17.41, y: -13.9}
+  m_CellSize: {x: 100, y: 100}
+  m_Spacing: {x: 15, y: 15}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &7023555231261801252
@@ -484,7 +484,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -43.68, y: 267}
+  m_AnchoredPosition: {x: -43.68, y: 0.30517578}
   m_SizeDelta: {x: 402, y: 251.60999}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!223 &6855174783638223146
@@ -1108,7 +1108,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8216788250274653234}
   m_HandleRect: {fileID: 6896515729720801220}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1361,7 +1361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 108188610054205925}
   m_Layer: 5
-  m_Name: Center
+  m_Name: Backpack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1384,7 +1384,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -27.93, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2851122395401530197
@@ -2819,7 +2819,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1337919730202319454
 CanvasRenderer:
@@ -3467,8 +3467,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -139, y: 5}
-  m_SizeDelta: {x: 543.6, y: 480}
+  m_AnchoredPosition: {x: -160, y: 0}
+  m_SizeDelta: {x: 540, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3011779138539657013
 CanvasRenderer:
@@ -3637,6 +3637,14 @@ PrefabInstance:
     - target: {fileID: 4171001469282712456, guid: fa3f3c44700db5b47bfead6d5e41d7cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 3.4100037
+      objectReference: {fileID: 0}
+    - target: {fileID: 4729352890619211775, guid: fa3f3c44700db5b47bfead6d5e41d7cd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 4729352890619211775, guid: fa3f3c44700db5b47bfead6d5e41d7cd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 5138191966469137616, guid: fa3f3c44700db5b47bfead6d5e41d7cd, type: 3}
       propertyPath: m_IsActive

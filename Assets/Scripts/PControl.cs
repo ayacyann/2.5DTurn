@@ -117,7 +117,7 @@ public class PControl : MonoBehaviour
     {
         //随机数,表示遭遇战的步数在最大随机数和最小随机数的范围内随机一个值
         stepToEncounter = Random.Range(minStepsToEncounter,maxStepsToEncounter);
-        Debug.Log(stepToEncounter);
+        // Debug.Log(stepToEncounter);
     }
 
     public void SetOverwordVisuals(Animator animator,SpriteRenderer spriteRenderer,Vector3 playerScale)
