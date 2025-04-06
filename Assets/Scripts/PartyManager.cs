@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PartyManager : MonoBehaviour
 {
-    public  PartyMemberInfo[] allMembers;//´æÓĞËùÓĞ³ÉÔ±µÄÊı×é
+    public  PartyMemberInfo[] allMembers;//å­˜æœ‰æ‰€æœ‰æˆå‘˜çš„æ•°ç»„
     public  List<PartyMember> currentParty;
     [SerializeField] private PartyMemberInfo defaultPartMember;
 
-    private Vector3 playerPosition;//Íæ¼ÒµÄÈıÎ¬×ø±ê
+    private Vector3 playerPosition;//ç©å®¶çš„ä¸‰ç»´åæ ‡
     private static GameObject instance;
 
     private void Awake()
@@ -20,7 +20,7 @@ public class PartyManager : MonoBehaviour
         else
         {
             instance = this.gameObject;
-            AddMemberToPartyByName(defaultPartMember.MemberName);//Ìí¼Ó½ÇÉ«ĞÅÏ¢
+            AddMemberToPartyByName(defaultPartMember.MemberName);//æ·»åŠ è§’è‰²ä¿¡æ¯
         }
         DontDestroyOnLoad(gameObject);
     }
@@ -40,7 +40,7 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.MemberBattleVisualPrefab = allMembers[i].MemberBattleVisualPrefab;
                 newPartyMember.MemberOverworVisualPrefab = allMembers[i].MemberOverworldVisualPrefab;
 
-                currentParty.Add(newPartyMember);//Ìí¼ÓĞÂ³ÉÔ±
+                currentParty.Add(newPartyMember);//æ·»åŠ æ–°æˆå‘˜
 
 
 
@@ -49,15 +49,15 @@ public class PartyManager : MonoBehaviour
     }
     public List<PartyMember> GetAliveParty()
     {
-        //´æ´¢ËùÓĞÍæ¼Ò½ÇÉ«µÄÁĞ±í
+        //å­˜å‚¨æ‰€æœ‰ç©å®¶è§’è‰²çš„åˆ—è¡¨
         List<PartyMember> aliveParty = new List<PartyMember>();
         aliveParty = currentParty;
         for(int i = 0; i < aliveParty.Count; i++)
         {
-            //Èôµ±Ç°½ÇÉ«ÑªÁ¿Îª0
+            //è‹¥å½“å‰è§’è‰²è¡€é‡ä¸º0
             if (aliveParty[i].CurrHealth <= 0)
             {
-                aliveParty.RemoveAt(i);//½«µ±Ç°½ÇÉ«´ÓÁĞ±íÖĞÒÆ³ı
+                aliveParty.RemoveAt(i);//å°†å½“å‰è§’è‰²ä»åˆ—è¡¨ä¸­ç§»é™¤
             }
         }
         return aliveParty;
@@ -68,19 +68,19 @@ public class PartyManager : MonoBehaviour
         return currentParty;
     }
 
-    //Í¬²½½ÇÉ«µÄµ±Ç°×´Ì¬
+    //åŒæ­¥è§’è‰²çš„å½“å‰çŠ¶æ€
     public void SaveHealth(int partyMember,int health)
     {
         currentParty[partyMember].CurrHealth = health; 
     }
-    public void SetPosition(Vector3 posistion)//»ñÈ¡½ÇÉ«µ±Ç°Î»ÖÃ
+    public void SetPosition(Vector3 posistion)//è·å–è§’è‰²å½“å‰ä½ç½®
     {
         playerPosition = posistion;
     }
 
     public Vector3 GetPosition()
     {
-        return playerPosition;//·µ»ØÍæ¼Ò×ø±ê
+        return playerPosition;//è¿”å›ç©å®¶åæ ‡
     }
 }
 [System.Serializable]
@@ -88,14 +88,14 @@ public class PartyMember
 {
     public string MemberName;
     public int Level;
-    public int CurrHealth;//µ±Ç°ÑªÁ¿
-    public int MaxHealth;//×î´óÑªÁ¿
+    public int CurrHealth;//å½“å‰è¡€é‡
+    public int MaxHealth;//æœ€å¤§è¡€é‡
     public int Strength;
     public int Initiative;
-    public int CurrExp;//µ±Ç°¾­Ñé
-    public int MaxExp;//×î´ó¾­Ñé
-    public GameObject MemberBattleVisualPrefab;//¹«¹²ÓÎÏ·¶ÔÏó
-    public GameObject MemberOverworVisualPrefab;//ÊÓ¾õÔ¤ÖÆ¼ş
+    public int CurrExp;//å½“å‰ç»éªŒ
+    public int MaxExp;//æœ€å¤§ç»éªŒ
+    public GameObject MemberBattleVisualPrefab;//å…¬å…±æ¸¸æˆå¯¹è±¡
+    public GameObject MemberOverworVisualPrefab;//è§†è§‰é¢„åˆ¶ä»¶
     
 
 }

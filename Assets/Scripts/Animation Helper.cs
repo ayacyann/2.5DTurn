@@ -6,6 +6,6 @@ public class AnimationHelper : MonoBehaviour
 {
     public void DisableThisObject()
     {
-        gameObject.SetActive(false);//禁用脚本对象
+        gameObject.SetActive(false);
     }
 }

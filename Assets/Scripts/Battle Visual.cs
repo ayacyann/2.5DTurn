@@ -6,15 +6,15 @@ using TMPro;
 
 public class BattleVisual : MonoBehaviour
 {
-    [SerializeField] private Slider healthBar;//ÑªÌõ
-    [SerializeField] private TextMeshProUGUI levelText;//µÈ¼¶ÎÄ±¾
+    [SerializeField] private Slider healthBar;//è¡€æ¡
+    [SerializeField] private TextMeshProUGUI levelText;//ç­‰çº§æ–‡æœ¬
 
-    private int currHealth;//µ±Ç°ÑªÁ¿
-    private int maxHealth;//×î´óÑªÁ¿
-    private int level;//µÈ¼¶
+    private int currHealth;//å½“å‰è¡€é‡
+    private int maxHealth;//æœ€å¤§è¡€é‡
+    private int level;//ç­‰çº§
     private Animator anim;
 
-    //Ò»Ğ©³£ÓÃµÄ³£Á¿
+    //ä¸€äº›å¸¸ç”¨çš„å¸¸é‡
     private const string LEVEL_ABB = "Lv ";
     private const string IS_ATTACK_PARAM = "IsAttack";
     private const string IS_HIT_PARAM = "IsHit";
@@ -27,15 +27,15 @@ public class BattleVisual : MonoBehaviour
         
     }
 
-    //¸üĞÂ½ÇÉ«ĞÅÏ¢
+    //æ›´æ–°è§’è‰²ä¿¡æ¯
     public void SetStartingValues(int currHealth,int maxHealth,int level)
     {
-        //¶Ô½ÇÉ«Êı¾İ½øĞĞ³õÊ¼»¯
+        //å¯¹è§’è‰²æ•°æ®è¿›è¡Œåˆå§‹åŒ–
         this.currHealth = currHealth;
         this.maxHealth = maxHealth;
         this.level = level;
 
-        levelText.text = LEVEL_ABB + this.level.ToString();//½«½ÇÉ«µ±Ç°µÈ¼¶Ğ´ÈëÎÄ±¾ÄÚ
+        levelText.text = LEVEL_ABB + this.level.ToString();//å°†è§’è‰²å½“å‰ç­‰çº§å†™å…¥æ–‡æœ¬å†…
 
         UpdataHealthBar();
 
@@ -43,36 +43,36 @@ public class BattleVisual : MonoBehaviour
 
     public void ChangeHealth(int currHealth)
     {
-        this.currHealth = currHealth;//¸üĞÂµ±Ç°ÑªÌõ
-        //Èôµ±Ç°ÉúÃüÖµÎª0,²¥·ÅËÀÍö¶¯»­
+        this.currHealth = currHealth;//æ›´æ–°å½“å‰è¡€æ¡
+        //è‹¥å½“å‰ç”Ÿå‘½å€¼ä¸º0,æ’­æ”¾æ­»äº¡åŠ¨ç”»
         if (this.currHealth <= 0)
         {
             PlayDeadAnimation();
-            Destroy(gameObject,1f);//Ïú»Ù½ÇÉ«Ô¤ÖÆÌå
+            Destroy(gameObject,1f);//é”€æ¯è§’è‰²é¢„åˆ¶ä½“
         }
-        //¸üĞÂ×´Ì¬À¸
+        //æ›´æ–°çŠ¶æ€æ 
         UpdataHealthBar();
     }
 
-    //¸üĞÂ½ÇÉ«×´Ì¬
+    //æ›´æ–°è§’è‰²çŠ¶æ€
     public void UpdataHealthBar()
     {
         healthBar.maxValue = maxHealth;
         healthBar.value = currHealth;
 
-        //¸üĞÂµ±Ç°ÑªÌõ
+        //æ›´æ–°å½“å‰è¡€æ¡
         //ChangeHealth(currHealth);
     }
 
-    public void PlayAttackAnimation()//¹¥»÷¶¯»­´¥·¢Æ÷
+    public void PlayAttackAnimation()//æ”»å‡»åŠ¨ç”»è§¦å‘å™¨
     {
         anim.SetTrigger(IS_ATTACK_PARAM);
     }
-    public void PlayHitAnimation()//ÊÜ»÷¶¯»­´¥·¢Æ÷
+    public void PlayHitAnimation()//å—å‡»åŠ¨ç”»è§¦å‘å™¨
     {
-        anim.SetTrigger(IS_HIT_PARAM);//ÄªÃûÆğÂë¶ªÊ§¶¯»­
+        anim.SetTrigger(IS_HIT_PARAM);//è«åèµ·ç ä¸¢å¤±åŠ¨ç”»
     }
-    public void PlayDeadAnimation()//ËÀÍö¶¯»­´¥·¢Æ÷
+    public void PlayDeadAnimation()//æ­»äº¡åŠ¨ç”»è§¦å‘å™¨
     {
         anim.SetTrigger(IS_DEAD_PARAM);
     }

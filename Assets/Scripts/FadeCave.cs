@@ -17,12 +17,12 @@ public class FadeCave : MonoBehaviour
     {
         if (Instance != null)
         {
-            //ÏÈÉ¾µôÖ®Ç°µÄ£¬ÔÙÖØĞÂ¸³Öµ£¬²»ÒªÉ¾³ı×Ô¼º
+            //å…ˆåˆ æ‰ä¹‹å‰çš„ï¼Œå†é‡æ–°èµ‹å€¼ï¼Œä¸è¦åˆ é™¤è‡ªå·±
             Destroy(Instance.gameObject);
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        //·µ»Ø²Ëµ¥Ö®ºó²»Îª¿Õ£¬°Ñ×Ô¼ºÉ¾³ıÁË£¬µ¼ÖÂ¿ÕÒıÓÃ
+        //è¿”å›èœå•ä¹‹åä¸ä¸ºç©ºï¼ŒæŠŠè‡ªå·±åˆ é™¤äº†ï¼Œå¯¼è‡´ç©ºå¼•ç”¨
     }
 
     public void StartTransition()
@@ -32,8 +32,8 @@ public class FadeCave : MonoBehaviour
 
     private IEnumerator TransitionRoutine(string sceneName)
     {
-        // µ­³öĞ§¹û
-        fadePanel.raycastTarget = true; // ×èÖ¹µã»÷´©Í¸
+        // æ·¡å‡ºæ•ˆæœ
+        fadePanel.raycastTarget = true; // é˜»æ­¢ç‚¹å‡»ç©¿é€
         float timer = 0f;
         while (timer < fadeDuration)
         {
@@ -44,24 +44,24 @@ public class FadeCave : MonoBehaviour
         }
         fadePanel.color = new Color(0f, 0f, 0f, 1f);
 
-        // Òì²½¼ÓÔØ³¡¾°
+        // å¼‚æ­¥åŠ è½½åœºæ™¯
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
 
-        // µÈ´ı¼ÓÔØ½ø¶È´ïµ½90%£¨UnityµÄÒì²½¼ÓÔØÌØĞÔ£©
+        // ç­‰å¾…åŠ è½½è¿›åº¦è¾¾åˆ°90%ï¼ˆUnityçš„å¼‚æ­¥åŠ è½½ç‰¹æ€§ï¼‰
         while (asyncLoad.progress < 0.9f)
         {
             yield return null;
         }
         asyncLoad.allowSceneActivation = true;
 
-        // µÈ´ı³¡¾°¼ÓÔØÍê³É
+        // ç­‰å¾…åœºæ™¯åŠ è½½å®Œæˆ
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
 
-        // µ­ÈëĞ§¹û
+        // æ·¡å…¥æ•ˆæœ
         timer = 0f;
         while (timer < fadeDuration)
         {
@@ -70,11 +70,8 @@ public class FadeCave : MonoBehaviour
             fadePanel.color = new Color(0f, 0f, 0f, alpha);
             yield return null;
         }
-        Debug.Log("½¥³ö");
+        Debug.Log("æ¸å‡º");
         fadePanel.color = new Color(0f, 0f, 0f, 0f);
-        fadePanel.raycastTarget = false; // »Ö¸´µã»÷
+        fadePanel.raycastTarget = false; // æ¢å¤ç‚¹å‡»
     }
 }
-
-
-

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-//´¦Àí½ÇÉ«¼ÓÈëµÄÂß¼­
+//å¤„ç†è§’è‰²åŠ å…¥çš„é€»è¾‘
 public class CharacterManager : MonoBehaviour
 {
-    [SerializeField] private GameObject joinPopup;//µ¯´°¶ÔÏó
-    [SerializeField] private TextMeshProUGUI joinPopupText;//µ¯´°ÎÄ±¾
+    [SerializeField] private GameObject joinPopup;//å¼¹çª—å¯¹è±¡
+    [SerializeField] private TextMeshProUGUI joinPopupText;//å¼¹çª—æ–‡æœ¬
     private bool infrontOfPartyMember;
     private GameObject joinableMember;
     private PlayerControls playerControls;
@@ -18,7 +18,7 @@ public class CharacterManager : MonoBehaviour
     private const string NPC_JOINABLE_TAG = "NPC Joinable";
     private void Awake()
     {
-        playerControls = new PlayerControls();//³õÊ¼»¯
+        playerControls = new PlayerControls();//åˆå§‹åŒ–
     }
     void Start()
     {
@@ -26,13 +26,13 @@ public class CharacterManager : MonoBehaviour
         SpawnOberworldMembers();
     }
 
-    private void OnEnable()//ÆôÓÃ
+    private void OnEnable()//å¯ç”¨
     {
-        playerControls.Enable();//ÆôÓÃ²¥·ÅÆ÷
+        playerControls.Enable();//å¯ç”¨æ’­æ”¾å™¨
     }
-    private void OnDisable()//½ûÓÃ
+    private void OnDisable()//ç¦ç”¨
     {
-        playerControls.Disable();//½ûÓÃ²¥·ÅÆ÷
+        playerControls.Disable();//ç¦ç”¨æ’­æ”¾å™¨
     }
     // Update is called once per frame
     void Update()
@@ -41,11 +41,11 @@ public class CharacterManager : MonoBehaviour
     }
     private void Interct()
     {
-        //Èô¿É¼ÓÈë½ÇÉ«²»Îª¿ÕÇÒ¿ÉÒÔ½»»¥
+        //è‹¥å¯åŠ å…¥è§’è‰²ä¸ä¸ºç©ºä¸”å¯ä»¥äº¤äº’
         if(infrontOfPartyMember == true && joinableMember != null)
         {
-            //½«¸Ã¶ÓÔ±¼ÓÈë¶ÓÎé
-            Debug.Log("¼ÓÈë:"+joinableMember.GetComponent<JoinableCharacterScript>().MemberToJoin);
+            //å°†è¯¥é˜Ÿå‘˜åŠ å…¥é˜Ÿä¼
+            Debug.Log("åŠ å…¥:"+joinableMember.GetComponent<JoinableCharacterScript>().MemberToJoin);
             MemberJoined(joinableMember.GetComponent<JoinableCharacterScript>().MemberToJoin);
             infrontOfPartyMember = false;
             joinableMember = null;
@@ -53,53 +53,53 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    private void MemberJoined(PartyMemberInfo partyMember)//Ìí¼Ó³ÉÔ±µÄº¯Êı
+    private void MemberJoined(PartyMemberInfo partyMember)//æ·»åŠ æˆå‘˜çš„å‡½æ•°
     {
-        //Ìí¼Ó³ÉÔ±,ÊäÈë³ÉÔ±ĞÕÃû½«ÅÉ¶Ô³ÉÔ±Ìí¼Óµ½ÅÉ¶ÔÖĞ
+        //æ·»åŠ æˆå‘˜,è¾“å…¥æˆå‘˜å§“åå°†æ´¾å¯¹æˆå‘˜æ·»åŠ åˆ°æ´¾å¯¹ä¸­
         GameObject.FindFirstObjectByType<PartyManager>().AddMemberToPartyByName(partyMember.MemberName);
         joinableMember.GetComponent<JoinableCharacterScript>().CheckIfJoined();
 
-        joinPopup.SetActive(true);//¿ªÆôµ¯´°
-        joinPopupText.text = partyMember.MemberName + PARTY_JOINED_MESSAGE;//µ¯´°ÎÄ±¾
-        SpawnOberworldMembers();//Ìí¼Ó³ÉÔ±Ê±ÔÙ´ÎË¢ĞÂÖ÷³¡¾°
+        joinPopup.SetActive(true);//å¼€å¯å¼¹çª—
+        joinPopupText.text = partyMember.MemberName + PARTY_JOINED_MESSAGE;//å¼¹çª—æ–‡æœ¬
+        SpawnOberworldMembers();//æ·»åŠ æˆå‘˜æ—¶å†æ¬¡åˆ·æ–°ä¸»åœºæ™¯
     }
 
-    private void SpawnOberworldMembers()//Éú³ÉÖ÷ÊÀ½ç³ÉÔ±
+    private void SpawnOberworldMembers()//ç”Ÿæˆä¸»ä¸–ç•Œæˆå‘˜
     {
         for(int i = 0; i < overworldCharacter.Count; i++)
         {
-            Destroy(overworldCharacter[i]);//´İ»ÙÖ÷ÊÀ½çµÄ½ÇÉ«
+            Destroy(overworldCharacter[i]);//æ‘§æ¯ä¸»ä¸–ç•Œçš„è§’è‰²
         }
-        overworldCharacter.Clear();//Çå¿ÕÁĞ±í
+        overworldCharacter.Clear();//æ¸…ç©ºåˆ—è¡¨
 
-        //»ñÈ¡³¡¾°ÖĞµÄµÚÒ»¸ö³ÉÔ±
+        //è·å–åœºæ™¯ä¸­çš„ç¬¬ä¸€ä¸ªæˆå‘˜
         List<PartyMember> currentParty = GameObject.FindFirstObjectByType<PartyManager>().GetCurrentParty();
 
         for(int i = 0; i < currentParty.Count; i++)
         {
-            if (i == 0)//µÚÒ»¸ö³ÉÔ±ÎªÍæ¼Ò
+            if (i == 0)//ç¬¬ä¸€ä¸ªæˆå‘˜ä¸ºç©å®¶
             {
-                GameObject player = gameObject;//»ñÈ¡Õâ¸öÔ¤ÖÆÌå
-                //Íæ¼ÒÊÓ¾õ¶ÔÏó
+                GameObject player = gameObject;//è·å–è¿™ä¸ªé¢„åˆ¶ä½“
+                //ç©å®¶è§†è§‰å¯¹è±¡
                 GameObject playerVisual = Instantiate(currentParty[i].MemberOverworVisualPrefab, player.transform.position, Quaternion.identity);
-                //Debug.Log("×ø±ê:" + transform.position);
+                //Debug.Log("åæ ‡:" + transform.position);
 
                 playerVisual.transform.SetParent(player.transform);//
 
-                player.GetComponent<PControl>().SetOverwordVisuals(playerVisual.GetComponent<Animator>(),playerVisual.GetComponent<SpriteRenderer>(),playerVisual.transform.localScale);//ÉèÖÃÊÓ¾õĞ§¹û
-                //½ûÓÃ¸úËæAI
+                player.GetComponent<PControl>().SetOverwordVisuals(playerVisual.GetComponent<Animator>(),playerVisual.GetComponent<SpriteRenderer>(),playerVisual.transform.localScale);//è®¾ç½®è§†è§‰æ•ˆæœ
+                //ç¦ç”¨è·ŸéšAI
                 playerVisual.GetComponent<MemberFollowAI>().enabled = false;
-                overworldCharacter.Add(playerVisual);//Ìí¼ÓÖ÷ÊÀ½ç½ÇÉ«
+                overworldCharacter.Add(playerVisual);//æ·»åŠ ä¸»ä¸–ç•Œè§’è‰²
       
             }
-            else//·ñÔòÆäËû³ÉÔ±Îª¸úËæÕß
+            else//å¦åˆ™å…¶ä»–æˆå‘˜ä¸ºè·Ÿéšè€…
             {
-                Vector3 posistionToSpawn = transform.position;//½ÇÉ«×ø±ê
+                Vector3 posistionToSpawn = transform.position;//è§’è‰²åæ ‡
                 posistionToSpawn.x = -i;
-                //ÁÙÊ±¸úËæÕß
+                //ä¸´æ—¶è·Ÿéšè€…
                 GameObject tempFollower= Instantiate(currentParty[i].MemberOverworVisualPrefab, posistionToSpawn, Quaternion.identity);
 
-                //»ñÈ¡¸úËæÕß×é¼ş¸úËæ
+                //è·å–è·Ÿéšè€…ç»„ä»¶è·Ÿéš
                 tempFollower.GetComponent<MemberFollowAI>().SetFollowDistance(i);
                 overworldCharacter.Add(tempFollower);
 
@@ -107,28 +107,28 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    //Åö×²¼ì²â¿ªÆô
+    //ç¢°æ’æ£€æµ‹å¼€å¯
     private void OnTriggerEnter(Collider other)
     {
-        //ÈôÓÎÏ·¶ÔÏó±êÇ©ÎªNPC¿ÉÁ¬½Ó±êÇ©
+        //è‹¥æ¸¸æˆå¯¹è±¡æ ‡ç­¾ä¸ºNPCå¯è¿æ¥æ ‡ç­¾
         if (other.gameObject.tag == NPC_JOINABLE_TAG)
         {
             infrontOfPartyMember = true;
-            joinableMember = other.gameObject;//½«µ±Ç°Åöµ½µÄ½ÇÉ«ÉèÖÃÎª¿É¼ÓÈë¶ÓÔ±
-            //»ñÈ¡UI½çÃæµÄ×é¼ş²¢¼¤»î»¥¶¯Ãæ°å
+            joinableMember = other.gameObject;//å°†å½“å‰ç¢°åˆ°çš„è§’è‰²è®¾ç½®ä¸ºå¯åŠ å…¥é˜Ÿå‘˜
+            //è·å–UIç•Œé¢çš„ç»„ä»¶å¹¶æ¿€æ´»äº’åŠ¨é¢æ¿
             joinableMember.GetComponent<JoinableCharacterScript>().ShowInteractPrompt(true);
         }
     }
 
-    //Åö×²¼ì²âÍË³ö
+    //ç¢°æ’æ£€æµ‹é€€å‡º
     private void OnTriggerExit(Collider other)
     {
-        //ÈôÓÎÏ·¶ÔÏó±êÇ©ÎªNPC¿ÉÁ¬½Ó±êÇ©
+        //è‹¥æ¸¸æˆå¯¹è±¡æ ‡ç­¾ä¸ºNPCå¯è¿æ¥æ ‡ç­¾
         if (other.gameObject.tag == NPC_JOINABLE_TAG)
         {
             infrontOfPartyMember = false;
 
-            //»ñÈ¡UI½çÃæµÄ×é¼ş²¢¼¤»î»¥¶¯Ãæ°å
+            //è·å–UIç•Œé¢çš„ç»„ä»¶å¹¶æ¿€æ´»äº’åŠ¨é¢æ¿
             joinableMember.GetComponent<JoinableCharacterScript>().ShowInteractPrompt(false);
             joinableMember = null;
         }

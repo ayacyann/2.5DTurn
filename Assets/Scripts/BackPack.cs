@@ -15,7 +15,7 @@ public class BackPack : MonoBehaviour
  
 
     [Header("UI")]
-    [SerializeField] private GameObject pauseUI; // ÍÏÈëPauseUI¸¸ÎïÌå
+    [SerializeField] private GameObject pauseUI; // æ‹–å…¥PauseUIçˆ¶ç‰©ä½“
     [SerializeField] private GameObject itemquantity;
     [SerializeField] private TextMeshProUGUI Propeffect;
     [SerializeField] private TextMeshProUGUI CurrentQuantity;
@@ -39,7 +39,7 @@ public class BackPack : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
 
-            // ³õÊ¼»¯Ê±Ç¿ÖÆÒş²Ø
+            // åˆå§‹åŒ–æ—¶å¼ºåˆ¶éšè—
             if (pauseUI != null)
             {
                 pauseUI.SetActive(false);
@@ -59,7 +59,7 @@ public class BackPack : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Ã¿´Î¼ÓÔØ³¡¾°¶¼Ç¿ÖÆ¹Ø±ÕÔİÍ£×´Ì¬
+        // æ¯æ¬¡åŠ è½½åœºæ™¯éƒ½å¼ºåˆ¶å…³é—­æš‚åœçŠ¶æ€
         //ForceResume();
         if (pauseUI != null)
         {
@@ -70,8 +70,8 @@ public class BackPack : MonoBehaviour
     void Update()
     {
         
-        //Debug.Log("°´¼ü:"+Input.GetKeyDown(KeyCode.R));
-        //Èôµ±Ç°µÄ»î¶¯³¡¾°Îªxxx²¢ÇÒ°´ÏÂESC°´Å¥
+        //Debug.Log("æŒ‰é”®:"+Input.GetKeyDown(KeyCode.R));
+        //è‹¥å½“å‰çš„æ´»åŠ¨åœºæ™¯ä¸ºxxxå¹¶ä¸”æŒ‰ä¸‹ESCæŒ‰é’®
 
 
         if (SceneManager.GetActiveScene().name == "OverworldScene" && Input.GetKeyDown(KeyCode.R))
@@ -84,12 +84,12 @@ public class BackPack : MonoBehaviour
     {
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
-        pauseUI.SetActive(isPaused); // ¸ù¾İ×´Ì¬ÏÔÊ¾/Òş²Ø
+        pauseUI.SetActive(isPaused); // æ ¹æ®çŠ¶æ€æ˜¾ç¤º/éšè—
         List<PartyMember> CurrentParty = new List<PartyMember>();
         CurrentParty = partyManager.GetAliveParty();
 
 
-        // Debug.Log("Ãû×Ö:"+CurrentParty[0].MemberName+"µÈ¼¶:"+CurrentParty[0].Level+"µ±Ç°ÌåÁ¦:"+ CurrentParty[0].CurrHealth+ "×î´óÌåÁ¦:" + CurrentParty[0].MaxHealth);
+        // Debug.Log("åå­—:"+CurrentParty[0].MemberName+"ç­‰çº§:"+CurrentParty[0].Level+"å½“å‰ä½“åŠ›:"+ CurrentParty[0].CurrHealth+ "æœ€å¤§ä½“åŠ›:" + CurrentParty[0].MaxHealth);
         // CurrentParty[0].Level += 1;
 
         DataUpdate(CurrentParty);
@@ -120,7 +120,7 @@ public class BackPack : MonoBehaviour
         Atk.text = "" + CurrentParty[0].Strength;
     }
 
-    // ÆäËû·½·¨±£³ÖÔ­Ñù...
+    // å…¶ä»–æ–¹æ³•ä¿æŒåŸæ ·...
 
     public void ResumeGame()
     {

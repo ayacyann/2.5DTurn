@@ -4,43 +4,43 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] private EnemyInfo[] allEnemies;//´æÓĞËùÓĞ³ÉÔ±µÄÊı×é
-    [SerializeField] private List<Enemy> currentEnemies;//µĞÈËÁĞ±í
+    [SerializeField] private EnemyInfo[] allEnemies;//å­˜æœ‰æ‰€æœ‰æˆå‘˜çš„æ•°ç»„
+    [SerializeField] private List<Enemy> currentEnemies;//æ•Œäººåˆ—è¡¨
 
-    //Õâ¸öµ¥ÀıµÄ×÷ÓÃÊÇÊ²Ã´?
-    private static GameObject instance;//ÓÃ¾²Ì¬±äÁ¿È·±£Ò»¸ö³¡¾°ÖĞÒ»´ÎÖ»´æÔÚÒ»¸öµĞÈË
+    //è¿™ä¸ªå•ä¾‹çš„ä½œç”¨æ˜¯ä»€ä¹ˆ?
+    private static GameObject instance;//ç”¨é™æ€å˜é‡ç¡®ä¿ä¸€ä¸ªåœºæ™¯ä¸­ä¸€æ¬¡åªå­˜åœ¨ä¸€ä¸ªæ•Œäºº
     private const float LEVEL_MODIFIER = 0.5f;
 
     private void Awake()
     {
         
-        if (instance != null)//Èç¹ûÊµÀı²»Îª¿Õ
+        if (instance != null)//å¦‚æœå®ä¾‹ä¸ä¸ºç©º
         {
-            Destroy(this.gameObject);//Ïú»ÙÕâ¸ö¶ÔÏó
+            Destroy(this.gameObject);//é”€æ¯è¿™ä¸ªå¯¹è±¡
         }
         else
         {
-            instance = this.gameObject;//·ñÔò½«¸Ã±äÁ¿¸³¸øÊµÀı
+            instance = this.gameObject;//å¦åˆ™å°†è¯¥å˜é‡èµ‹ç»™å®ä¾‹
         }
-//¸öÈËÈÏÎªµĞÈËÍêÈ«Ã»ÓĞ±ØÒª±£³ÖÏÖ×´,Ó¦¸ÃÃ¿´ÎÕ½¶·½áÊøºóÖØĞÂËæ»úÒ»´ÎµĞÈËÊıÁ¿
+//ä¸ªäººè®¤ä¸ºæ•Œäººå®Œå…¨æ²¡æœ‰å¿…è¦ä¿æŒç°çŠ¶,åº”è¯¥æ¯æ¬¡æˆ˜æ–—ç»“æŸåé‡æ–°éšæœºä¸€æ¬¡æ•Œäººæ•°é‡
 
-        DontDestroyOnLoad(gameObject);//±£Ö¤µĞÈËÔÚ³¡¾°ÇĞ»»Ê±²»±»Ïú»Ù
+        DontDestroyOnLoad(gameObject);//ä¿è¯æ•Œäººåœ¨åœºæ™¯åˆ‡æ¢æ—¶ä¸è¢«é”€æ¯
         /**/
 
     }
-    //ÓÃÓÚËæ»úÉú³ÉµĞÈË
+    //ç”¨äºéšæœºç”Ÿæˆæ•Œäºº
     public void GenerateEnemiesByEncounter(Encounter[] encounters,int maxNumEnemies)
     {
-        currentEnemies.Clear();//Çå³ıµĞÈËÁĞ±í
-        int numEnemies=Random.Range(1,maxNumEnemies+1);//Ëæ»úµĞÈËµÄÊıÁ¿,ÔÚ1~3Ö®¼ä
+        currentEnemies.Clear();//æ¸…é™¤æ•Œäººåˆ—è¡¨
+        int numEnemies=Random.Range(1,maxNumEnemies+1);//éšæœºæ•Œäººçš„æ•°é‡,åœ¨1~3ä¹‹é—´
 
         for(int i = 0; i < numEnemies; i++)
         {
-            //ÓÃÁÙÊ±±äÁ¿´æ´¢Ëæ»úÔâÓö
-            Encounter tempEncounter = encounters[Random.Range(0, encounters.Length)];//Ëæ»ú¹ÖÎïÊıÁ¿
-            //Ëæ»ú¹ÖÎïµÈ¼¶
+            //ç”¨ä¸´æ—¶å˜é‡å­˜å‚¨éšæœºé­é‡
+            Encounter tempEncounter = encounters[Random.Range(0, encounters.Length)];//éšæœºæ€ªç‰©æ•°é‡
+            //éšæœºæ€ªç‰©ç­‰çº§
             int level = Random.Range(tempEncounter.LevelMin, tempEncounter.LevelMax+1);
-            //Éú³É¹ÖÎï
+            //ç”Ÿæˆæ€ªç‰©
             GeneratEnemyByName(tempEncounter.Enemy.EnemyName, level);
         }
         
@@ -50,20 +50,20 @@ public class EnemyManager : MonoBehaviour
     {
         for(int i = 0; i < allEnemies.Length; i++)
         {
-            if (enemyName == allEnemies[i].EnemyName)//¿ÉÒÔ¿¼ÂÇÈ¥µô,ÒâÒå²»Ã÷µÄÅĞ¶ÏÌõ¼ş
+            if (enemyName == allEnemies[i].EnemyName)//å¯ä»¥è€ƒè™‘å»æ‰,æ„ä¹‰ä¸æ˜çš„åˆ¤æ–­æ¡ä»¶
             {
                 Enemy newEnemy = new Enemy();
-                //µĞÈËĞÅÏ¢
+                //æ•Œäººä¿¡æ¯
                 newEnemy.EnemyName = allEnemies[i].EnemyName;
                 newEnemy.Level = level;
-//¹ÖÎïµÈ¼¶µÄ³É³¤ÇúÏß,¹ÖÎïÃ¿¼ÓÒ»¼¶ÊôĞÔÉÏÉıÖµÎª:ÊôĞÔ*levelModifier
+//æ€ªç‰©ç­‰çº§çš„æˆé•¿æ›²çº¿,æ€ªç‰©æ¯åŠ ä¸€çº§å±æ€§ä¸Šå‡å€¼ä¸º:å±æ€§*levelModifier
                 float levelModifier = (LEVEL_MODIFIER * newEnemy.Level);
-                //ĞÂµĞÈËµÄ×î´óÉúÃü=¿É±àĞ´½Å±¾µÄ¶ÔÏó»ù±¾ÉúÃüÖµ
+                //æ–°æ•Œäººçš„æœ€å¤§ç”Ÿå‘½=å¯ç¼–å†™è„šæœ¬çš„å¯¹è±¡åŸºæœ¬ç”Ÿå‘½å€¼
                 newEnemy.MaxHealth = Mathf.RoundToInt(allEnemies[i].BaseHealth+(allEnemies[i].BaseHealth*levelModifier));
                 newEnemy.CurrHealth = newEnemy.MaxHealth;
                 newEnemy.Strength = Mathf.RoundToInt(allEnemies[i].BaseStr+(allEnemies[i].BaseStr*levelModifier));
                 newEnemy.Initiative = Mathf.RoundToInt(allEnemies[i].BaseInitiative + (allEnemies[i].BaseInitiative * levelModifier));
-                //µĞÈËÊÓ¾õÔ¤ÖÆ¼ş
+                //æ•Œäººè§†è§‰é¢„åˆ¶ä»¶
                 newEnemy.EnemyVisualPrefab = allEnemies[i].EnemyVisualPrefab;
 
                 currentEnemies.Add(newEnemy);

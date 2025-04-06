@@ -1,44 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;//³¡¾°¹ÜÀí
+using UnityEngine.SceneManagement;//åœºæ™¯ç®¡ç†
 
 public class PControl : MonoBehaviour
 {
-    //ĞòÁĞ»¯,ÈÃË½ÓĞ±äÁ¿Ò²¿ÉÒÔÔÚÒıÇæÉÏµ÷Õû
+    //åºåˆ—åŒ–,è®©ç§æœ‰å˜é‡ä¹Ÿå¯ä»¥åœ¨å¼•æ“ä¸Šè°ƒæ•´
     [SerializeField] private int speed;
     [SerializeField] private Animator anim;
     [SerializeField] SpriteRenderer playerSprite;
-    [SerializeField] private LayerMask GressLayer;//²İµØÍ¼²ã
-    [SerializeField] private int stepsInGrass;//¼ÆËãÔÚ²İµØÉÏ×ßÁË¶àÉÙ²½
-    [SerializeField] private int minStepsToEncounter;//×îĞ¡Ëæ»úÊı
-    [SerializeField] private int maxStepsToEncounter;//×î´óËæ»úÊı
+    [SerializeField] private LayerMask GressLayer;//è‰åœ°å›¾å±‚
+    [SerializeField] private int stepsInGrass;//è®¡ç®—åœ¨è‰åœ°ä¸Šèµ°äº†å¤šå°‘æ­¥
+    [SerializeField] private int minStepsToEncounter;//æœ€å°éšæœºæ•°
+    [SerializeField] private int maxStepsToEncounter;//æœ€å¤§éšæœºæ•°
 
 
-    //Ë½ÈË²¥·ÅÆ÷¿Ø¼ş
+    //ç§äººæ’­æ”¾å™¨æ§ä»¶
     private PlayerControls playerControls;
     private Rigidbody rb;
     private Vector3 movement;
     private Vector3 scale;
-    private bool movingInGrass;//ÊÇ·ñÔÚ²İµØÉÏÒÆ¶¯
-    private float stepTimer;//ãĞÖµ
-    private int stepToEncounter;//Ëæ»úÊı
+    private bool movingInGrass;//æ˜¯å¦åœ¨è‰åœ°ä¸Šç§»åŠ¨
+    private float stepTimer;//é˜ˆå€¼
+    private int stepToEncounter;//éšæœºæ•°
     private PartyManager partyManager;
 
-    private const string IS_WALK_PARAM="IsWalk";//ÒıÓÃisWalk²ÎÊı
-    private const string BATTLE_SCENE = "BattleScene";//Õ½¶·³¡¾°
-    private const float TIME_PER_STEP = 0.5f;//ÔÚ²İ´ÔÖĞĞĞ×ßÊ±ĞèÒª»¨µÄÊ±¼ä
+    private const string IS_WALK_PARAM="IsWalk";//å¼•ç”¨isWalkå‚æ•°
+    private const string BATTLE_SCENE = "BattleScene";//æˆ˜æ–—åœºæ™¯
+    private const float TIME_PER_STEP = 0.5f;//åœ¨è‰ä¸›ä¸­è¡Œèµ°æ—¶éœ€è¦èŠ±çš„æ—¶é—´
     private const string AI_NAME = "NPC";
 
     
-    private void Awake()//»½ĞÑº¯Êı
+    private void Awake()//å”¤é†’å‡½æ•°
     {
         playerControls = new PlayerControls();
         CalculateStepsToNextEncounter();
     }
     private void OnEnable()
     {
-        playerControls.Enable();//Æô¶¯Íæ¼Ò¿ØÖÆÆ÷
+        playerControls.Enable();//å¯åŠ¨ç©å®¶æ§åˆ¶å™¨
     }
 
     private void OnDisable()
@@ -48,35 +48,35 @@ public class PControl : MonoBehaviour
 
     private void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody>();//»ñÈ¡¸ÕÌå×é¼ş
+        rb = gameObject.GetComponent<Rigidbody>();//è·å–åˆšä½“ç»„ä»¶
         partyManager = GameObject.FindFirstObjectByType<PartyManager>();
 
-        //Èç¹û±£´æÁËÒ»¸öÎ»ÖÃ,¾ÍÈ¥ÒÆ¶¯Íæ¼Ò
-        if(partyManager.GetPosition() != Vector3.zero)//ÈôÕ½¶·½ÇÉ«×ø±ê²»Îª¿Õ
+        //å¦‚æœä¿å­˜äº†ä¸€ä¸ªä½ç½®,å°±å»ç§»åŠ¨ç©å®¶
+        if(partyManager.GetPosition() != Vector3.zero)//è‹¥æˆ˜æ–—è§’è‰²åæ ‡ä¸ä¸ºç©º
         {
-            //½«Õ½¶·Ê±½ÇÉ«µÄ×ø±ê¸³¸øÏÖÊµÖĞ½ÇÉ«µÄ×ø±ê
+            //å°†æˆ˜æ–—æ—¶è§’è‰²çš„åæ ‡èµ‹ç»™ç°å®ä¸­è§’è‰²çš„åæ ‡
             transform.position = partyManager.GetPosition();
         }
        // GameObject obj = GameObject.FindWithTag(AI_NAME);
-        //Debug.Log("AI×ø±ê:"+obj.transform.position);
+        //Debug.Log("AIåæ ‡:"+obj.transform.position);
 
 
     }
     // Update is called once per frame
-    void Update()//Ã¿Ö¡Ö´ĞĞÒ»´Î
+    void Update()//æ¯å¸§æ‰§è¡Œä¸€æ¬¡
     {
-        //×óÕıÓÒ¸º
+        //å·¦æ­£å³è´Ÿ
         float x = playerControls.Player.Move.ReadValue<Vector2>().x;
         float z = playerControls.Player.Move.ReadValue<Vector2>().y;
 
-        movement = new Vector3(x, 0, z).normalized;//¹éÒ»»¯
-        //ÉèÖÃ¶¯»­ ¶¯»­µÄÎÊÌâ£¬¿´¶¯»­ÉèÖÃ
-        anim.SetBool(IS_WALK_PARAM, movement != Vector3.zero);//µ±ÈıÎ¬×ø±ê²»Îª0Ê±,²¥·ÅĞĞ×ß¶¯»­
+        movement = new Vector3(x, 0, z).normalized;//å½’ä¸€åŒ–
+        //è®¾ç½®åŠ¨ç”» åŠ¨ç”»çš„é—®é¢˜ï¼Œçœ‹åŠ¨ç”»è®¾ç½®
+        anim.SetBool(IS_WALK_PARAM, movement != Vector3.zero);//å½“ä¸‰ç»´åæ ‡ä¸ä¸º0æ—¶,æ’­æ”¾è¡Œèµ°åŠ¨ç”»
 
-        //½ÇÉ«·­×ª
+        //è§’è‰²ç¿»è½¬
         if (x!=0 && x < 0)
         {
-            playerSprite.transform.localScale=new Vector3(-scale.x,scale.y,scale.z);//flipX:xÖá·­×ª
+            playerSprite.transform.localScale=new Vector3(-scale.x,scale.y,scale.z);//flipX:xè½´ç¿»è½¬
         }
         if(x!=0 && x >= 0)
         {
@@ -84,38 +84,38 @@ public class PControl : MonoBehaviour
         }
     }
 
-//FixeUpdate:ÓÃÓÚ´¦ÀíºÍÎïÀíÒÆ¶¯,Ê±¼äÏà¹ØµÄÂß¼­,¹Ì¶¨¸üĞÂÊ±¼äÎª0.02s
+//FixeUpdate:ç”¨äºå¤„ç†å’Œç‰©ç†ç§»åŠ¨,æ—¶é—´ç›¸å…³çš„é€»è¾‘,å›ºå®šæ›´æ–°æ—¶é—´ä¸º0.02s
     private void FixedUpdate()
     {
         rb.MovePosition(transform.position + movement * speed * Time.fixedDeltaTime);
-        //·µ»ØÇòÌåÄÚËùÓĞµÄÅö×²Æ÷
+        //è¿”å›çƒä½“å†…æ‰€æœ‰çš„ç¢°æ’å™¨
         Collider[] colliders = Physics.OverlapSphere(transform.position,1, GressLayer);
-        //Èç¹ûÒÆ¶¯¹ı³ÌÖĞÓë²İÔø´¥·¢Æ÷·¢ÉúÁËÅö×²
+        //å¦‚æœç§»åŠ¨è¿‡ç¨‹ä¸­ä¸è‰æ›¾è§¦å‘å™¨å‘ç”Ÿäº†ç¢°æ’
         movingInGrass = colliders.Length!=0 && movement!=Vector3.zero;
 
-        if (movingInGrass)//Èç¹û½ÇÉ«ÔÚ²İµØÉÏÒÆ¶¯,Ôö¼Ó²½Êı¼ÆÊ±Æ÷
+        if (movingInGrass)//å¦‚æœè§’è‰²åœ¨è‰åœ°ä¸Šç§»åŠ¨,å¢åŠ æ­¥æ•°è®¡æ—¶å™¨
         {
-            stepTimer+=Time.fixedDeltaTime;//Æô¶¯¼ÆÊ±Æ÷
-            //Èç¹û²½Êı¼ÆÊ±Æ÷µ½ÁËÖ¸¶¨µÄãĞÖµ,Ìí¼Ó½ÇÉ«²½Êı²¢ÖØÖÃ²½Êı¼ÆÊ±Æ÷
+            stepTimer+=Time.fixedDeltaTime;//å¯åŠ¨è®¡æ—¶å™¨
+            //å¦‚æœæ­¥æ•°è®¡æ—¶å™¨åˆ°äº†æŒ‡å®šçš„é˜ˆå€¼,æ·»åŠ è§’è‰²æ­¥æ•°å¹¶é‡ç½®æ­¥æ•°è®¡æ—¶å™¨
             if (stepTimer>TIME_PER_STEP)
             {
-                stepsInGrass++;//½ÇÉ«²½ÊıÌí¼Ó
+                stepsInGrass++;//è§’è‰²æ­¥æ•°æ·»åŠ 
                 stepTimer = 0;
 
-                if (stepsInGrass>= stepToEncounter)//Èç¹ûÔÚ²İ´ÔÖĞĞĞ×ßµÄ²½Êı´óÓÚÔâÓöµÄ²½Êı
+                if (stepsInGrass>= stepToEncounter)//å¦‚æœåœ¨è‰ä¸›ä¸­è¡Œèµ°çš„æ­¥æ•°å¤§äºé­é‡çš„æ­¥æ•°
                 {
-                    partyManager.SetPosition(transform.position);//¹Ì¶¨½ÇÉ«µ±Ç°µÄÕ½¶·×ø±ê
-                    SceneManager.LoadScene(BATTLE_SCENE);//¼ÓÔØÕ½¶·³¡¾°
+                    partyManager.SetPosition(transform.position);//å›ºå®šè§’è‰²å½“å‰çš„æˆ˜æ–—åæ ‡
+                    SceneManager.LoadScene(BATTLE_SCENE);//åŠ è½½æˆ˜æ–—åœºæ™¯
                 }
 
             }
         }
     }
 
-    //Ëæ»úµã·¶Î§º¯Êı,ÓÃÓÚ·ÖÅä²½ÊıÒÔ¼°Óöµ½×îĞ¡²½ÊıÖ®¼äµÄÖµºÍÔâÓöµÄ×î´ó²½Êı
+    //éšæœºç‚¹èŒƒå›´å‡½æ•°,ç”¨äºåˆ†é…æ­¥æ•°ä»¥åŠé‡åˆ°æœ€å°æ­¥æ•°ä¹‹é—´çš„å€¼å’Œé­é‡çš„æœ€å¤§æ­¥æ•°
     private void CalculateStepsToNextEncounter()
     {
-        //Ëæ»úÊı,±íÊ¾ÔâÓöÕ½µÄ²½ÊıÔÚ×î´óËæ»úÊıºÍ×îĞ¡Ëæ»úÊıµÄ·¶Î§ÄÚËæ»úÒ»¸öÖµ
+        //éšæœºæ•°,è¡¨ç¤ºé­é‡æˆ˜çš„æ­¥æ•°åœ¨æœ€å¤§éšæœºæ•°å’Œæœ€å°éšæœºæ•°çš„èŒƒå›´å†…éšæœºä¸€ä¸ªå€¼
         stepToEncounter = Random.Range(minStepsToEncounter,maxStepsToEncounter);
         Debug.Log(stepToEncounter);
     }

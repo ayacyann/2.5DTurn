@@ -11,18 +11,18 @@ public class BackpackTable : ScriptableObject
 }
 
 [System.Serializable]
-//±³°üµÀ¾ßµÄÅäÖÃÎÄ¼ş
+//èƒŒåŒ…é“å…·çš„é…ç½®æ–‡ä»¶
 public class PackageTableItem
 {
-    //µÀ¾ßµÄ¾²Ì¬Êı¾İ
-    public int id;//ÎïÆ·id
-    public int type;//ÎïÆ·ÀàĞÍ
-   // public int star;
+    //é“å…·çš„é™æ€æ•°æ®
+    public int id;//ç‰©å“id
+    public int type;//ç‰©å“ç±»å‹
+    // public int star;
 
-    public string name;//µÀ¾ßÃû³Æ
+    public string name;//é“å…·åç§°
 
-    public string description;//¼òµ¥ÃèÊö
-    public string skillDescription;//ÏêÏ¸ÃèÊö
+    public string description;//ç®€å•æè¿°
+    public string skillDescription;//è¯¦ç»†æè¿°
 
-    public string imagePath;//Í¼Æ¬Â·¾¶
+    public string imagePath;//å›¾ç‰‡è·¯å¾„
 }

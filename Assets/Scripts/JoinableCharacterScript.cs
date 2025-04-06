@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class JoinableCharacterScript : MonoBehaviour
 {
-    public PartyMemberInfo MemberToJoin;//¿ÉÌí¼ÓµÄ³ÉÔ±
-    [SerializeField] private GameObject interactPrompt;//½»»¥ÌáÊ¾
+    public PartyMemberInfo MemberToJoin;//å¯æ·»åŠ çš„æˆå‘˜
+    [SerializeField] private GameObject interactPrompt;//äº¤äº’æç¤º
 
     // Start is called before the first frame update
     void Start()
@@ -19,28 +19,28 @@ public class JoinableCharacterScript : MonoBehaviour
         
     }
 
-    public void ShowInteractPrompt(bool showPrompt)//ÏÔÊ¾½»»¥ÌáÊ¾
+    public void ShowInteractPrompt(bool showPrompt)//æ˜¾ç¤ºäº¤äº’æç¤º
     {
-        if (showPrompt == true)//ÈôÏÔÊ¾ÌáÊ¾Îªtrue
+        if (showPrompt == true)//è‹¥æ˜¾ç¤ºæç¤ºä¸ºtrue
         {
-            interactPrompt.SetActive(true);//ÏÔÊ¾UI½»»¥
+            interactPrompt.SetActive(true);//æ˜¾ç¤ºUIäº¤äº’
         }
         else
         {
             interactPrompt.SetActive(false);
         }
     }
-    public void CheckIfJoined()//¼ì²éµ±Ç°½ÇÉ«ÊÇ·ñÒÑ¾­¼ÓÈë¶ÓÎé
+    public void CheckIfJoined()//æ£€æŸ¥å½“å‰è§’è‰²æ˜¯å¦å·²ç»åŠ å…¥é˜Ÿä¼
     {
-        //»ñÈ¡µ±Ç°ËùÓĞ³ÉÔ±µÄÃûµ¥
+        //è·å–å½“å‰æ‰€æœ‰æˆå‘˜çš„åå•
         List<PartyMember> currparty = GameObject.FindFirstObjectByType<PartyManager>().GetCurrentParty();
         
         for(int i = 0; i < currparty.Count; i++)
         {
-            //Èç¹û´ı¼ÓÈëµÄ³ÉÔ±Ãû×ÖÓë³ÉÔ±ÁĞ±íÖĞµÄ³ÉÔ±Ò»ÖÂ,ËµÃ÷¸Ã½ÇÉ«ÒÑ¾­Èë¶Ó
+            //å¦‚æœå¾…åŠ å…¥çš„æˆå‘˜åå­—ä¸æˆå‘˜åˆ—è¡¨ä¸­çš„æˆå‘˜ä¸€è‡´,è¯´æ˜è¯¥è§’è‰²å·²ç»å…¥é˜Ÿ
             if (currparty[i].MemberName == MemberToJoin.MemberName)
             {
-                gameObject.SetActive(false);//¹Ø±Õ¸Ã½ÇÉ«
+                gameObject.SetActive(false);//å…³é—­è¯¥è§’è‰²
             }
         }
     

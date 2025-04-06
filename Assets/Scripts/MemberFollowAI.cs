@@ -23,18 +23,18 @@ public class MemberFollowAI : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
-        //ÉèÖÃ¸úËæÄ¿±ê
+        //è®¾ç½®è·Ÿéšç›®æ ‡
         followTarget = GameObject.FindFirstObjectByType<PControl>().transform;
 
     }
 
     // Update is called once per frame
-    void FixedUpdate()//¹Ì¶¨¸üĞÂ
+    void FixedUpdate()//å›ºå®šæ›´æ–°
     {
-        //ÅĞ¶Ï½ÇÉ«Ö®¼äµÄ¾àÀëÊÇ·ñ³¬¹ı¸úËæ¾àÀë
+        //åˆ¤æ–­è§’è‰²ä¹‹é—´çš„è·ç¦»æ˜¯å¦è¶…è¿‡è·Ÿéšè·ç¦»
         if (Vector3.Distance(transform.position, followTarget.position) > followDist)
         {
-            //·¶Î§ĞŞÕı,Èô¸úËæ½ÇÉ«Àë½ÇÉ«Ì«Ô¶,Ö±½Ó½«¸úËæ½ÇÉ«Ë¢ĞÂµ½Ö÷½ÇÉí±ß
+            //èŒƒå›´ä¿®æ­£,è‹¥è·Ÿéšè§’è‰²ç¦»è§’è‰²å¤ªè¿œ,ç›´æ¥å°†è·Ÿéšè§’è‰²åˆ·æ–°åˆ°ä¸»è§’èº«è¾¹
             if (Vector3.Distance(transform.position, followTarget.position) > 3*followDist)
             {
                 Vector3 vector = new Vector3(1, 0, 0);
@@ -42,10 +42,10 @@ public class MemberFollowAI : MonoBehaviour
             }
             else
             {
-                //³¬¹ıÁËÔò×ßÏòÍæ¼Ò
-                anim.SetBool(IS_WALK_PARAM, true);//Ö´ĞĞĞĞ×ß¶¯»­
+                //è¶…è¿‡äº†åˆ™èµ°å‘ç©å®¶
+                anim.SetBool(IS_WALK_PARAM, true);//æ‰§è¡Œè¡Œèµ°åŠ¨ç”»
                 float step = speed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, followTarget.position, step);//¿ÉÄÜÒª¸Ä
+                transform.position = Vector3.MoveTowards(transform.position, followTarget.position, step);//å¯èƒ½è¦æ”¹
             }
     
 
@@ -61,13 +61,13 @@ public class MemberFollowAI : MonoBehaviour
 
         else
         {
-            //·ñÔò½øÈë´ı»ú×´Ì¬
-            anim.SetBool(IS_WALK_PARAM, false);//¹Ø±ÕĞĞ×ß¶¯»­
+            //å¦åˆ™è¿›å…¥å¾…æœºçŠ¶æ€
+            anim.SetBool(IS_WALK_PARAM, false);//å…³é—­è¡Œèµ°åŠ¨ç”»
         }
         
     }
 
-    public void SetFollowDistance(float FollowDistance)//»ñÈ¡¸úËæ¾àÀë
+    public void SetFollowDistance(float FollowDistance)//è·å–è·Ÿéšè·ç¦»
     {
         followDist = FollowDistance;
     }

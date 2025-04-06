@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-//½«±³°üÊı¾İÒÔjsonµÄĞÎÊ½´æ´¢ÔÚ±¾µØ
+//å°†èƒŒåŒ…æ•°æ®ä»¥jsonçš„å½¢å¼å­˜å‚¨åœ¨æœ¬åœ°
 public class PackageLoadData
 {
     private static PackageLoadData _instance;
@@ -20,36 +20,36 @@ public class PackageLoadData
         }
     }
 
-    public List<packageLoadItem> items;//»º´æµ±Ç°ÎïÆ·ËùÓĞµÄ¶¯Ì¬ĞÅÏ¢
+    public List<packageLoadItem> items;//ç¼“å­˜å½“å‰ç‰©å“æ‰€æœ‰çš„åŠ¨æ€ä¿¡æ¯
 
 
-    //Êı¾İÃ»ÓĞ´æ´¢ÔÚ±¾µØ£¿
-    public void SavePackage()//´æ´¢Êı¾İ
+    //æ•°æ®æ²¡æœ‰å­˜å‚¨åœ¨æœ¬åœ°ï¼Ÿ
+    public void SavePackage()//å­˜å‚¨æ•°æ®
     {
-        //°Ñ±í¸ñĞÅÏ¢ĞòÁĞ»¯Îª×Ö·û´®
+        //æŠŠè¡¨æ ¼ä¿¡æ¯åºåˆ—åŒ–ä¸ºå­—ç¬¦ä¸²
         string inventoryJson = JsonUtility.ToJson(this);
-        //°ÑÎÄ±¾Êı¾İ´æ´¢µ½±¾µØµÄÎÄ¼şÖĞ
+        //æŠŠæ–‡æœ¬æ•°æ®å­˜å‚¨åˆ°æœ¬åœ°çš„æ–‡ä»¶ä¸­
         PlayerPrefs.SetString(" PackageLoadData",inventoryJson);
         PlayerPrefs.Save();
 
     }
 
-    public  List<packageLoadItem> LoadPackage()//¶ÁÈ¡Êı¾İ
+    public  List<packageLoadItem> LoadPackage()//è¯»å–æ•°æ®
     {
-        //ÏÈÅĞ¶Ï»º´æÊı¾İÊÇ·ñ»¹´æÔÚ,Èç¹û´æÔÚ¾ÍÖ±½Ó·µ»Ø´æ´¢ĞÅÏ¢
-        if (items != null)//´ú±íÖ®Ç°¶ÁÈ¡¹ıÎÄ±¾ĞÅÏ¢
+        //å…ˆåˆ¤æ–­ç¼“å­˜æ•°æ®æ˜¯å¦è¿˜å­˜åœ¨,å¦‚æœå­˜åœ¨å°±ç›´æ¥è¿”å›å­˜å‚¨ä¿¡æ¯
+        if (items != null)//ä»£è¡¨ä¹‹å‰è¯»å–è¿‡æ–‡æœ¬ä¿¡æ¯
         {
             return items;
         }
-        //·ñÔòÔÚ±¾µØÎÄ¼şÖĞ¶ÁÈ¡
+        //å¦åˆ™åœ¨æœ¬åœ°æ–‡ä»¶ä¸­è¯»å–
         if (PlayerPrefs.HasKey("PackageLoadData"))
         {
-            //°Ñ±¾µØÎÄ¼ş¶ÁÈ¡µ½ÄÚ´æÖĞÊ¹Æä³ÉÎª×Ö·û´®
+            //æŠŠæœ¬åœ°æ–‡ä»¶è¯»å–åˆ°å†…å­˜ä¸­ä½¿å…¶æˆä¸ºå­—ç¬¦ä¸²
             string inventoryJson = PlayerPrefs.GetString("PackageLoadData");
-            //Ê¹ÓÃJsonUtility·´ĞòÁĞ»¯
+            //ä½¿ç”¨JsonUtilityååºåˆ—åŒ–
             PackageLoadData packageLoadData = JsonUtility.FromJson<PackageLoadData>(inventoryJson);
             items = packageLoadData.items;
-            //ÆäÊµ¾ÍÊÇ°ÑÎÄ¼ş±ä³É×Ö·û´®È»ºóÔÙ±ä³ÉÀàÕâ¸ö²Ù×÷
+            //å…¶å®å°±æ˜¯æŠŠæ–‡ä»¶å˜æˆå­—ç¬¦ä¸²ç„¶åå†å˜æˆç±»è¿™ä¸ªæ“ä½œ
             return items;
         
         }
@@ -68,16 +68,14 @@ public class PackageLoadData
 [System.Serializable]
 public class packageLoadItem
 {
-    public string uid;//Î¨Ò»±êÊ¶·û
-    public int id;//±íÊ¾µÀ¾ßÀàĞÍ
-    public int num;//µÀ¾ßÊıÁ¿
-    public int level;//µÀ¾ßµÈ¼¶
-    public bool isNew;//ÊÇ·ñÎªĞÂ»ñµÃµÀ¾ß
+    public string uid;//å”¯ä¸€æ ‡è¯†ç¬¦
+    public int id;//è¡¨ç¤ºé“å…·ç±»å‹
+    public int num;//é“å…·æ•°é‡
+    public int level;//é“å…·ç­‰çº§
+    public bool isNew;//æ˜¯å¦ä¸ºæ–°è·å¾—é“å…·
 
     public override string ToString()
     {
         return string.Format("id:{0}, num:{1}",id,num);
     }
 }
-
-

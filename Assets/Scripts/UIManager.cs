@@ -6,10 +6,10 @@ using UnityEngine;
 public class UIManager
     {
         private static UIManager _instance;
-        //´î½¨½çÃæµÄÅäÖÃÂ·¾¶±í
+        //æ­å»ºç•Œé¢çš„é…ç½®è·¯å¾„è¡¨
         private Dictionary<string, string> pathDict;
-        private Dictionary<string, GameObject>prefabDict;//Ô¤ÖÆ¼ş»º´æ×Öµä
-        public Dictionary<string, BasePanel> panelDict;//ÒÑ´ò¿ª½çÃæ»º´æ×Öµä
+        private Dictionary<string, GameObject>prefabDict;//é¢„åˆ¶ä»¶ç¼“å­˜å­—å…¸
+        public Dictionary<string, BasePanel> panelDict;//å·²æ‰“å¼€ç•Œé¢ç¼“å­˜å­—å…¸
 
         private  Transform _uiRoot;
         public static UIManager Instance
@@ -24,78 +24,78 @@ public class UIManager
             }
         }
 
-        //UI×î¶¥²ãµÄ¸¸½Úµã
+        //UIæœ€é¡¶å±‚çš„çˆ¶èŠ‚ç‚¹
         public Transform UIRoot
         {
             get
             {
                 if (_uiRoot == null)
                 {
-                    //×î¶¥²ãµÄcanvas»­²¼
+                    //æœ€é¡¶å±‚çš„canvasç”»å¸ƒ
                     _uiRoot = GameObject.Find("Canvas").transform;
                 }
                 return _uiRoot;
             }
 
         }
-        private UIManager()//¶Ô×Öµä½øĞĞ³õÊ¼»¯
+        private UIManager()//å¯¹å­—å…¸è¿›è¡Œåˆå§‹åŒ–
         {
             prefabDict = new Dictionary<string, GameObject>();
             panelDict = new Dictionary<string, BasePanel>();
 
             pathDict = new Dictionary<string, string>()
             {
-                //{UIConst.BackpackCanvas,"OverworldScene/BackpackCanvas" }//°Ñ½çÃæÂ·¾¶ÅäÖÃµ½×ÖµäÖĞ
+                //{UIConst.BackpackCanvas,"OverworldScene/BackpackCanvas" }//æŠŠç•Œé¢è·¯å¾„é…ç½®åˆ°å­—å…¸ä¸­
                 { UIConst.BackpackPanel,"Package/BackpackPanel"}
             };
         }
 
 
-        //´ò¿ª½çÃæµÄÂß¼­
+        //æ‰“å¼€ç•Œé¢çš„é€»è¾‘
         public   BasePanel OpenPanel(string name)
         {
             BasePanel panel = null;
-            //¼ì²é½çÃæÊÇ·ñ´ò¿ª
+            //æ£€æŸ¥ç•Œé¢æ˜¯å¦æ‰“å¼€
             if (panelDict.TryGetValue(name,out panel))
             {
-                return null;//Èô½çÃæÒÑ¾­´ò¿ª,¾ÍÖ±½ÓÌø³öº¯Êı
+                return null;//è‹¥ç•Œé¢å·²ç»æ‰“å¼€,å°±ç›´æ¥è·³å‡ºå‡½æ•°
             }
 
-            //¼ì²éÂ·¾¶ÊÇ·ñÓĞÅäÖÃ
+            //æ£€æŸ¥è·¯å¾„æ˜¯å¦æœ‰é…ç½®
             string path = " ";
             if (!pathDict.TryGetValue(name,out  path))
             {
-                return null;//ÈôÂ·¾¶²»´æÔÚÅäÖÃ±íÖĞ,Ò²²»´ò¿ª¸Ã½çÃæ
+                return null;//è‹¥è·¯å¾„ä¸å­˜åœ¨é…ç½®è¡¨ä¸­,ä¹Ÿä¸æ‰“å¼€è¯¥ç•Œé¢
             }
 
-            //¼ÓÔØ½çÃæÔ¤ÖÆ¼ş
-            //Ê¹ÓÃ»º´æÔ¤ÖÆ¼ş
+            //åŠ è½½ç•Œé¢é¢„åˆ¶ä»¶
+            //ä½¿ç”¨ç¼“å­˜é¢„åˆ¶ä»¶
             GameObject panelPrefab = null;
 
-            //¼ÓÔØÔ¤ÖÆ¼şÖ®Ç°ÏÈÔÚ»º´æ×ÖµäÖĞ²é¿´Ò»ÏÂ
+            //åŠ è½½é¢„åˆ¶ä»¶ä¹‹å‰å…ˆåœ¨ç¼“å­˜å­—å…¸ä¸­æŸ¥çœ‹ä¸€ä¸‹
             if(!prefabDict.TryGetValue(name, out panelPrefab))
             {
-                //Èô½çÃæÒÑ¾­±»¼ÓÔØ¹ı,¾ÍÖ±½ÓÄÃ³öÀ´ÓÃ£¬ÈôÒÑ¾­¼ÓÔØ¹ı,¾Í·ÅÔÚ»º´æ×ÖµäÖĞ
-                 string realPath = "Prefab/Panel/" + path;///¿ÉÄÜĞèÒª¸ü¸ÄÂ·¾¶
+                //è‹¥ç•Œé¢å·²ç»è¢«åŠ è½½è¿‡,å°±ç›´æ¥æ‹¿å‡ºæ¥ç”¨ï¼Œè‹¥å·²ç»åŠ è½½è¿‡,å°±æ”¾åœ¨ç¼“å­˜å­—å…¸ä¸­
+                 string realPath = "Prefab/Panel/" + path;///å¯èƒ½éœ€è¦æ›´æ”¹è·¯å¾„
                 //
                 panelPrefab = Resources.Load<GameObject>(realPath) as GameObject;
                 prefabDict.Add(name,panelPrefab);
 
             }
-            //¼ÓÔØÔ¤ÖÆ¼ş²¢¹ÒÔÚuirootÉÏ
+            //åŠ è½½é¢„åˆ¶ä»¶å¹¶æŒ‚åœ¨uirootä¸Š
             GameObject panelObject = GameObject.Instantiate(panelPrefab,UIRoot,false);
             panel = panelObject.GetComponent<BasePanel>();
-            panelDict.Add(name, panel);//±íÊ¾¸Ã½çÃæÒÑ¾­´ò¿ª
+            panelDict.Add(name, panel);//è¡¨ç¤ºè¯¥ç•Œé¢å·²ç»æ‰“å¼€
 
             return panel;
         }
 
-        //¹Ø±Õ½çÃæµÄÂß¼­
+        //å…³é—­ç•Œé¢çš„é€»è¾‘
         public bool ClosePanel(string name)
         {
-            //¼ì²é¸Ã½çÃæÊÇ·ñÔÚpanelDictÖĞ
+            //æ£€æŸ¥è¯¥ç•Œé¢æ˜¯å¦åœ¨panelDictä¸­
             BasePanel panel = null;
-            //½çÃæ±»´ò¿ª²ÅĞèÒª¹Ø±ÕËü
+            //ç•Œé¢è¢«æ‰“å¼€æ‰éœ€è¦å…³é—­å®ƒ
             if (!panelDict.TryGetValue(name, out panel))
             {
                 return false;
@@ -109,10 +109,8 @@ public class UIManager
 
     }
 
-    public  class UIConst//´æ´¢²Ëµ¥Ãû³ÆµÄ³£Á¿±í
+    public  class UIConst//å­˜å‚¨èœå•åç§°çš„å¸¸é‡è¡¨
     {
-        //public const string BackpackCanvas = "BackpackCanvas";//±³°ü½çÃæµÄÃû³Æ
+        //public const string BackpackCanvas = "BackpackCanvas";//èƒŒåŒ…ç•Œé¢çš„åç§°
         public const string BackpackPanel = "BackpackPanel";
     }
-
-

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "New Enemy")]
 public class EnemyInfo : ScriptableObject
 {
-    //敌人的基础信息
+    //碌脨脠脣碌脛禄霉麓隆脨脜脧垄
     public string EnemyName;
     public int BaseHealth;
     public int BaseStr;

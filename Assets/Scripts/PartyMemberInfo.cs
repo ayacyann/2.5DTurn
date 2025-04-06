@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//资源菜单
+//璧勬簮鑿滃崟
 [CreateAssetMenu(menuName="New Party Member")]
 public class PartyMemberInfo : ScriptableObject
 {
@@ -11,6 +11,6 @@ public class PartyMemberInfo : ScriptableObject
     public int BaseHealth;
     public int BaseStr;
     public int BaseInitiative;
-    public GameObject MemberBattleVisualPrefab;//战斗显示内容
-    public GameObject MemberOverworldVisualPrefab;//主世界场景中要展示的内容
+    public GameObject MemberBattleVisualPrefab;//鎴樻枟鏄剧ず鍐呭
+    public GameObject MemberOverworldVisualPrefab;//涓讳笘鐣屽満鏅腑瑕佸睍绀虹殑鍐呭
 }

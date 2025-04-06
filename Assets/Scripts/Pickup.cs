@@ -7,22 +7,20 @@ using UnityEngine.Rendering.Universal;
 
 public class Pickup : MonoBehaviour
 {
-    private bool isShow;//Êó±êĞüÍ£Ê±µÄ´°¿ÚÕ¹Ê¾
-    private GUIStyle style;//GUIÑùÊ½µÄ±äÁ¿
-    public string text;//ĞèÒªÕ¹Ê¾µÄĞÅÏ¢
+    private bool isShow;//é¼ æ ‡æ‚¬åœæ—¶çš„çª—å£å±•ç¤º
+    private GUIStyle style;//GUIæ ·å¼çš„å˜é‡
+    public string text;//éœ€è¦å±•ç¤ºçš„ä¿¡æ¯
 
     public enum PickupType
     {
         BloodVial,
         heart
     }
-    
-  
  
     private PartyManager partyManager;
     void Awake()
     {
-        partyManager = GameObject.FindAnyObjectByType<PartyManager>();
+        partyManager = FindAnyObjectByType<PartyManager>();
         BackpackTable backpacktable = Resources.Load<BackpackTable>("DataTable/packageTable");
     }
 
@@ -36,23 +34,17 @@ public class Pickup : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1)) // 1 ±íÊ¾Êó±êµÄÓÒ¼ü
+        if (Input.GetMouseButtonDown(1)) // 1 ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½
         {
-            Debug.Log("ÓÒ¼ü");
+            Debug.Log("ï¿½Ò¼ï¿½");
         }
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.Log("Name: " + hit.collider.gameObject.tag);
+            isShow = hit.collider.gameObject.CompareTag("property");
         }
-
-
-    //Êó±êĞü¸¡ÊÂ¼ş´¦Àí
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log(isShow);
-        isShow = true;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        isShow = false;
     }
 
     void OnGUI()
@@ -61,7 +53,7 @@ public class Pickup : MonoBehaviour
         {
             var vt = style.CalcSize(new GUIContent(text));
             GUI.backgroundColor = new Color32(255, 255, 255, 100);
-            GUI.Label(new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, vt.x, vt.y), text, style);
+            GUI.Label(new Rect(Input.mousePosition.x-vt.x, Screen.height - Input.mousePosition.y, vt.x, vt.y), text, style);
         }
     }
 }

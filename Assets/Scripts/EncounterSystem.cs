@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class EncounterSystem : MonoBehaviour
 {
-    [SerializeField] private Encounter[] enemiesInScene;//³¡¾°ÖĞµÄµĞÈË
-    [SerializeField] private int maxNumEnemies;//Éú³ÉµÄµĞÈËÊıÁ¿
+    [SerializeField] private Encounter[] enemiesInScene;//åœºæ™¯ä¸­çš„æ•Œäºº
+    [SerializeField] private int maxNumEnemies;//ç”Ÿæˆçš„æ•Œäººæ•°é‡
     // Start is called before the first frame update
 
     private EnemyManager enemyManager;
 
     void Start()
     {
-        //»ñÈ¡µĞÈË¹ÜÀíÆ÷×é¼ş
+        //è·å–æ•Œäººç®¡ç†å™¨ç»„ä»¶
         enemyManager = GameObject.FindAnyObjectByType<EnemyManager>();
-        //Í¨¹ıÔâÓöÉú³ÉµĞÈË
+        //é€šè¿‡é­é‡ç”Ÿæˆæ•Œäºº
         enemyManager.GenerateEnemiesByEncounter(enemiesInScene,maxNumEnemies);
 
 
@@ -26,8 +26,8 @@ public class EncounterSystem : MonoBehaviour
 [System.Serializable]
 public class Encounter
 {
-    public EnemyInfo Enemy;//µĞÈËÊôĞÔ
-    public int LevelMin;//×îµÍµÈ¼¶
-    public int LevelMax;//×î¸ßµÈ¼¶
+    public EnemyInfo Enemy;//æ•Œäººå±æ€§
+    public int LevelMin;//æœ€ä½ç­‰çº§
+    public int LevelMax;//æœ€é«˜ç­‰çº§
 
 }

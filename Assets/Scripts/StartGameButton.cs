@@ -1,20 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StartGameButton : MonoBehaviour
 {
     public string NextSceneName = "OverworldScene";
-    public void GameStart()//¿ªÊ¼ÓÎÏ·°´Å¥
+    
+    public void GameStart()//å¼€å§‹æ¸¸æˆæŒ‰é’®
     {
         SceneManager.LoadScene(NextSceneName,LoadSceneMode.Single);
     }
 
-    public void AppExit()//ÍË³öÓÎÏ·°´Å¥
+    public void AppExit()//é€€å‡ºæ¸¸æˆæŒ‰é’®
     {
-      //  Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;//ÔÚ²âÊÔÖĞÍË³ö
+        //  Application.Quit();
+        Application.Quit();
         Debug.Log("ok");
     }
 }

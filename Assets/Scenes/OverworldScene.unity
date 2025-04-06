@@ -8833,6 +8833,7 @@ GameObject:
   - component: {fileID: 2042572946}
   - component: {fileID: 2042572945}
   - component: {fileID: 2042572944}
+  - component: {fileID: 2042572947}
   m_Layer: 0
   m_Name: BloodVial
   m_TagString: property
@@ -8873,7 +8874,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 304576272a7705147a9fdf547a3bba7e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8920,6 +8921,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2042572947
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042572943}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.1875, y: 9.4375, z: 2.25}
+  m_Center: {x: 0.00000071525574, y: 4.699152, z: 0}
 --- !u!1001 &8641688513015450447
 PrefabInstance:
   m_ObjectHideFlags: 0

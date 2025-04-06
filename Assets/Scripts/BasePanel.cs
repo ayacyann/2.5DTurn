@@ -4,27 +4,27 @@ using System;
 using UnityEngine;
 
 public class BasePanel : MonoBehaviour
+{
+    protected bool isRemove = false;//鐣岄潰鏄惁宸茬粡鍏抽棴
+    protected new string name;
+    public virtual  void OpenPanel(string name)//鎵撳紑鐣岄潰
     {
-            protected bool isRemove = false;//界面是否已经关闭
-            protected new string name;
-            public virtual  void OpenPanel(string name)//打开界面
-        {
-            this.name = name;
-            gameObject.SetActive(true);
-        }
-
-        public virtual void ClosePanel()//关闭界面
-        {
-            isRemove = true;
-            gameObject.SetActive(false);//关闭
-            Destroy(gameObject);
-
-            //移除缓存,表示界面没有打开
-            if (UIManager.Instance.panelDict.ContainsKey(name))
-            {
-                UIManager.Instance.panelDict.Remove(name);
-
-            }
-
-        }
+        this.name = name;
+        gameObject.SetActive(true);
     }
+
+    public virtual void ClosePanel()//鍏抽棴鐣岄潰
+    {
+        isRemove = true;
+        gameObject.SetActive(false);//鍏抽棴
+        Destroy(gameObject);
+
+        //绉婚櫎缂撳瓨,琛ㄧず鐣岄潰娌℃湁鎵撳紑
+        if (UIManager.Instance.panelDict.ContainsKey(name))
+        {
+            UIManager.Instance.panelDict.Remove(name);
+
+        }
+
+    }
+}

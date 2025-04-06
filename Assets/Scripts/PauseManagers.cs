@@ -8,7 +8,7 @@ public class PauseManager : MonoBehaviour
     public static PauseManager Instance;
     public string mainMenuSceneName = "OverworldScene";
 
-    [SerializeField] private GameObject pauseUI; // ÍÏÈëPauseUI¸¸ÎïÌå
+    [SerializeField] private GameObject pauseUI; // æ‹–å…¥PauseUIçˆ¶ç‰©ä½“
     private bool isPaused = false;
 
     void Awake()
@@ -19,7 +19,7 @@ public class PauseManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
 
-            // ³õÊ¼»¯Ê±Ç¿ÖÆÒş²Ø
+            // åˆå§‹åŒ–æ—¶å¼ºåˆ¶éšè—
             if (pauseUI != null)
             {
                 pauseUI.SetActive(false);
@@ -35,7 +35,7 @@ public class PauseManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Ã¿´Î¼ÓÔØ³¡¾°¶¼Ç¿ÖÆ¹Ø±ÕÔİÍ£×´Ì¬
+        // æ¯æ¬¡åŠ è½½åœºæ™¯éƒ½å¼ºåˆ¶å…³é—­æš‚åœçŠ¶æ€
         //ForceResume();
         if (pauseUI != null)
         {
@@ -46,8 +46,8 @@ public class PauseManager : MonoBehaviour
     void Update()
     {
         //Debug.Log((SceneManager.GetActiveScene().name == mainMenuSceneName));
-       // Debug.Log("°´¼ü:" + Input.GetKeyDown(KeyCode. R));
-        //Èôµ±Ç°µÄ»î¶¯³¡¾°Îªxxx²¢ÇÒ°´ÏÂESC°´Å¥
+        // Debug.Log("æŒ‰é”®:" + Input.GetKeyDown(KeyCode. R));
+        //è‹¥å½“å‰çš„æ´»åŠ¨åœºæ™¯ä¸ºxxxå¹¶ä¸”æŒ‰ä¸‹ESCæŒ‰é’®
         if (SceneManager.GetActiveScene().name != mainMenuSceneName && Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
@@ -58,10 +58,10 @@ public class PauseManager : MonoBehaviour
     {
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
-        pauseUI.SetActive(isPaused); // ¸ù¾İ×´Ì¬ÏÔÊ¾/Òş²Ø
+        pauseUI.SetActive(isPaused); // æ ¹æ®çŠ¶æ€æ˜¾ç¤º/éšè—
     }
 
-    // ÆäËû·½·¨±£³ÖÔ­Ñù...
+    // å…¶ä»–æ–¹æ³•ä¿æŒåŸæ ·...
 
     public void ResumeGame()
     {
@@ -70,9 +70,9 @@ public class PauseManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        Time.timeScale = 1; // »Ö¸´Ê±¼ä
+        Time.timeScale = 1; // æ¢å¤æ—¶é—´
         TogglePause();
-        SceneManager.LoadSceneAsync("MenuScene"); // Ìæ»»ÎªÄãµÄÖ÷²Ëµ¥³¡¾°Ãû
+        SceneManager.LoadSceneAsync("MenuScene"); // æ›¿æ¢ä¸ºä½ çš„ä¸»èœå•åœºæ™¯å
         
     }
 }

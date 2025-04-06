@@ -5,30 +5,30 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 
-//Ã»¿´¶®
+//æ²¡çœ‹æ‡‚
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField] private enum BattleState//Õ½¶·×´Ì¬
+    [SerializeField] private enum BattleState//æˆ˜æ–—çŠ¶æ€
     {
-        //Ñ¡Ôñ×´Ì¬,Õ½¶·×´Ì¬,Ê¤Àû,Ê§°Ü,ÌÓÅÜ
+        //é€‰æ‹©çŠ¶æ€,æˆ˜æ–—çŠ¶æ€,èƒœåˆ©,å¤±è´¥,é€ƒè·‘
         Start,Selection,Battle,Won,Lost,Run
     }
 
-    [Header("Õ½¶·×´Ì¬")]
+    [Header("æˆ˜æ–—çŠ¶æ€")]
     [SerializeField] private BattleState State;
 
-    [Header("ÖØÉúµã")]
-    [SerializeField] private Transform[] partySpawnPoints;//½ÇÉ«µÄÖØÉúµã 
-    [SerializeField] private Transform[] enemySpawnPoints;//µĞÈËµÄÖØÉúµã 
+    [Header("é‡ç”Ÿç‚¹")]
+    [SerializeField] private Transform[] partySpawnPoints;//è§’è‰²çš„é‡ç”Ÿç‚¹ 
+    [SerializeField] private Transform[] enemySpawnPoints;//æ•Œäººçš„é‡ç”Ÿç‚¹ 
 
-    //Õ½¶·ÊµÌåÀàĞÍ
+    //æˆ˜æ–—å®ä½“ç±»å‹
     [Header("Battlers")]
-    [SerializeField] private List<BattleEntities> allBattlers = new List<BattleEntities>();//ËùÓĞ½ÇÉ«Õ½¶·ÊµÌåÁĞ±í
-    [SerializeField] private List<BattleEntities> EnemyBattlers = new List<BattleEntities>();//µĞÈËÕ½¶·ÊµÌåÁĞ±í;
-    [SerializeField] private List<BattleEntities> PlayerBattlers = new List<BattleEntities>();//½ÇÉ«Õ½¶·ÊµÌåÁĞ±í
+    [SerializeField] private List<BattleEntities> allBattlers = new List<BattleEntities>();//æ‰€æœ‰è§’è‰²æˆ˜æ–—å®ä½“åˆ—è¡¨
+    [SerializeField] private List<BattleEntities> EnemyBattlers = new List<BattleEntities>();//æ•Œäººæˆ˜æ–—å®ä½“åˆ—è¡¨;
+    [SerializeField] private List<BattleEntities> PlayerBattlers = new List<BattleEntities>();//è§’è‰²æˆ˜æ–—å®ä½“åˆ—è¡¨
 
     [Header("UI")]
-    [SerializeField] private GameObject[] enemySelectionButtons;//µĞÈËÑ¡Ôñ²Ëµ¥
+    [SerializeField] private GameObject[] enemySelectionButtons;//æ•Œäººé€‰æ‹©èœå•
     [SerializeField] private GameObject battleMenu;
     [SerializeField] private GameObject enemySelectionMenu;
     [SerializeField] private TextMeshProUGUI actionText;
@@ -38,7 +38,7 @@ public class BattleSystem : MonoBehaviour
 
     private PartyManager partyManager;
     private EnemyManager enemyManager;
-    private int currentPlayer;//ÒÑÑ¡Ôñ²Ù×÷µÄÍæ¼Ò
+    private int currentPlayer;//å·²é€‰æ‹©æ“ä½œçš„ç©å®¶
 
     private const string ACTION_MESSAGE = " s Action:";
     private const string WIN_MESSAGE = "Win !";
@@ -61,112 +61,112 @@ public class BattleSystem : MonoBehaviour
         DetermineBattleOrde();
     }
 
-    private IEnumerator BattleRoutine()//Õ½¶·Àı³Ì
+    private IEnumerator BattleRoutine()//æˆ˜æ–—ä¾‹ç¨‹
     {
-        //ÏÈ½ûÓÃµĞÈËµÄÕ½¶·×´Ì¬;½Ó×ÅÑ­»·±éÀúËùÓĞµÄ½ÇÉ«
+        //å…ˆç¦ç”¨æ•Œäººçš„æˆ˜æ–—çŠ¶æ€;æ¥ç€å¾ªç¯éå†æ‰€æœ‰çš„è§’è‰²
         enemySelectionMenu.SetActive(false);
-        State = BattleState.Battle;//½«µ±Ç°×´Ì¬ÉèÎªÕ½¶·×´Ì¬
-        bottomTextPopUp.SetActive(true);//´ò¿ªµ×²¿µÄÎÄ±¾Ãæ°å
+        State = BattleState.Battle;//å°†å½“å‰çŠ¶æ€è®¾ä¸ºæˆ˜æ–—çŠ¶æ€
+        bottomTextPopUp.SetActive(true);//æ‰“å¼€åº•éƒ¨çš„æ–‡æœ¬é¢æ¿
 
-        //±éÀúËùÓĞµÄ½ÇÉ«
+        //éå†æ‰€æœ‰çš„è§’è‰²
         for(int i = 0; i < allBattlers.Count; i++)
         {
-            //Èôµ±Ç°ÊôÓÚÕ½¶·×´Ì¬²¢ÇÒ½ÇÉ«µ±Ç°ÑªÁ¿´óÓÚ0
+            //è‹¥å½“å‰å±äºæˆ˜æ–—çŠ¶æ€å¹¶ä¸”è§’è‰²å½“å‰è¡€é‡å¤§äº0
             if (State == BattleState.Battle && allBattlers[i].CurrHealth>0)
             {
-                //ÓÃ¼òµ¥µÄswitch¼ì²éÃ¿¸öÕ½¶·ÕßÒªÖ´ĞĞµÄ¶¯×÷
+                //ç”¨ç®€å•çš„switchæ£€æŸ¥æ¯ä¸ªæˆ˜æ–—è€…è¦æ‰§è¡Œçš„åŠ¨ä½œ
                 switch (allBattlers[i].BattleAction)
                 {
-                    case BattleEntities.Action.Attack://Èô¸Ã½ÇÉ«Ñ¡ÔñÕ½¶·,Ôò
-                                                      //Ö´ĞĞ¹¥»÷²Ù×÷
-                        yield return StartCoroutine(AttackRoutine(i));//Æô¶¯AttackRoutineĞ­³Ì
+                    case BattleEntities.Action.Attack://è‹¥è¯¥è§’è‰²é€‰æ‹©æˆ˜æ–—,åˆ™
+                                                      //æ‰§è¡Œæ”»å‡»æ“ä½œ
+                        yield return StartCoroutine(AttackRoutine(i));//å¯åŠ¨AttackRoutineåç¨‹
                         break;
-                    case BattleEntities.Action.Run://Èô¸Ã½ÇÉ«Ñ¡ÔñÌÓÅÜ,Ôò
-                        yield return StartCoroutine(RunRoutine());                           //ÍË³öÕ½¶·
+                    case BattleEntities.Action.Run://è‹¥è¯¥è§’è‰²é€‰æ‹©é€ƒè·‘,åˆ™
+                        yield return StartCoroutine(RunRoutine());                           //é€€å‡ºæˆ˜æ–—
                         break;
 
                     default:
-                        Debug.Log("ÆäËû");
+                        Debug.Log("å…¶ä»–");
                         break;
                 }
             }
         }
         RemoveDeadBattlers();
-        //Èç¹ûÑ­»·½áÊøºóÒÀ¾É´¦ÓÚÕ½¶·×´Ì¬,¾Í¼ÌĞøÖ´ĞĞÉÏÃæµÄÑ­»·,·µ»ØÕ½¶·²Ëµ¥
+        //å¦‚æœå¾ªç¯ç»“æŸåä¾æ—§å¤„äºæˆ˜æ–—çŠ¶æ€,å°±ç»§ç»­æ‰§è¡Œä¸Šé¢çš„å¾ªç¯,è¿”å›æˆ˜æ–—èœå•
         if (State == BattleState.Battle)
         {
             bottomTextPopUp.SetActive(false);
             currentPlayer = 0;
-            ShowBattleMenu();//·µ»ØÕ½¶·²Ëµ¥
+            ShowBattleMenu();//è¿”å›æˆ˜æ–—èœå•
 
         }
         yield return null;
         
     }
 
-    private IEnumerator AttackRoutine(int i)//Õ½¶·Âß¼­
+    private IEnumerator AttackRoutine(int i)//æˆ˜æ–—é€»è¾‘
     {
-        if (allBattlers[i].IsPlayer == true)//Èç¹û¸Ã½ÇÉ«ÎªÍæ¼Ò
+        if (allBattlers[i].IsPlayer == true)//å¦‚æœè¯¥è§’è‰²ä¸ºç©å®¶
         {
-            BattleEntities currAttacker = allBattlers[i]; //µ±Ç°¹¥»÷Õß
-            //Èç¹û¹¥»÷Ä¿±êÊÇÍæ¼Ò£¬»òÕßÄ¿±êĞòÁĞ³¬³öËùÓĞ½ÇÉ«µÄÊıÁ¿
-            if (allBattlers[currAttacker.Target].CurrHealth<=0)//Èôµ±Ç°¹¥»÷Ä¿±êµÄÑªÁ¿Ğ¡ÓÚ0
+            BattleEntities currAttacker = allBattlers[i]; //å½“å‰æ”»å‡»è€…
+            //å¦‚æœæ”»å‡»ç›®æ ‡æ˜¯ç©å®¶ï¼Œæˆ–è€…ç›®æ ‡åºåˆ—è¶…å‡ºæ‰€æœ‰è§’è‰²çš„æ•°é‡
+            if (allBattlers[currAttacker.Target].CurrHealth<=0)//è‹¥å½“å‰æ”»å‡»ç›®æ ‡çš„è¡€é‡å°äº0
             {
-                currAttacker.SetTarget(GetRandomEnemy());//½«¹¥»÷Ä¿±êÉèÖÃÎªËæ»úµĞÈË
+                currAttacker.SetTarget(GetRandomEnemy());//å°†æ”»å‡»ç›®æ ‡è®¾ç½®ä¸ºéšæœºæ•Œäºº
             }
-            BattleEntities currTarget = allBattlers[currAttacker.Target];//µ±Ç°Ä¿±ê
-            AttackAction(currAttacker, currTarget);//Ö´ĞĞ¹¥»÷ĞĞÎª
-            yield return new WaitForSeconds(TURN_DURATION);//2ÃëºóÔÙÖ´ĞĞÏÂÃæµÄÂß¼­
+            BattleEntities currTarget = allBattlers[currAttacker.Target];//å½“å‰ç›®æ ‡
+            AttackAction(currAttacker, currTarget);//æ‰§è¡Œæ”»å‡»è¡Œä¸º
+            yield return new WaitForSeconds(TURN_DURATION);//2ç§’åå†æ‰§è¡Œä¸‹é¢çš„é€»è¾‘
 
-            if (currTarget.CurrHealth <= 0)//ÈôÄ¿±êµÄµ±Ç°ÑªÁ¿Îª0,²¥·ÅËÀÍö¶¯»­
+            if (currTarget.CurrHealth <= 0)//è‹¥ç›®æ ‡çš„å½“å‰è¡€é‡ä¸º0,æ’­æ”¾æ­»äº¡åŠ¨ç”»
             {
-                //µ¼Èë»÷°ÜÎÄ±¾
+                //å¯¼å…¥å‡»è´¥æ–‡æœ¬
                 bottomText.text = string.Format("{0} defeated {1}", currAttacker.Name, currTarget.Name); ;
                 yield return new WaitForSeconds(TURN_DURATION);
-                EnemyBattlers.Remove(currTarget);//½«Ä¿±êµĞÈË´ÓµĞÈËÁĞ±íÖĞÒÆ³ı
-                allBattlers.Remove(currTarget);//½«µĞÈË´ÓËùÓĞ³ÉÔ±µÄÁĞ±íÖĞÒÆ³ı
+                EnemyBattlers.Remove(currTarget);//å°†ç›®æ ‡æ•Œäººä»æ•Œäººåˆ—è¡¨ä¸­ç§»é™¤
+                allBattlers.Remove(currTarget);//å°†æ•Œäººä»æ‰€æœ‰æˆå‘˜çš„åˆ—è¡¨ä¸­ç§»é™¤
 
-                if (EnemyBattlers.Count <= 0)//Èç¹ûµĞÈËÊıÁ¿Îª0,½áÊøÕ½¶·
+                if (EnemyBattlers.Count <= 0)//å¦‚æœæ•Œäººæ•°é‡ä¸º0,ç»“æŸæˆ˜æ–—
                 {
-                    State = BattleState.Won;//½«×´Ì¬¸ÄÎªÊ¤Àû
+                    State = BattleState.Won;//å°†çŠ¶æ€æ”¹ä¸ºèƒœåˆ©
                     bottomText.text = WIN_MESSAGE;
                     yield return new WaitForSeconds(TURN_DURATION);
-                    //·µ»ØÖ÷³¡¾°
+                    //è¿”å›ä¸»åœºæ™¯
                     SceneManager.LoadScene(OVERWORLD_SCENE);
                 }
             }
         }
-        //Èô¹¥»÷¶ÔÏóÊÇµĞÈË
-        if (i<allBattlers.Count && allBattlers[i].IsPlayer == false)//ÕâÀïÖ÷ÒªÈ·±£ÎÒÃÇµÄË÷ÒıÒÀ¾ÉÔÚµĞÈËµÄ»ØºÏ·¶Î§ÄÚ¡£
+        //è‹¥æ”»å‡»å¯¹è±¡æ˜¯æ•Œäºº
+        if (i<allBattlers.Count && allBattlers[i].IsPlayer == false)//è¿™é‡Œä¸»è¦ç¡®ä¿æˆ‘ä»¬çš„ç´¢å¼•ä¾æ—§åœ¨æ•Œäººçš„å›åˆèŒƒå›´å†…ã€‚
         {
-            //È·¶¨·¢¶¯¹¥»÷µÄ¶ÔÏó
+            //ç¡®å®šå‘åŠ¨æ”»å‡»çš„å¯¹è±¡
             BattleEntities currAttacker = allBattlers[i];
-            currAttacker.SetTarget(GetRandomPartyMember());//³õÊ¼»¯Ä¿±ê±äÁ¿
-            //ÈÃµĞÈËËæ»úÑ¡Ôñ½ø¹¥µÄÄ¿±êÍæ¼Ò
+            currAttacker.SetTarget(GetRandomPartyMember());//åˆå§‹åŒ–ç›®æ ‡å˜é‡
+            //è®©æ•Œäººéšæœºé€‰æ‹©è¿›æ”»çš„ç›®æ ‡ç©å®¶
             BattleEntities currTarget = allBattlers[currAttacker.Target];
 
-            AttackAction(currAttacker, currTarget);//µĞÈË½ø¹¥
+            AttackAction(currAttacker, currTarget);//æ•Œäººè¿›æ”»
             yield return new WaitForSeconds(TURN_DURATION);
 
             if (currTarget.CurrHealth <= 0)
             {
-                //µ¼Èë»÷°ÜÎÄ±¾
+                //å¯¼å…¥å‡»è´¥æ–‡æœ¬
                 bottomText.text = string.Format("{0} defeated {1}", currAttacker.Name, currTarget.Name); ;
                 yield return new WaitForSeconds(TURN_DURATION);
-                PlayerBattlers.Remove(currTarget);//½«Ä¿±êÍæ¼Ò´ÓÍæ¼ÒÁĞ±íÖĞÒÆ³ı
-                allBattlers.Remove(currTarget);//½«¸ÃÍæ¼Ò´ÓËùÓĞ³ÉÔ±µÄÁĞ±íÖĞÒÆ³ı
+                PlayerBattlers.Remove(currTarget);//å°†ç›®æ ‡ç©å®¶ä»ç©å®¶åˆ—è¡¨ä¸­ç§»é™¤
+                allBattlers.Remove(currTarget);//å°†è¯¥ç©å®¶ä»æ‰€æœ‰æˆå‘˜çš„åˆ—è¡¨ä¸­ç§»é™¤
 
-                if (PlayerBattlers.Count <= 0)//Èç¹ûÍæ¼ÒÊıÁ¿Îª0,½áÊøÕ½¶·
+                if (PlayerBattlers.Count <= 0)//å¦‚æœç©å®¶æ•°é‡ä¸º0,ç»“æŸæˆ˜æ–—
                 {
-                    State = BattleState.Lost;//½«×´Ì¬¸ÄÎªÊ§°Ü
+                    State = BattleState.Lost;//å°†çŠ¶æ€æ”¹ä¸ºå¤±è´¥
                     bottomText.text = LOST_MESSAGE;
                     yield return new WaitForSeconds(TURN_DURATION);
-                    //¿ÉÒÔ·µ»ØÓÎÏ·Ö÷½çÃæ
+                    //å¯ä»¥è¿”å›æ¸¸æˆä¸»ç•Œé¢
                 }
             }
         }
     }
-    private void RemoveDeadBattlers()//É¾³ıËÀÈ¥µÄÍæ¼Ò½ÇÉ«
+    private void RemoveDeadBattlers()//åˆ é™¤æ­»å»çš„ç©å®¶è§’è‰²
     {
         for(int i = 0; i < allBattlers.Count; i++)
         {
@@ -177,36 +177,36 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    private void CreatePartyEnitities()//´´½¨½ÇÉ«Õ½¶·ÊµÌå
+    private void CreatePartyEnitities()//åˆ›å»ºè§’è‰²æˆ˜æ–—å®ä½“
     {
         List<PartyMember> CurrentParty = new List<PartyMember>();
         CurrentParty = partyManager.GetAliveParty();
 
-        //Ñ­»·±éÀúËùÓĞ³ÉÔ±,²¢¿ªÊ¼´´½¨¿ÕµÄÕ½¶·ÊµÌå
+        //å¾ªç¯éå†æ‰€æœ‰æˆå‘˜,å¹¶å¼€å§‹åˆ›å»ºç©ºçš„æˆ˜æ–—å®ä½“
         for(int i = 0; i < CurrentParty.Count; i++)
         {
-            BattleEntities tempEntity = new BattleEntities();//ÊµÀı»¯Õ½¶·ÊµÌå
+            BattleEntities tempEntity = new BattleEntities();//å®ä¾‹åŒ–æˆ˜æ–—å®ä½“
 
             tempEntity.SetEntityValues
            (CurrentParty[i].MemberName,CurrentParty[i].CurrHealth,CurrentParty[i].MaxHealth,CurrentParty[i].Initiative,CurrentParty[i].Strength,CurrentParty[i].Level,true);
-            //ÏÈ²úÉúÊÓ¾õĞ§¹û,È»ºóÉèÖÃÊÓ¾õĞ§¹ûÆğÊ¼Öµ,È»ºó´æ´¢Õ½¶·ÊÓ¾õĞÅÏ¢
+            //å…ˆäº§ç”Ÿè§†è§‰æ•ˆæœ,ç„¶åè®¾ç½®è§†è§‰æ•ˆæœèµ·å§‹å€¼,ç„¶åå­˜å‚¨æˆ˜æ–—è§†è§‰ä¿¡æ¯
             BattleVisual tempBattleVisual=
             Instantiate(CurrentParty[i].MemberBattleVisualPrefab,
-            partySpawnPoints[i].position,Quaternion.identity).GetComponent<BattleVisual>();//Éú³ÉÕ½¶·Éú³ÉÊÓ¾õĞ§¹û
+            partySpawnPoints[i].position,Quaternion.identity).GetComponent<BattleVisual>();//ç”Ÿæˆæˆ˜æ–—ç”Ÿæˆè§†è§‰æ•ˆæœ
 
-            //½«½ÇÉ«µÄĞÅÏ¢¸³Öµ¸øÁÙÊ±±äÁ¿
+            //å°†è§’è‰²çš„ä¿¡æ¯èµ‹å€¼ç»™ä¸´æ—¶å˜é‡
             tempBattleVisual.SetStartingValues(CurrentParty[i].CurrHealth,CurrentParty[i].MaxHealth,CurrentParty[i].Level);
             tempEntity.BattleVisual = tempBattleVisual;
 
 
-            //½«Õ½¶·ÊµÌå´æ·Åµ½ËùÓĞÊµÌåºÍ½ÇÉ«ÊµÌåµÄ¶ÓÁĞÖĞ
+            //å°†æˆ˜æ–—å®ä½“å­˜æ”¾åˆ°æ‰€æœ‰å®ä½“å’Œè§’è‰²å®ä½“çš„é˜Ÿåˆ—ä¸­
             allBattlers.Add(tempEntity);
             PlayerBattlers.Add(tempEntity);
         }
         
     }
-//On ClickÊÂ¼ş:¿ÉÒÔ½«Ä³¸öº¯Êı°ó¶¨¸øÄ³¸ö°´Å¥,µ±°´ÏÂ°´Å¥Ê±×Ô¶¯µ÷ÓÃ¸Ãº¯Êı¡£
-    private void CreateEnemyEntities()//´´½¨µĞÈËÕ½¶·ÊµÌå
+//On Clickäº‹ä»¶:å¯ä»¥å°†æŸä¸ªå‡½æ•°ç»‘å®šç»™æŸä¸ªæŒ‰é’®,å½“æŒ‰ä¸‹æŒ‰é’®æ—¶è‡ªåŠ¨è°ƒç”¨è¯¥å‡½æ•°ã€‚
+    private void CreateEnemyEntities()//åˆ›å»ºæ•Œäººæˆ˜æ–—å®ä½“
     {
         List<Enemy> CurrentEnemies = new List<Enemy>();
         CurrentEnemies = enemyManager.GetCurrentEnemies();
@@ -219,14 +219,14 @@ public class BattleSystem : MonoBehaviour
 
             BattleVisual tempBattleVisual =
             Instantiate(CurrentEnemies[i].EnemyVisualPrefab,
-            enemySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisual>();//Éú³ÉÕ½¶·Éú³ÉÊÓ¾õĞ§¹û
+            enemySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisual>();//ç”Ÿæˆæˆ˜æ–—ç”Ÿæˆè§†è§‰æ•ˆæœ
 
-            //½«½ÇÉ«µÄĞÅÏ¢¸³Öµ¸øÁÙÊ±±äÁ¿
+            //å°†è§’è‰²çš„ä¿¡æ¯èµ‹å€¼ç»™ä¸´æ—¶å˜é‡
             tempBattleVisual.SetStartingValues(CurrentEnemies[i].MaxHealth, CurrentEnemies[i].MaxHealth, CurrentEnemies[i].Level);
             tempEntity.BattleVisual = tempBattleVisual;
 
 
-            //½«µĞÈËµÄÊµÌåÌí¼Óµ½µĞÈËºÍËùÓĞ½ÇÉ«µÄ¶ÓÁĞÖĞ
+            //å°†æ•Œäººçš„å®ä½“æ·»åŠ åˆ°æ•Œäººå’Œæ‰€æœ‰è§’è‰²çš„é˜Ÿåˆ—ä¸­
             allBattlers.Add(tempEntity);
             EnemyBattlers.Add(tempEntity);
 
@@ -234,100 +234,100 @@ public class BattleSystem : MonoBehaviour
 
 
     }
-    public void ShowBattleMenu()//ÏÔÊ¾½ÇÉ«µÄÕ½¶·²Ëµ¥
+    public void ShowBattleMenu()//æ˜¾ç¤ºè§’è‰²çš„æˆ˜æ–—èœå•
     {
         actionText.text = PlayerBattlers[currentPlayer].Name + ACTION_MESSAGE;
         battleMenu.SetActive(true);
     }
 
-    public void ShowEnemySelectionMenu()//µĞÈËÑ¡Ôñ²Ëµ¥
+    public void ShowEnemySelectionMenu()//æ•Œäººé€‰æ‹©èœå•
     {
         battleMenu.SetActive(false);
         SetEnemySelectionButtons();
-        enemySelectionMenu.SetActive(true);//½«²Ëµ¥µãÉèÎª»î¶¯×´Ì¬
+        enemySelectionMenu.SetActive(true);//å°†èœå•ç‚¹è®¾ä¸ºæ´»åŠ¨çŠ¶æ€
     }
 
     private void SetEnemySelectionButtons()
     {
-        //Èô´ËÊ±Ö»ÓĞÒ»¸öÒ°¹ÖÊ±,½ûµôËùÓĞµÄ°´Å¥
+        //è‹¥æ­¤æ—¶åªæœ‰ä¸€ä¸ªé‡æ€ªæ—¶,ç¦æ‰æ‰€æœ‰çš„æŒ‰é’®
         for(int i = 0; i < enemySelectionButtons.Length; i++)
         {
-//µĞÈËÑ¡Ôñ²Ëµ¥×î¶à´æÔÚ4¸öµĞÈË,Èôµ±Ç°µĞÈËÊıÃ»ÓĞ4¸ö,½«²»´æÔÚµÄµĞÈËÑ¡ÏîÒş²Øµô
-            enemySelectionButtons[i].SetActive(false);//¹Ø±Õ°´Å¥µÄ»î¶¯×´Ì¬
+//æ•Œäººé€‰æ‹©èœå•æœ€å¤šå­˜åœ¨4ä¸ªæ•Œäºº,è‹¥å½“å‰æ•Œäººæ•°æ²¡æœ‰4ä¸ª,å°†ä¸å­˜åœ¨çš„æ•Œäººé€‰é¡¹éšè—æ‰
+            enemySelectionButtons[i].SetActive(false);//å…³é—­æŒ‰é’®çš„æ´»åŠ¨çŠ¶æ€
 
         }
 
         for(int j = 0; j < EnemyBattlers.Count; j++)
         {
-            enemySelectionButtons[j].SetActive(true);//½«µ±Ç°´æÔÚµÄµĞÈË¶ÔÓ¦µÄÑ¡Ïî°´Å¥¼¤»î
-            //»ñÈ¡µĞÈËÑ¡Ïî°´Å¥µÄÎÄ±¾,½«ÎÄ±¾¸ÄÎª¹ÖÎïµÄÃû×Ö
+            enemySelectionButtons[j].SetActive(true);//å°†å½“å‰å­˜åœ¨çš„æ•Œäººå¯¹åº”çš„é€‰é¡¹æŒ‰é’®æ¿€æ´»
+            //è·å–æ•Œäººé€‰é¡¹æŒ‰é’®çš„æ–‡æœ¬,å°†æ–‡æœ¬æ”¹ä¸ºæ€ªç‰©çš„åå­—
             enemySelectionButtons[j].GetComponentInChildren<TextMeshProUGUI>().text = EnemyBattlers[j].Name;
         }
     }
     public void SelectEnemy(int currentEnemy)
     {
-        //ÏÈÈ·¶¨³ÉÔ±µÄ¹¥»÷Ä¿±ê
-        BattleEntities currentPlayerEntity = PlayerBattlers[currentPlayer];//»ñÈ¡µ±Ç°Íæ¼ÒÊµÌå
-        currentPlayerEntity.SetTarget(allBattlers.IndexOf(EnemyBattlers[currentEnemy]));//È·¶¨Íæ¼ÒÒª¹¥»÷µÄÄ¿±êµĞÈË
+        //å…ˆç¡®å®šæˆå‘˜çš„æ”»å‡»ç›®æ ‡
+        BattleEntities currentPlayerEntity = PlayerBattlers[currentPlayer];//è·å–å½“å‰ç©å®¶å®ä½“
+        currentPlayerEntity.SetTarget(allBattlers.IndexOf(EnemyBattlers[currentEnemy]));//ç¡®å®šç©å®¶è¦æ”»å‡»çš„ç›®æ ‡æ•Œäºº
         currentPlayerEntity.BattleAction = BattleEntities.Action.Attack;
 
-        currentPlayer++;//Ñ¡Ôñ²Ù×÷Íæ¼ÒµÄÊıÁ¿+1
-        if (currentPlayer >= PlayerBattlers.Count)//µ±ËùÓĞÍæ¼Ò¶¼Ñ¡ÔñÍê²Ù×÷ºó,¿ªÊ¼Õ½¶·
+        currentPlayer++;//é€‰æ‹©æ“ä½œç©å®¶çš„æ•°é‡+1
+        if (currentPlayer >= PlayerBattlers.Count)//å½“æ‰€æœ‰ç©å®¶éƒ½é€‰æ‹©å®Œæ“ä½œå,å¼€å§‹æˆ˜æ–—
         {
-            //¿ªÊ¼Õ½¶·
-            StartCoroutine(BattleRoutine());//¿ªÆôBattleRoutineĞ­³Ì
+            //å¼€å§‹æˆ˜æ–—
+            StartCoroutine(BattleRoutine());//å¼€å¯BattleRoutineåç¨‹
             
         }
         else
         {
             enemySelectionMenu.SetActive(false);
-            ShowBattleMenu();//ÏÔÊ¾Õ½¶·²Ëµ¥
+            ShowBattleMenu();//æ˜¾ç¤ºæˆ˜æ–—èœå•
         }
 
     }
     private void AttackAction(BattleEntities currAttacker,BattleEntities currTarget)
     {
-        //»ñÈ¡¹¥»÷,È»ºó²¥·Å¹¥»÷¶¯»­,½Ó×ÅÔì³ÉÉËº¦,¸üĞÂUI
+        //è·å–æ”»å‡»,ç„¶åæ’­æ”¾æ”»å‡»åŠ¨ç”»,æ¥ç€é€ æˆä¼¤å®³,æ›´æ–°UI
         int damage = currAttacker.Strength;
         //int damage = 20;
-        currAttacker.BattleVisual.PlayAttackAnimation();//²¥·Å¹¥»÷¶¯»­
-        //¸üĞÂµ±Ç°Ä¿±êµÄÑªÁ¿
+        currAttacker.BattleVisual.PlayAttackAnimation();//æ’­æ”¾æ”»å‡»åŠ¨ç”»
+        //æ›´æ–°å½“å‰ç›®æ ‡çš„è¡€é‡
         currTarget.CurrHealth -= damage;
-         currTarget.BattleVisual.PlayHitAnimation();//²¥·ÅÄ¿±êÊÜ»÷¶¯»­
-        currTarget.UpdateUI();//¸üĞÂÑªÌõUI
+         currTarget.BattleVisual.PlayHitAnimation();//æ’­æ”¾ç›®æ ‡å—å‡»åŠ¨ç”»
+        currTarget.UpdateUI();//æ›´æ–°è¡€æ¡UI
         bottomText.text = string.Format("{0} attacks {1} for {2} damage",currAttacker.Name,currTarget.Name,damage);
 
-        SaveHealth();//±£´æµ±Ç°ÉúÃüÖµ
+        SaveHealth();//ä¿å­˜å½“å‰ç”Ÿå‘½å€¼
     }
 
-    private int GetRandomPartyMember()//µĞÈËËæ»úÑ¡ÔñÄ¿±ê
+    private int GetRandomPartyMember()//æ•Œäººéšæœºé€‰æ‹©ç›®æ ‡
     {
-        List<int> partyMembers = new List<int>();//´æ´¢Íæ¼ÒĞòºÅµÄÁĞ±í
+        List<int> partyMembers = new List<int>();//å­˜å‚¨ç©å®¶åºå·çš„åˆ—è¡¨
         for(int i = 0; i < allBattlers.Count; i++)
         {
-            if (allBattlers[i].IsPlayer == true && allBattlers[i].CurrHealth>0)//Èôµ±Ç°½ÇÉ«ÊôÓÚÍæ¼Ò
+            if (allBattlers[i].IsPlayer == true && allBattlers[i].CurrHealth>0)//è‹¥å½“å‰è§’è‰²å±äºç©å®¶
             {
-                partyMembers.Add(i);//½«Íæ¼ÒĞòºÅ´æ´¢µ½ÁĞ±íÖĞ
+                partyMembers.Add(i);//å°†ç©å®¶åºå·å­˜å‚¨åˆ°åˆ—è¡¨ä¸­
             }
         }
-        return partyMembers[Random.Range(0,partyMembers.Count)];//´ÓÁĞ±íÖĞËæ»ú·µ»ØÒ»¸öµĞÈËµÄÑ¡ÔñÄ¿±ê
+        return partyMembers[Random.Range(0,partyMembers.Count)];//ä»åˆ—è¡¨ä¸­éšæœºè¿”å›ä¸€ä¸ªæ•Œäººçš„é€‰æ‹©ç›®æ ‡
     }
 
-    private int GetRandomEnemy()//Ëæ»ú»ñÈ¡Ò»¸öµĞÈËĞòÁĞ
+    private int GetRandomEnemy()//éšæœºè·å–ä¸€ä¸ªæ•Œäººåºåˆ—
     {
-        List<int> enemies = new List<int>();//»ñÈ¡Ëæ»ú¹ÖÎïĞòÁĞµÄÁĞ±í
+        List<int> enemies = new List<int>();//è·å–éšæœºæ€ªç‰©åºåˆ—çš„åˆ—è¡¨
         for (int i = 0; i < allBattlers.Count; i++)
         {
-            if (allBattlers[i].IsPlayer == false && allBattlers[i].CurrHealth > 0)//Èôµ±Ç°½ÇÉ«²»ÊôÓÚÍæ¼Ò
+            if (allBattlers[i].IsPlayer == false && allBattlers[i].CurrHealth > 0)//è‹¥å½“å‰è§’è‰²ä¸å±äºç©å®¶
             {
-                enemies.Add(i);//Ìí¼Óµ½µĞÈËĞòÁĞÁĞ±íÖĞ
+                enemies.Add(i);//æ·»åŠ åˆ°æ•Œäººåºåˆ—åˆ—è¡¨ä¸­
             }
         }
         return enemies[Random.Range(0, enemies.Count)];
 
     }
 
-    private void SaveHealth()//±£´æÃ¿Î»½ÇÉ«µÄµ±Ç°ÉúÃüÖµ
+    private void SaveHealth()//ä¿å­˜æ¯ä½è§’è‰²çš„å½“å‰ç”Ÿå‘½å€¼
     {
         for(int i = 0; i < PlayerBattlers.Count; i++)
         {
@@ -335,54 +335,54 @@ public class BattleSystem : MonoBehaviour
         }
     }
  
-    private void DetermineBattleOrde()//¾ö¶¨ËùÓĞ½ÇÉ«µÄ³öÊÖË³Ğò
+    private void DetermineBattleOrde()//å†³å®šæ‰€æœ‰è§’è‰²çš„å‡ºæ‰‹é¡ºåº
     {
-        //¶ÔËùÓĞ½ÇÉ«µÄÖ÷¶¯È¨½øĞĞÅÅĞò
+        //å¯¹æ‰€æœ‰è§’è‰²çš„ä¸»åŠ¨æƒè¿›è¡Œæ’åº
         allBattlers.Sort((bi1,bi2)=>-bi1.Initiative.CompareTo(bi2.Initiative));
     }
 
-    public void SelectRunAction()//Ñ¡ÔñÌÓÅÜ²Ù×÷
+    public void SelectRunAction()//é€‰æ‹©é€ƒè·‘æ“ä½œ
     {
         State = BattleState.Selection;
-        BattleEntities currentPlayerEntity = PlayerBattlers[currentPlayer];//»ñÈ¡µ±Ç°Íæ¼ÒÊµÌå
+        BattleEntities currentPlayerEntity = PlayerBattlers[currentPlayer];//è·å–å½“å‰ç©å®¶å®ä½“
     
         currentPlayerEntity.BattleAction = BattleEntities.Action.Run;
         battleMenu.SetActive(false);
-        currentPlayer++;//Ñ¡Ôñ²Ù×÷Íæ¼ÒµÄÊıÁ¿+1
-        if (currentPlayer >= PlayerBattlers.Count)//µ±ËùÓĞÍæ¼Ò¶¼Ñ¡ÔñÍê²Ù×÷ºó,¿ªÊ¼Õ½¶·
+        currentPlayer++;//é€‰æ‹©æ“ä½œç©å®¶çš„æ•°é‡+1
+        if (currentPlayer >= PlayerBattlers.Count)//å½“æ‰€æœ‰ç©å®¶éƒ½é€‰æ‹©å®Œæ“ä½œå,å¼€å§‹æˆ˜æ–—
         {
-            //¿ªÊ¼Õ½¶·
-            StartCoroutine(BattleRoutine());//¿ªÆôBattleRoutineĞ­³Ì
+            //å¼€å§‹æˆ˜æ–—
+            StartCoroutine(BattleRoutine());//å¼€å¯BattleRoutineåç¨‹
 
         }
         else
         {
             enemySelectionMenu.SetActive(false);
-            ShowBattleMenu();//ÏÔÊ¾Õ½¶·²Ëµ¥
+            ShowBattleMenu();//æ˜¾ç¤ºæˆ˜æ–—èœå•
         }
     }
 
-    private IEnumerator RunRoutine()//ÌÓÅÜÀı³Ì
+    private IEnumerator RunRoutine()//é€ƒè·‘ä¾‹ç¨‹
     {
         if (State == BattleState.Battle)
         {
-//Ëæ»úÒ»¸ö1µ½100Ö®¼äµÄÊı,ÈôËæ»úÊı³¬¹ı10,´ú±íÌÓÅÜ³É¹¦,¾ÍÍË³öÕ½¶·
+//éšæœºä¸€ä¸ª1åˆ°100ä¹‹é—´çš„æ•°,è‹¥éšæœºæ•°è¶…è¿‡10,ä»£è¡¨é€ƒè·‘æˆåŠŸ,å°±é€€å‡ºæˆ˜æ–—
             if (Random.Range(1,101)>=RUN_CHANCE)
             {
-                //ÏÈÏÔÊ¾ÌÓÅÜ³É¹¦ÎÄ±¾
+                //å…ˆæ˜¾ç¤ºé€ƒè·‘æˆåŠŸæ–‡æœ¬
                 bottomText.text = SUCCESFULLY_RAN_MESSAGE;
-                //½«×´Ì¬¸ÄÎªÌÓÅÜ
+                //å°†çŠ¶æ€æ”¹ä¸ºé€ƒè·‘
                 State = BattleState.Run;
-                allBattlers.Clear();//Çå¿ÕËùÓĞµÄ½ÇÉ«ÁĞ±í
+                allBattlers.Clear();//æ¸…ç©ºæ‰€æœ‰çš„è§’è‰²åˆ—è¡¨
 
                 yield return new WaitForSeconds(TURN_DURATION);
-                SceneManager.LoadScene(OVERWORLD_SCENE);//ÇĞ»»ÎªÖ÷³¡¾°
+                SceneManager.LoadScene(OVERWORLD_SCENE);//åˆ‡æ¢ä¸ºä¸»åœºæ™¯
                 yield break;
 
             }
             else
             {
-                //ÌÓÅÜÊ§°ÜÎÄ±¾
+                //é€ƒè·‘å¤±è´¥æ–‡æœ¬
                 bottomText.text = UNSUCCESFULLY_RAN_MESSAGE;
                 yield return new WaitForSeconds(TURN_DURATION);
             }
@@ -390,7 +390,7 @@ public class BattleSystem : MonoBehaviour
     }
 }
 [System.Serializable]
-public class BattleEntities//Õ½¶·ÊµÌå
+public class BattleEntities//æˆ˜æ–—å®ä½“
 {
     public enum Action { Attack,Run }
     public Action BattleAction;
@@ -400,12 +400,12 @@ public class BattleEntities//Õ½¶·ÊµÌå
     public int MaxHealth;
     public int Level;
     public int Strength;
-    public int Initiative;//Ö÷¶¯È¨
-    public bool IsPlayer;//ÊÇ·ñÎªÍæ¼Ò
-    public BattleVisual BattleVisual;//´´½¨Ò»¸ö¹«¹²Õ½¶·ÊÓ¾õĞ§¹û
-    public int Target;//Ñ¡ÔñÄ¿±ê
+    public int Initiative;//ä¸»åŠ¨æƒ
+    public bool IsPlayer;//æ˜¯å¦ä¸ºç©å®¶
+    public BattleVisual BattleVisual;//åˆ›å»ºä¸€ä¸ªå…¬å…±æˆ˜æ–—è§†è§‰æ•ˆæœ
+    public int Target;//é€‰æ‹©ç›®æ ‡
 
-    //½«½ÇÉ«ĞÅÏ¢¸³Öµµ½Õ½¶·ÏµÍ³ÖĞ
+    //å°†è§’è‰²ä¿¡æ¯èµ‹å€¼åˆ°æˆ˜æ–—ç³»ç»Ÿä¸­
     public void SetEntityValues(string name,int currHealth,int maxHealth,int initiative,int strength,int level,bool isPlayer)
     {
         Name = name;
@@ -422,7 +422,7 @@ public class BattleEntities//Õ½¶·ÊµÌå
         Target = target;
     }
 
-    public void UpdateUI()//UI¸üĞÂ
+    public void UpdateUI()//UIæ›´æ–°
     {
         BattleVisual.ChangeHealth(CurrHealth);
     }

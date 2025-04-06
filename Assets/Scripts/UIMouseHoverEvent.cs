@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-//½öÊÊÓÃ¸øUIÎïÌåµÄÊó±êÊÂ¼ş
+//ä»…é€‚ç”¨ç»™UIç‰©ä½“çš„é¼ æ ‡äº‹ä»¶
 public class UIMouseHoverEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-{  //½Ó¿Ú£¬·Ö±ğÊÇÊó±ê½øÈëUÓëÀë¿ªUIÎïÌå
+{  //æ¥å£ï¼Œåˆ†åˆ«æ˜¯é¼ æ ‡è¿›å…¥Uä¸ç¦»å¼€UIç‰©ä½“
     private bool isShow;
     public string text;
     private GUIStyle style;
@@ -21,13 +21,13 @@ public class UIMouseHoverEvent : MonoBehaviour, IPointerEnterHandler, IPointerEx
     }
 
     public void OnPointerEnter(PointerEventData eventData)
-    {  //µ±Êó±êÍ£ÁôÔÚ¸ÃÓÎÏ·ÎïÌåÉÏÊ±µ÷ÓÃ
+    {  //å½“é¼ æ ‡åœç•™åœ¨è¯¥æ¸¸æˆç‰©ä½“ä¸Šæ—¶è°ƒç”¨
         Debug.Log(isShow);
         isShow = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
-    {  //µ±Êó±êÀë¿ª¸ÃÓÎÏ·ÎïÌåÊ±µ÷ÓÃ
+    {  //å½“é¼ æ ‡ç¦»å¼€è¯¥æ¸¸æˆç‰©ä½“æ—¶è°ƒç”¨
         isShow = false;
     }
 
