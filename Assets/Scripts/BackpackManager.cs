@@ -90,7 +90,6 @@ public class BackpackManager : MonoBehaviour
     {
         int childCount = itemContent.childCount;
         int itemCount = items.Count;
-        Debug.Log($"childCount: {childCount}, itemCount: {itemCount}");
         for (int i = 0; i < childCount; i++)
         {
             Image image = itemContent.GetChild(i).GetChild(0).GetComponent<Image>();

@@ -36,6 +36,7 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.CurrHealth = allMembers[i].BaseHealth;
                 newPartyMember.MaxHealth = newPartyMember.CurrHealth;
                 newPartyMember.Strength = allMembers[i].BaseStr;
+                newPartyMember.Strength = 999;
                 newPartyMember.Initiative = allMembers[i].BaseInitiative;
                 newPartyMember.MemberBattleVisualPrefab = allMembers[i].MemberBattleVisualPrefab;
                 newPartyMember.MemberOverworVisualPrefab = allMembers[i].MemberOverworldVisualPrefab;
