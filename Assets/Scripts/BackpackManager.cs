@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,7 @@ using UnityEngine.UI;
 
 public enum DropItemType
 {
+    None,
     BloodVial,
     GreenVase,
     Heart,
@@ -28,27 +30,27 @@ public class BackpackManager : MonoBehaviour
             return _instance;
         }
     }
+
+    public ItemUse currentItem;
+    public Transform showItemInfo;
+    public Transform buttons;
+    public Image playerImage;
     private static BackpackManager _instance;
     //public string mainMenuSceneName = "OverworldScene";
     public bool isShowCanvas = false;
     public ItemInfo itemInfo;
     public List<Item> items = new List<Item>();
     public int maxItemCount = 16;
+    public int currentIndex = 0;
 
     [Header("UI")]
     [SerializeField]private Transform itemContent;
     [SerializeField] private GameObject pauseUI; // 拖入PauseUI父物体
-    [SerializeField] private GameObject itemquantity;
-    [SerializeField] private TextMeshProUGUI Propeffect;
-    [SerializeField] private TextMeshProUGUI CurrentQuantity;
-    [SerializeField] private TextMeshProUGUI MaxQuantity;
-
     [SerializeField] private TextMeshProUGUI Name;
     [SerializeField] private TextMeshProUGUI Level;
-    [SerializeField] private TextMeshProUGUI CurrrentHealth;
-    [SerializeField] private TextMeshProUGUI MaxHealth;
-    [SerializeField] private TextMeshProUGUI Atk;
-    [SerializeField] private TextMeshProUGUI Spe;
+    [SerializeField] private TextMeshProUGUI Health;
+    [SerializeField] private TextMeshProUGUI Attack;
+    [SerializeField] private TextMeshProUGUI Speed;
 
     // Awake 方法，确保单例在场景加载时初始化
     private void Awake()
@@ -66,14 +68,66 @@ public class BackpackManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        Button[] changePlayerButtons = buttons.GetComponentsInChildren<Button>();
+        changePlayerButtons[0].onClick.AddListener(() =>
+        {
+            //Last
+            currentIndex--;
+            int maxPlayer = PartyManager.Instance.GetAliveParty().Count;
+            currentIndex = (currentIndex+maxPlayer)%maxPlayer;
+            DataUpdate();
+        });
+        changePlayerButtons[1].onClick.AddListener(() =>
+        {
+            //Next
+            currentIndex++;
+            int maxPlayer = PartyManager.Instance.GetAliveParty().Count;
+            currentIndex = (currentIndex+maxPlayer)%maxPlayer;
+            DataUpdate();
+        });
+
+        ItemUse[] itemUses = itemContent.GetComponentsInChildren<ItemUse>();
+        for (int i = 0; i < itemUses.Length; i++)
+        {
+            itemUses[i].idx = i;
+        }
+    }
+
+    public PartyMember GetCurrentPartyMember()
+    {
+        return PartyManager.Instance.GetAliveParty()[currentIndex];
+    }
+    
     void Update()
     {
         //Debug.Log("按键:"+Input.GetKeyDown(KeyCode.R));
         //若当前的活动场景为xxx并且按下ESC按钮
         if (SceneManager.GetActiveScene().name == "OverworldScene" && Input.GetKeyDown(KeyCode.R))
         {
-            ToggleShowPannel();
+            ToggleShowPanel();
         }
+
+        if (isShowCanvas)
+        {
+            UpdateItemInfo();
+        }
+    }
+
+    public void UpdateItemInfo()
+    {
+        if (currentItem == null)
+        {
+            showItemInfo.gameObject.SetActive(false);
+            return;
+        }
+        showItemInfo.gameObject.SetActive(true);
+        TMP_Text[] texts = showItemInfo.GetComponentsInChildren<TMP_Text>();
+        texts[0].text = currentItem.item.name;
+        texts[1].text = currentItem.item.description;
+        showItemInfo.gameObject.SetActive(false);
+        showItemInfo.gameObject.SetActive(true);
     }
 
     public void AddItem(Item item)
@@ -86,62 +140,51 @@ public class BackpackManager : MonoBehaviour
         items.Add(item);
     }
 
-    public void UpdatePannel()
+    public void UpdatePanel()
     {
         int childCount = itemContent.childCount;
         int itemCount = items.Count;
         for (int i = 0; i < childCount; i++)
         {
-            Image image = itemContent.GetChild(i).GetChild(0).GetComponent<Image>();
+            Transform child = itemContent.GetChild(i);
+            ItemUse iu = child.GetComponent<ItemUse>();
+            Image image = child.GetChild(0).GetComponent<Image>();
             if (i < itemCount)
             {
                 image.sprite = items[i].sprite;
+                Item newItem = new Item(items[i]);
+                iu.SetItem(newItem);
             }
             else
             {
                 image.sprite = null;
+                iu.SetItem(null);
             }
         }
+        //显示角色按钮
+        buttons.gameObject.SetActive(PartyManager.Instance.GetAliveParty().Count > 1);
+        DataUpdate();
     }
 
-    public void ToggleShowPannel()
+    public void ToggleShowPanel()
     {
         isShowCanvas = !isShowCanvas;
-        Time.timeScale = isShowCanvas ? 0 : 1;
         pauseUI.SetActive(isShowCanvas); // 根据状态显示/隐藏
+        Time.timeScale = isShowCanvas ? 0 : 1;
         if (isShowCanvas)
         {
-            Debug.Log(1);
-            UpdatePannel();
+            currentIndex = 0;
+            UpdatePanel();
         }
-        // Debug.Log("名字:"+CurrentParty[0].MemberName+"等级:"+CurrentParty[0].Level+"当前体力:"+ CurrentParty[0].CurrHealth+ "最大体力:" + CurrentParty[0].MaxHealth);
-        // CurrentParty[0].Level += 1;
-
-        DataUpdate(PartyManager.Instance.GetAliveParty());
-        CurrentQuantity.text = "2";
-        
-        /*
-        BackpackTable backpacktable = Resources.Load<BackpackTable>("DataTable/packageTable");
-        PackageTableItem pt = new PackageTableItem();
-         pt.id = 3;
-         backpacktable.DataList.Add(pt);
-        
-        foreach (PackageTableItem packageItem in backpacktable.DataList)
-        {
-            Debug.Log(string.Format("id:{0}, name:{1}", packageItem.id, packageItem.name));
-        }
-*/
-       
-
-        
     }
-    public void DataUpdate(List<PartyMember> CurrentParty)
+    public void DataUpdate()
     {
-        Name.text = CurrentParty[0].MemberName;
-        Level.text = ""+CurrentParty[0].Level;
-        CurrrentHealth.text = "" + CurrentParty[0].CurrHealth;
-        MaxHealth.text = "" + CurrentParty[0].MaxHealth;
-        Spe.text = "" + CurrentParty[0].Initiative;
-        Atk.text = "" + CurrentParty[0].Strength;
+        PartyMember currentPlayer = PartyManager.Instance.GetAliveParty()[currentIndex];
+        playerImage.sprite = currentPlayer.sprite;
+        Name.text = currentPlayer.MemberName;
+        Level.text = currentPlayer.Level.ToString();
+        Health.text = $"{currentPlayer.CurrHealth}/{currentPlayer.MaxHealth}";
+        Speed.text = currentPlayer.Speed.ToString();
+        Attack.text = currentPlayer.Strength.ToString();
     }
 }

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   MemberName: Player
+  MemberSprite: {fileID: 36664411, guid: f4c06729f99793d41b1db65ad38fc16a, type: 3}
   StartingLevel: 5
   BaseHealth: 100
   BaseStr: 20
-  BaseInitiative: 1
+  BaseInitiative: 10
   MemberBattleVisualPrefab: {fileID: 6321683380450111109, guid: fa378ba0e33083f4294a4f261e16f437, type: 3}
   MemberOverworldVisualPrefab: {fileID: 5586445383391607723, guid: 9d533f8cfcc94ff4a8bd9fecbcc5a370, type: 3}

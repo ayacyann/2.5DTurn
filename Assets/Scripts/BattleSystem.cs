@@ -105,11 +105,11 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator AttackRoutine(int i)//战斗逻辑
     {
-        if (allBattlers[i].IsPlayer == true)//如果该角色为玩家
+        if (allBattlers[i].IsPlayer)//如果该角色为玩家
         {
             BattleEntities currAttacker = allBattlers[i]; //当前攻击者
             //如果攻击目标是玩家，或者目标序列超出所有角色的数量
-            if (allBattlers[currAttacker.Target].CurrHealth<=0)//若当前攻击目标的血量小于0
+            if (currAttacker.Target>=allBattlers.Count || allBattlers[currAttacker.Target].CurrHealth<=0)//若当前攻击目标的血量小于0
             {
                 currAttacker.SetTarget(GetRandomEnemy());//将攻击目标设置为随机敌人
             }
@@ -205,7 +205,7 @@ public class BattleSystem : MonoBehaviour
             BattleEntities tempEntity = new BattleEntities();//实例化战斗实体
 
             tempEntity.SetEntityValues
-           (CurrentParty[i].MemberName,CurrentParty[i].CurrHealth,CurrentParty[i].MaxHealth,CurrentParty[i].Initiative,CurrentParty[i].Strength,CurrentParty[i].Level,true);
+           (CurrentParty[i].MemberName,CurrentParty[i].CurrHealth,CurrentParty[i].MaxHealth,CurrentParty[i].Speed,CurrentParty[i].Strength,CurrentParty[i].Level,true);
             //先产生视觉效果,然后设置视觉效果起始值,然后存储战斗视觉信息
             BattleVisual tempBattleVisual=
             Instantiate(CurrentParty[i].MemberBattleVisualPrefab,

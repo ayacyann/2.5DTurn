@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PartyManager : MonoBehaviour
 {
@@ -32,12 +33,12 @@ public class PartyManager : MonoBehaviour
             {
                 PartyMember newPartyMember = new PartyMember();
                 newPartyMember.MemberName = allMembers[i].MemberName;
+                newPartyMember.sprite = allMembers[i].MemberSprite;
                 newPartyMember.Level = allMembers[i].StartingLevel;
                 newPartyMember.CurrHealth = allMembers[i].BaseHealth;
                 newPartyMember.MaxHealth = newPartyMember.CurrHealth;
                 newPartyMember.Strength = allMembers[i].BaseStr;
-                newPartyMember.Strength = 999;
-                newPartyMember.Initiative = allMembers[i].BaseInitiative;
+                newPartyMember.Speed = allMembers[i].BaseInitiative;
                 newPartyMember.MemberBattleVisualPrefab = allMembers[i].MemberBattleVisualPrefab;
                 newPartyMember.MemberOverworVisualPrefab = allMembers[i].MemberOverworldVisualPrefab;
 
@@ -88,11 +89,12 @@ public class PartyManager : MonoBehaviour
 public class PartyMember
 {
     public string MemberName;
+    public Sprite sprite;
     public int Level;
     public int CurrHealth;//当前血量
     public int MaxHealth;//最大血量
     public int Strength;
-    public int Initiative;
+    [FormerlySerializedAs("speed")] [FormerlySerializedAs("Initiative")] public int Speed;
     public int CurrExp;//当前经验
     public int MaxExp;//最大经验
     public GameObject MemberBattleVisualPrefab;//公共游戏对象

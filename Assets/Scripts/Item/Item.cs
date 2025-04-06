@@ -17,7 +17,7 @@ public class Item
 
     public Item()
     {
-        
+        dropType = DropItemType.None;
     }
     public Item(DropItemType dropType)
     {
