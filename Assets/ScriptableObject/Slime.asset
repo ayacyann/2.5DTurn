@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcfdf9706ae80a14cb3d0611a02a51d4, type: 3}
-  m_Name: Stif
+  m_Name: Slime
   m_EditorClassIdentifier: 
-  EnemyName: Stif
+  EnemyName: Slime
   BaseHealth: 10
   BaseStr: 1
   BaseInitiative: 1

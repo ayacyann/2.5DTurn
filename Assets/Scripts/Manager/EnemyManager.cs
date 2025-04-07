@@ -32,7 +32,7 @@ public class EnemyManager : MonoBehaviour
     public void GenerateEnemiesByEncounter(Encounter[] encounters,int maxNumEnemies)
     {
         currentEnemies.Clear();//清除敌人列表
-        int numEnemies=Random.Range(1,maxNumEnemies+1);//随机敌人的数量,在1~3之间
+        int numEnemies=Random.Range(1,maxNumEnemies);//随机敌人的数量,在1~3之间
 
         for(int i = 0; i < numEnemies; i++)
         {
@@ -50,13 +50,13 @@ public class EnemyManager : MonoBehaviour
     {
         for(int i = 0; i < allEnemies.Length; i++)
         {
-            if (enemyName == allEnemies[i].EnemyName)//可以考虑去掉,意义不明的判断条件
+            if (enemyName == allEnemies[i].EnemyName)
             {
                 Enemy newEnemy = new Enemy();
                 //敌人信息
                 newEnemy.EnemyName = allEnemies[i].EnemyName;
                 newEnemy.Level = level;
-//怪物等级的成长曲线,怪物每加一级属性上升值为:属性*levelModifier
+                //怪物等级的成长曲线,怪物每加一级属性上升值为:属性*levelModifier
                 float levelModifier = (LEVEL_MODIFIER * newEnemy.Level);
                 //新敌人的最大生命=可编写脚本的对象基本生命值
                 newEnemy.MaxHealth = Mathf.RoundToInt(allEnemies[i].BaseHealth+(allEnemies[i].BaseHealth*levelModifier));
@@ -65,9 +65,8 @@ public class EnemyManager : MonoBehaviour
                 newEnemy.Initiative = Mathf.RoundToInt(allEnemies[i].BaseInitiative + (allEnemies[i].BaseInitiative * levelModifier));
                 //敌人视觉预制件
                 newEnemy.EnemyVisualPrefab = allEnemies[i].EnemyVisualPrefab;
-
                 currentEnemies.Add(newEnemy);
-
+                return;
             }
         }
     }

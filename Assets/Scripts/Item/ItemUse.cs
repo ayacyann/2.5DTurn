@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ItemUse : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,IPointerExitHandler
 {
-    public Item item=new Item();
+    public Item item = null;
     private bool isEnter = false;
     private Canvas canvas;
     public int idx;
@@ -30,7 +30,6 @@ public class ItemUse : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,I
             // 设置 UI 的位置
             RectTransform showRect = BackpackManager.Instance.showItemInfo.GetComponent<RectTransform>();
             Vector2 offset = showRect.GetChild(0).GetComponent<RectTransform>().sizeDelta / 2;
-            Debug.Log(offset);
             showRect.anchoredPosition = localPoint+offset;
             // BackpackManager.Instance.showItemInfo.GetComponent<RectTransform>().anchoredPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
@@ -38,10 +37,7 @@ public class ItemUse : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,I
 
     public void SetItem(Item it)
     {
-        if (it != null)
-            item = it;
-        else
-            item.dropType = DropItemType.None;
+        item = it;
     }
 
     public void UseItem()
@@ -54,20 +50,13 @@ public class ItemUse : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,I
         }
         pm.Strength += item.attack;
         pm.Speed += item.speed;
-        
         //更新UI
-        BackpackManager.Instance.items.RemoveAt(idx);
-        // item.dropType = DropItemType.None;
-        BackpackManager.Instance.UpdatePanel();
-        if(item.dropType == DropItemType.None) 
-            BackpackManager.Instance.currentItem = null;
-        else
-            BackpackManager.Instance.currentItem = this;
+        BackpackManager.Instance.UseItem(idx,this);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (item.dropType == DropItemType.None) return;
+        if (item==null) return;
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             UseItem();
@@ -76,7 +65,7 @@ public class ItemUse : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (item.dropType == DropItemType.None)
+        if (item==null)
         {
             isEnter = false; 
             return;
@@ -87,7 +76,7 @@ public class ItemUse : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,I
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (item.dropType == DropItemType.None)
+        if (item==null)
         {
             isEnter = false; 
             return;

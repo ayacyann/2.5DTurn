@@ -175,9 +175,8 @@ public class BattleSystem : MonoBehaviour
             float rand = Random.value;
             if (rand < item.probability)
             {
-                Item newItem = new Item(item.dropType);
-                BackpackManager.Instance.AddItem(newItem);
-                Debug.Log($"掉落{newItem.name}");
+                BackpackManager.Instance.AddItem(item.dropType);
+                Debug.Log($"掉落{item.name}");
             }
         }
     }

@@ -16,8 +16,6 @@ public class EncounterSystem : MonoBehaviour
         enemyManager = GameObject.FindAnyObjectByType<EnemyManager>();
         //通过遭遇生成敌人
         enemyManager.GenerateEnemiesByEncounter(enemiesInScene,maxNumEnemies);
-
-
     }
 
 

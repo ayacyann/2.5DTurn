@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ItemInfos
   m_EditorClassIdentifier: 
   items:
-  - dropType: 1
+  - dropType: 0
     name: BloodVial
     sprite: {fileID: 1990662691, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}
     description: +30HP
@@ -21,8 +21,9 @@ MonoBehaviour:
     attack: 0
     speed: 0
     defence: 0
+    maxNum: 20
     probability: 0.81
-  - dropType: 2
+  - dropType: 1
     name: GreenVase
     sprite: {fileID: 189166917, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}
     description: +3Speed
@@ -30,8 +31,9 @@ MonoBehaviour:
     attack: 0
     speed: 3
     defence: 0
+    maxNum: 20
     probability: 0.696
-  - dropType: 3
+  - dropType: 2
     name: Heart
     sprite: {fileID: 263331153, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}
     description: Heal all health
@@ -39,8 +41,9 @@ MonoBehaviour:
     attack: 0
     speed: 0
     defence: 0
+    maxNum: 20
     probability: 0.768
-  - dropType: 4
+  - dropType: 3
     name: Star
     sprite: {fileID: 812114484, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}
     description: +5Attack
@@ -48,4 +51,5 @@ MonoBehaviour:
     attack: 5
     speed: 0
     defence: 0
+    maxNum: 20
     probability: 0.738

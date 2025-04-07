@@ -16,4 +16,9 @@ public class ItemInfo : ScriptableObject
     {
         return items.Find(x => x.dropType == type).probability;
     }
+
+    public int GetItemMaxCount(DropItemType type)
+    {
+        return items.Find(x => x.dropType == type).maxNum;
+    }
 }

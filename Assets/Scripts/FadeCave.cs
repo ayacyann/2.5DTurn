@@ -70,7 +70,6 @@ public class FadeCave : MonoBehaviour
             fadePanel.color = new Color(0f, 0f, 0f, alpha);
             yield return null;
         }
-        Debug.Log("渐出");
         fadePanel.color = new Color(0f, 0f, 0f, 0f);
         fadePanel.raycastTarget = false; // 恢复点击
     }

@@ -10,7 +10,6 @@ using UnityEngine.UI;
 
 public enum DropItemType
 {
-    None,
     BloodVial,
     GreenVase,
     Heart,
@@ -39,12 +38,14 @@ public class BackpackManager : MonoBehaviour
     //public string mainMenuSceneName = "OverworldScene";
     public bool isShowCanvas = false;
     public ItemInfo itemInfo;
-    public List<Item> items = new List<Item>();
+    public List<DropItemType> dropItems = new List<DropItemType>();
+    public List<int> itemCounts = new List<int>();
     public int maxItemCount = 16;
     public int currentIndex = 0;
 
     [Header("UI")]
     [SerializeField]private Transform itemContent;
+    private ItemUse[] itemUses;
     [SerializeField] private GameObject pauseUI; // 拖入PauseUI父物体
     [SerializeField] private TextMeshProUGUI Name;
     [SerializeField] private TextMeshProUGUI Level;
@@ -63,7 +64,6 @@ public class BackpackManager : MonoBehaviour
         }
         // 设置实例为当前对象
         _instance = this;
-        Debug.Log(Instance);
         // 确保单例在场景切换时不被销毁
         DontDestroyOnLoad(gameObject);
     }
@@ -88,7 +88,7 @@ public class BackpackManager : MonoBehaviour
             DataUpdate();
         });
 
-        ItemUse[] itemUses = itemContent.GetComponentsInChildren<ItemUse>();
+        itemUses = itemContent.GetComponentsInChildren<ItemUse>();
         for (int i = 0; i < itemUses.Length; i++)
         {
             itemUses[i].idx = i;
@@ -130,35 +130,89 @@ public class BackpackManager : MonoBehaviour
         showItemInfo.gameObject.SetActive(true);
     }
 
-    public void AddItem(Item item)
+    public void UseItem(int idx,ItemUse iu)
     {
-        if (items.Count >= maxItemCount)
+        RemoveItem(idx);
+        UpdatePanel();
+        currentItem = iu.item == null ? null : iu;
+    }
+
+    private void RemoveItem(int idx)
+    {
+        if (itemCounts[idx] > 1)
+        {
+            itemCounts[idx]--;
+            return;
+        }
+        dropItems.RemoveAt(idx);
+        itemCounts.RemoveAt(idx);
+    }
+
+    public void AddItem(DropItemType itemType)
+    {
+        int idx;
+        if (CheckIsFull(itemType,out idx))
         {
             Debug.Log("背包已满");
             return;
         }
-        items.Add(item);
+        if (idx < dropItems.Count)
+        {
+            itemCounts[idx]++;
+        }
+        else
+        {
+            dropItems.Add(itemType);
+            itemCounts.Add(1);
+        }
     }
 
+    //idx返回背包未满时可存放的位置索引
+    private bool CheckIsFull(DropItemType itemType,out int idx)
+    {
+        for (int i = 0; i < dropItems.Count; i++)
+        {
+            DropItemType t = dropItems[i];
+            if(t!= itemType)
+                continue;
+            if (itemCounts[i] < itemInfo.GetItemMaxCount(itemType))
+            {
+                idx = i;
+                return false;
+            }
+        }
+        if (dropItems.Count < maxItemCount)
+        {
+            idx = dropItems.Count;
+            return false;
+        }
+        idx = -1;
+        return true;
+    }
+    
     public void UpdatePanel()
     {
         int childCount = itemContent.childCount;
-        int itemCount = items.Count;
+        int itemCount = dropItems.Count;
         for (int i = 0; i < childCount; i++)
         {
-            Transform child = itemContent.GetChild(i);
-            ItemUse iu = child.GetComponent<ItemUse>();
-            Image image = child.GetChild(0).GetComponent<Image>();
+            ItemUse iu = itemUses[i];
+            Image image = iu.transform.GetChild(0).GetComponent<Image>();
             if (i < itemCount)
             {
-                image.sprite = items[i].sprite;
-                Item newItem = new Item(items[i]);
+                Item newItem = new Item(dropItems[i]);
+                image.sprite = newItem.sprite;
                 iu.SetItem(newItem);
+                if(itemCounts[i]>1)
+                    iu.transform.GetChild(1).GetComponent<TMP_Text>().text = itemCounts[i].ToString();
+                else
+                    iu.transform.GetChild(1).GetComponent<TMP_Text>().text = "";
             }
             else
             {
                 image.sprite = null;
                 iu.SetItem(null);
+                iu.transform.GetChild(1).GetComponent<TMP_Text>().text = "";
             }
         }
         //显示角色按钮
