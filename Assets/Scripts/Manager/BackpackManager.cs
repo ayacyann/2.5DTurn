@@ -203,10 +203,7 @@ public class BackpackManager : MonoBehaviour
                 Item newItem = new Item(dropItems[i]);
                 image.sprite = newItem.sprite;
                 iu.SetItem(newItem);
-                if(itemCounts[i]>1)
-                    iu.transform.GetChild(1).GetComponent<TMP_Text>().text = itemCounts[i].ToString();
-                else
-                    iu.transform.GetChild(1).GetComponent<TMP_Text>().text = "";
+                iu.transform.GetChild(1).GetComponent<TMP_Text>().text = itemCounts[i]>1 ? itemCounts[i].ToString() : "";
             }
             else
             {

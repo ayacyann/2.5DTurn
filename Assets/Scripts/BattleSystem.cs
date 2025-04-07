@@ -120,8 +120,8 @@ public class BattleSystem : MonoBehaviour
             if (currTarget.CurrHealth <= 0)//若目标的当前血量为0,播放死亡动画
             {
                 //导入击败文本
-                bottomText.text = string.Format("{0} defeated {1}", currAttacker.Name, currTarget.Name);
-                DropItem();
+                bottomText.text = string.Format("{0} defeated {1}\n", currAttacker.Name, currTarget.Name);
+                DropItem(currTarget.Name,bottomText);
                 yield return new WaitForSeconds(TURN_DURATION);
                 EnemyBattlers.Remove(currTarget);//将目标敌人从敌人列表中移除
                 allBattlers.Remove(currTarget);//将敌人从所有成员的列表中移除
@@ -167,16 +167,27 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    public void DropItem()
+    public void DropItem(string target,TMP_Text text)
     {
         ItemInfo itemInfo = BackpackManager.Instance.itemInfo;
+        List<string> names = new List<string>();
         foreach (var item in itemInfo.items)
         {
             float rand = Random.value;
             if (rand < item.probability)
             {
                 BackpackManager.Instance.AddItem(item.dropType);
-                Debug.Log($"掉落{item.name}");
+                names.Add(item.name);
+            }
+        }
+        if (names.Count>0)
+        {
+            text.text += $"{target} Drop: ";
+            for (var i = 0; i < names.Count; i++)
+            {
+                var n = names[i];
+                text.text += n;
+                text.text += i!=names.Count-1 ? ", " : ".";
             }
         }
     }
