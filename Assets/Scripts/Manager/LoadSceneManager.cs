@@ -30,14 +30,14 @@ public class LoadSceneManager : MonoBehaviour
     {
         //清空存档
         SaveLoadManager.ClearSaveFile();
-        LoadScene(ConfigString.OVERWORLDSCENE);
+        LoadScene(ConfigString.OVERWORLD_SCENE);
         Debug.Log("开始游戏");
     }
 
     public void BackMenu(Action callback = null)
     {
         //TODO 保存数据
-        LoadScene(ConfigString.MENUSCENE,callback);
+        LoadScene(ConfigString.MENU_SCENE,callback);
         Debug.Log("返回菜单");
     }
 
@@ -50,12 +50,12 @@ public class LoadSceneManager : MonoBehaviour
     public void ContinueGame()
     {
         //TODO 加载数据
-        LoadScene(ConfigString.OVERWORLDSCENE);
+        LoadScene(ConfigString.OVERWORLD_SCENE);
     }
 
     public void LoadBattleScene()
     {
-        LoadScene(ConfigString.BATTLESCENE);
+        LoadScene(ConfigString.BATTLE_SCENE);
     }
 
     public void LoadScene(string sceneName, Action callback = null)

@@ -60,7 +60,7 @@ public class BattleSystem : MonoBehaviour
         CreateEnemyEntities();
         ShowBattleMenu();
         //AttackAction(allBattlers[0], allBattlers[1]);
-        DetermineBattleOrde();
+        DetermineBattleOrder();
         InitSelectionRef();
     }
 
@@ -369,7 +369,7 @@ public class BattleSystem : MonoBehaviour
         }
     }
  
-    private void DetermineBattleOrde()//决定所有角色的出手顺序
+    private void DetermineBattleOrder()//决定所有角色的出手顺序
     {
         //对所有角色的主动权进行排序
         allBattlers.Sort((bi1,bi2)=>-bi1.speed.CompareTo(bi2.speed));

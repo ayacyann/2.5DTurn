@@ -13,10 +13,6 @@ public class CharacterManager : MonoBehaviour
     private GameObject joinableMember;
     private PlayerControls playerControls;
     private List<GameObject> overworldCharacter = new List<GameObject>();
-    public Vector3 playerInitialPosition;
-    private Vector3 playerPosition;    //玩家的三维坐标
-    private const string PARTY_JOINED_MESSAGE = "joined The Party!";
-    private const string NPC_JOINABLE_TAG = "NPC Joinable";
     public static CharacterManager Instance{get; private set;}
 
     private void Awake()
@@ -30,7 +26,6 @@ public class CharacterManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        LoadPlayerPosition();
         Debug.Log(playerControls);
     }
 
@@ -72,7 +67,7 @@ public class CharacterManager : MonoBehaviour
         joinableMember.GetComponent<JoinableCharacterScript>().CheckIfJoined();
 
         joinPopup.SetActive(true);//开启弹窗
-        joinPopupText.text = playerName + PARTY_JOINED_MESSAGE;//弹窗文本
+        joinPopupText.text = playerName + ConfigString.PARTY_JOINED_MESSAGE;//弹窗文本
         SpawnOverworldMembers();//添加成员时再次刷新主场景
     }
 
@@ -96,8 +91,7 @@ public class CharacterManager : MonoBehaviour
             {
                 GameObject player = gameObject;//获取这个预制体
                 //玩家视觉对象
-                GameObject playerVisual = Instantiate(playerSpawnInfo.memberOverworldVisualPrefab,playerPosition, Quaternion.identity);
-                Debug.Log("坐标:" + transform.position);
+                GameObject playerVisual = Instantiate(playerSpawnInfo.memberOverworldVisualPrefab,pm.GetPosition(), Quaternion.identity);
                 playerVisual.transform.SetParent(player.transform);//
                 player.GetComponent<PControl>().SetOverworldVisuals(playerVisual.GetComponent<Animator>(),playerVisual.GetComponent<SpriteRenderer>(),playerVisual.transform.localScale);//设置视觉效果
                 //禁用跟随AI
@@ -116,22 +110,12 @@ public class CharacterManager : MonoBehaviour
             }
         }
     }
-    
-    public void SetPosition(Vector3 position)//获取角色当前位置
-    {
-        playerPosition = position;
-    }
-
-    public Vector3 GetPosition()
-    {
-        return playerPosition;//返回玩家坐标
-    }
 
     //碰撞检测开启
     private void OnTriggerEnter(Collider other)
     {
         //若游戏对象标签为NPC可连接标签
-        if (other.gameObject.tag == NPC_JOINABLE_TAG)
+        if (other.gameObject.tag == ConfigString.NPC_JOINABLE_TAG)
         {
             infrontOfPartyMember = true;
             joinableMember = other.gameObject;//将当前碰到的角色设置为可加入队员
@@ -144,34 +128,13 @@ public class CharacterManager : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         //若游戏对象标签为NPC可连接标签
-        if (other.gameObject.tag == NPC_JOINABLE_TAG)
+        if (other.gameObject.tag == ConfigString.NPC_JOINABLE_TAG)
         {
             infrontOfPartyMember = false;
 
             //获取UI界面的组件并激活互动面板
             joinableMember.GetComponent<JoinableCharacterScript>().ShowInteractPrompt(false);
             joinableMember = null;
-        }
-    }
-    
-    public void SavePlayerPosition()
-    {
-        playerPosition = transform.position;
-        float[] position = { playerPosition.x, playerPosition.y, playerPosition.z };
-        SaveLoadManager.SaveBinaryFile($"{ConfigString.PLAYERDATA}_playerPosition",position);
-    }
-
-    public void LoadPlayerPosition()
-    {
-        object data = SaveLoadManager.LoadBinaryFile($"{ConfigString.PLAYERDATA}_playerPosition");
-        if (data != null)
-        {
-            float[] position = (float[])data;
-            playerPosition = new Vector3(position[0], position[1], position[2]);
-        }
-        else
-        {
-            playerPosition = playerInitialPosition;
         }
     }
 }
