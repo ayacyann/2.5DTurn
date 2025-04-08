@@ -7,6 +7,8 @@ public class PartyManager : MonoBehaviour
 {
     public PlayerInfo playerInfos;//存有所有成员的数组
     public List<PlayerData> currentParty;
+    public Vector3 playerInitialPosition;
+    private Vector3 playerPosition;    //玩家的三维坐标
     public static PartyManager Instance{ get; private set; }
 
     private void Awake()
@@ -56,20 +58,39 @@ public class PartyManager : MonoBehaviour
 
     public void SavePlayerParty()
     {
-        SaveLoadManager.SaveBinaryFile($"{ConfigString.PLAYERDATA}_currentParty",currentParty);
+        SaveLoadManager.SaveBinaryFile($"{ConfigString.PLAYER_DATA}_currentParty",currentParty);
+        if (CharacterManager.Instance != null)
+        {
+            playerPosition = CharacterManager.Instance.transform.position;
+        }
+        float[] position = { playerPosition.x, playerPosition.y, playerPosition.z };
+        SaveLoadManager.SaveBinaryFile($"{ConfigString.PLAYER_DATA}_playerPosition",position);
     }
 
     public void LoadPlayerParty()
     {
-        object data = SaveLoadManager.LoadBinaryFile($"{ConfigString.PLAYERDATA}_currentParty");
+        object data = SaveLoadManager.LoadBinaryFile($"{ConfigString.PLAYER_DATA}_currentParty");
         if (data != null)
         {
             currentParty = (List<PlayerData>)data;
+            float[] position = (float[])SaveLoadManager.LoadBinaryFile($"{ConfigString.PLAYER_DATA}_playerPosition");
+            playerPosition = new Vector3(position[0], position[1], position[2]);
         }
         else
         {
             currentParty = new List<PlayerData>();
-            AddMemberToPartyByName(ConfigString.DEFAULTPLAYERNAME);//添加角色信息
+            playerPosition = playerInitialPosition;
+            AddMemberToPartyByName(ConfigString.DEFAULT_PLAYER_NAME);//添加角色信息
         }
+    }
+    
+    public void SetPosition(Vector3 position)//获取角色当前位置
+    {
+        playerPosition = position;
+    }
+
+    public Vector3 GetPosition()
+    {
+        return playerPosition;//返回玩家坐标
     }
 }

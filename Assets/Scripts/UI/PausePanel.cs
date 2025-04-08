@@ -13,7 +13,7 @@ public class PausePanel : MonoBehaviour
         //Debug.Log((SceneManager.GetActiveScene().name == mainMenuSceneName));
         // Debug.Log("按键:" + Input.GetKeyDown(KeyCode. R));
         //若当前的活动场景为xxx并且按下ESC按钮
-        if (SceneManager.GetActiveScene().name != ConfigString.MENUSCENE && Input.GetKeyDown(KeyCode.Escape))
+        if (SceneManager.GetActiveScene().name != ConfigString.MENU_SCENE && Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
         }
@@ -39,7 +39,6 @@ public class PausePanel : MonoBehaviour
         TogglePause();
         BackpackManager.Instance.SaveBackpackItem();
         PartyManager.Instance.SavePlayerParty();
-        CharacterManager.Instance.SavePlayerPosition();
         // 清除无用的单例
         LoadSceneManager.Instance.BackMenu(() =>
         {

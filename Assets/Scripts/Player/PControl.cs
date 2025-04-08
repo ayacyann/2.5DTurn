@@ -24,10 +24,6 @@ public class PControl : MonoBehaviour
     private float stepTimer;//阈值
     private int stepToEncounter;//随机数
 
-    private const string IS_WALK_PARAM="IsWalk";//引用isWalk参数
-    private const float TIME_PER_STEP = 0.5f;//在草丛中行走时需要花的时间
-    private const string AI_NAME = "NPC";
-
     
     private void Awake()//唤醒函数
     {
@@ -47,8 +43,8 @@ public class PControl : MonoBehaviour
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();//获取刚体组件
-        CharacterManager cm = CharacterManager.Instance;
-        transform.position = cm.GetPosition();
+        PartyManager pm = PartyManager.Instance;
+        transform.position = pm.GetPosition();
     }
     
     // Update is called once per frame
@@ -60,7 +56,7 @@ public class PControl : MonoBehaviour
 
         movement = new Vector3(x, 0, z).normalized;//归一化
         //设置动画 动画的问题，看动画设置
-        anim.SetBool(IS_WALK_PARAM, movement != Vector3.zero);//当三维坐标不为0时,播放行走动画
+        anim.SetBool(ConfigString.IS_WALK_PARAM, movement != Vector3.zero);//当三维坐标不为0时,播放行走动画
 
         //角色翻转
         if (x!=0 && x < 0)
@@ -86,15 +82,15 @@ public class PControl : MonoBehaviour
         {
             stepTimer+=Time.fixedDeltaTime;//启动计时器
             //如果步数计时器到了指定的阈值,添加角色步数并重置步数计时器
-            if (stepTimer>TIME_PER_STEP)
+            if (stepTimer>ConfigString.TIME_PER_STEP)
             {
                 stepsInGrass++;//角色步数添加
                 stepTimer = 0;
 
                 if (stepsInGrass>= stepToEncounter)//如果在草丛中行走的步数大于遭遇的步数
                 {
-                    CharacterManager.Instance.SetPosition(transform.position);//固定角色当前的战斗坐标
-                    SceneManager.LoadScene(ConfigString.BATTLESCENE);//加载战斗场景
+                    PartyManager.Instance.SetPosition(transform.position);//固定角色当前的战斗坐标
+                    SceneManager.LoadScene(ConfigString.BATTLE_SCENE);//加载战斗场景
                 }
             }
         }

@@ -702,9 +702,6 @@ MonoBehaviour:
   - {fileID: 1724899935}
   - {fileID: 1852598734}
   - {fileID: 283193460}
-  allBattlers: []
-  EnemyBattlers: []
-  PlayerBattlers: []
   enemySelectionButtons:
   - {fileID: 1132222461}
   - {fileID: 1312504726}
@@ -3082,6 +3079,8 @@ MonoBehaviour:
   resolution: 20
   showResolution: 8
   animationSpeed: 20
+  startColor: {r: 1, g: 0, b: 0, a: 1}
+  endColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   timeFlow: 0
 --- !u!120 &1747248861
 LineRenderer:

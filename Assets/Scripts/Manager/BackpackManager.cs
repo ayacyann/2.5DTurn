@@ -241,17 +241,17 @@ public class BackpackManager : MonoBehaviour
 
     public void SaveBackpackItem()
     {
-        SaveLoadManager.SaveBinaryFile($"{ConfigString.BACKPACKITEM}_dropItems",dropItems);
-        SaveLoadManager.SaveBinaryFile($"{ConfigString.BACKPACKITEM}_itemCounts",itemCounts);
+        SaveLoadManager.SaveBinaryFile($"{ConfigString.BACKPACK_ITEM}_dropItems",dropItems);
+        SaveLoadManager.SaveBinaryFile($"{ConfigString.BACKPACK_ITEM}_itemCounts",itemCounts);
     }
 
     public void LoadBackpackItem()
     {
-        object data = SaveLoadManager.LoadBinaryFile($"{ConfigString.BACKPACKITEM}_dropItems");
+        object data = SaveLoadManager.LoadBinaryFile($"{ConfigString.BACKPACK_ITEM}_dropItems");
         if (data != null)
         {
             dropItems = (List<DropItemType>)data;
-            itemCounts = (List<int>)SaveLoadManager.LoadBinaryFile($"{ConfigString.BACKPACKITEM}_itemCounts");
+            itemCounts = (List<int>)SaveLoadManager.LoadBinaryFile($"{ConfigString.BACKPACK_ITEM}_itemCounts");
         }
         else
         {
