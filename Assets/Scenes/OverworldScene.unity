@@ -283,7 +283,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Main Menu
+  m_text: Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -310,8 +310,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -562,13 +562,14 @@ GameObject:
   - component: {fileID: 236498448}
   - component: {fileID: 236498450}
   - component: {fileID: 236498449}
+  - component: {fileID: 236498451}
   m_Layer: 5
   m_Name: PauseBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &236498448
 RectTransform:
   m_ObjectHideFlags: 0
@@ -581,8 +582,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1068936235}
   - {fileID: 609648286}
+  - {fileID: 1068936235}
   m_Father: {fileID: 963537425}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -628,6 +629,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 236498447}
   m_CullTransparentMesh: 1
+--- !u!114 &236498451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236498447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 150
+    m_Bottom: 150
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &336008802
 GameObject:
   m_ObjectHideFlags: 0
@@ -909,11 +936,11 @@ MonoBehaviour:
   currentIndex: 0
   itemContent: {fileID: 167344960}
   pauseUI: {fileID: 647533275}
-  Name: {fileID: 44069951}
-  Level: {fileID: 44069950}
-  Health: {fileID: 44069948}
-  Attack: {fileID: 44069947}
-  Speed: {fileID: 44069946}
+  nameText: {fileID: 44069951}
+  levelText: {fileID: 44069950}
+  healthText: {fileID: 44069948}
+  attackText: {fileID: 44069947}
+  speedText: {fileID: 44069946}
 --- !u!1 &609648285
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,10 +975,10 @@ RectTransform:
   - {fileID: 1886882479}
   m_Father: {fileID: 236498448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 93.1}
-  m_SizeDelta: {x: 209.01, y: 65.099976}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 480.00003, y: -209.94102}
+  m_SizeDelta: {x: 150, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &609648287
 MonoBehaviour:
@@ -998,7 +1025,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 963537426}
-        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: PausePanel, Assembly-CSharp
         m_MethodName: ResumeGame
         m_Mode: 1
         m_Arguments:
@@ -2289,7 +2316,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: -0.61, y: 2.25, z: 6.92}
+  m_LocalPosition: {x: 0, y: 2.25, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2394,7 +2421,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &963537422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2490,7 +2517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d6a77f9cc30d74a811c00e8d729bb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuSceneName: New Scene
   pauseUI: {fileID: 236498447}
 --- !u!1 &995463037
 GameObject:
@@ -2729,10 +2755,10 @@ RectTransform:
   - {fileID: 64199941}
   m_Father: {fileID: 236498448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -95.6}
-  m_SizeDelta: {x: 209.01, y: 65.09998}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 480.00003, y: -329.82306}
+  m_SizeDelta: {x: 150, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1068936236
 MonoBehaviour:
@@ -2779,8 +2805,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 963537426}
-        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
-        m_MethodName: ReturnToMainMenu
+        m_TargetAssemblyTypeName: PausePanel, Assembly-CSharp
+        m_MethodName: BackMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2910,11 +2936,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ff023255406b54cad2a45d011be38e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allMembers:
-  - {fileID: 11400000, guid: 6ab612313223a82419b8d1fbe2aeb22f, type: 2}
-  - {fileID: 11400000, guid: c2c4a134f06cd1d4686297c1e8ef97c4, type: 2}
+  playerInfos: {fileID: 11400000, guid: 6ab612313223a82419b8d1fbe2aeb22f, type: 2}
   currentParty: []
-  defaultPartMember: {fileID: 11400000, guid: 6ab612313223a82419b8d1fbe2aeb22f, type: 2}
 --- !u!4 &1198745601
 Transform:
   m_ObjectHideFlags: 0
@@ -3188,9 +3211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad433d7bde2e2c44e9bda9efc1c713b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allEnemies:
-  - {fileID: 11400000, guid: b96a8565413b49e4e9258e9a28ef5309, type: 2}
-  - {fileID: 11400000, guid: 73f608c1573393844a1b4e7f444bd93a, type: 2}
+  enemyInfos: {fileID: 11400000, guid: b96a8565413b49e4e9258e9a28ef5309, type: 2}
   currentEnemies: []
 --- !u!4 &1449709696
 Transform:
@@ -3283,9 +3304,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesInScene:
-  - Enemy: {fileID: 11400000, guid: b96a8565413b49e4e9258e9a28ef5309, type: 2}
-    LevelMin: 1
-    LevelMax: 5
+  - enemyName: Slime
+    levelMin: 1
+    levelMax: 5
   maxNumEnemies: 3
 --- !u!1 &1482607019
 GameObject:
@@ -3352,7 +3373,7 @@ Transform:
   m_GameObject: {fileID: 1482607019}
   serializedVersion: 2
   m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: -0.61, y: 2.25, z: 6.92}
+  m_LocalPosition: {x: 0, y: 2.25, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3442,7 +3463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d487a4497ac2c294f877bde3155790ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MemberToJoin: {fileID: 11400000, guid: c2c4a134f06cd1d4686297c1e8ef97c4, type: 2}
+  memberToJoin: Clear
   interactPrompt: {fileID: 1274374021}
 --- !u!135 &1616895035
 SphereCollider:
@@ -3610,7 +3631,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: On Game
+  m_text: Resume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3637,8 +3658,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8713,7 +8734,7 @@ Transform:
   m_GameObject: {fileID: 1971040701}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.61, y: 1, z: 12.92}
+  m_LocalPosition: {x: 0, y: 1, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8783,6 +8804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joinPopup: {fileID: 1836829568}
   joinPopupText: {fileID: 641450072}
+  playerInitialPosition: {x: 0, y: 1, z: 15}
 --- !u!1 &2027889480
 GameObject:
   m_ObjectHideFlags: 0

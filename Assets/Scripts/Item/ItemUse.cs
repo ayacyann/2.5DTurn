@@ -42,14 +42,14 @@ public class ItemUse : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,I
 
     public void UseItem()
     {
-        PartyMember pm = BackpackManager.Instance.GetCurrentPartyMember();
-        pm.CurrHealth += item.health;
-        if (pm.CurrHealth > pm.MaxHealth)
+        PlayerData playerData = BackpackManager.Instance.GetCurrentPartyMember();
+        playerData.currHealth += item.health;
+        if (playerData.currHealth > playerData.maxHealth)
         {
-            pm.CurrHealth = pm.MaxHealth;
+            playerData.currHealth = playerData.maxHealth;
         }
-        pm.Strength += item.attack;
-        pm.Speed += item.speed;
+        playerData.strength += item.attack;
+        playerData.speed += item.speed;
         //更新UI
         BackpackManager.Instance.UseItem(idx,this);
     }

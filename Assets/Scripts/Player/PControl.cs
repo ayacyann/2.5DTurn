@@ -23,10 +23,8 @@ public class PControl : MonoBehaviour
     private bool movingInGrass;//是否在草地上移动
     private float stepTimer;//阈值
     private int stepToEncounter;//随机数
-    private PartyManager partyManager;
 
     private const string IS_WALK_PARAM="IsWalk";//引用isWalk参数
-    private const string BATTLE_SCENE = "BattleScene";//战斗场景
     private const float TIME_PER_STEP = 0.5f;//在草丛中行走时需要花的时间
     private const string AI_NAME = "NPC";
 
@@ -49,19 +47,10 @@ public class PControl : MonoBehaviour
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();//获取刚体组件
-        partyManager = GameObject.FindFirstObjectByType<PartyManager>();
-
-        //如果保存了一个位置,就去移动玩家
-        if(partyManager.GetPosition() != Vector3.zero)//若战斗角色坐标不为空
-        {
-            //将战斗时角色的坐标赋给现实中角色的坐标
-            transform.position = partyManager.GetPosition();
-        }
-       // GameObject obj = GameObject.FindWithTag(AI_NAME);
-        //Debug.Log("AI坐标:"+obj.transform.position);
-
-
+        CharacterManager cm = CharacterManager.Instance;
+        transform.position = cm.GetPosition();
     }
+    
     // Update is called once per frame
     void Update()//每帧执行一次
     {
@@ -104,10 +93,9 @@ public class PControl : MonoBehaviour
 
                 if (stepsInGrass>= stepToEncounter)//如果在草丛中行走的步数大于遭遇的步数
                 {
-                    partyManager.SetPosition(transform.position);//固定角色当前的战斗坐标
-                    SceneManager.LoadScene(BATTLE_SCENE);//加载战斗场景
+                    CharacterManager.Instance.SetPosition(transform.position);//固定角色当前的战斗坐标
+                    SceneManager.LoadScene(ConfigString.BATTLESCENE);//加载战斗场景
                 }
-
             }
         }
     }
@@ -120,7 +108,7 @@ public class PControl : MonoBehaviour
         // Debug.Log(stepToEncounter);
     }
 
-    public void SetOverwordVisuals(Animator animator,SpriteRenderer spriteRenderer,Vector3 playerScale)
+    public void SetOverworldVisuals(Animator animator,SpriteRenderer spriteRenderer,Vector3 playerScale)
     {
         anim = animator;
         playerSprite = spriteRenderer;

@@ -10,10 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcfdf9706ae80a14cb3d0611a02a51d4, type: 3}
-  m_Name: Enemy
+  m_Name: EnemyInfos
   m_EditorClassIdentifier: 
-  EnemyName: Slime
-  BaseHealth: 10
-  BaseStr: 1
-  BaseInitiative: 2
-  EnemyVisualPrefab: {fileID: 9043734268615830752, guid: 0d9cece31a68d5c469a173497be5e80d, type: 3}
+  enemySpawnInfos:
+  - memberName: Slime
+    level: 1
+    currHealth: 10
+    maxHealth: 10
+    strength: 1
+    speed: 1
+    expNum: 5
+    memberBattleVisualPrefab: {fileID: 9043734268615830752, guid: 0d9cece31a68d5c469a173497be5e80d, type: 3}

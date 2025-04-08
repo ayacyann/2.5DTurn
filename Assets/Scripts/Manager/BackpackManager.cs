@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public enum DropItemType
@@ -22,11 +20,11 @@ public class BackpackManager : MonoBehaviour
     {
         get
         {
-            if (_instance == null)
+            if (instance == null)
             {
-                _instance = FindObjectOfType<BackpackManager>();
+                instance = FindObjectOfType<BackpackManager>();
             }
-            return _instance;
+            return instance;
         }
     }
 
@@ -34,8 +32,7 @@ public class BackpackManager : MonoBehaviour
     public Transform showItemInfo;
     public Transform buttons;
     public Image playerImage;
-    private static BackpackManager _instance;
-    //public string mainMenuSceneName = "OverworldScene";
+    private static BackpackManager instance;
     public bool isShowCanvas = false;
     public ItemInfo itemInfo;
     public List<DropItemType> dropItems = new List<DropItemType>();
@@ -47,25 +44,26 @@ public class BackpackManager : MonoBehaviour
     [SerializeField]private Transform itemContent;
     private ItemUse[] itemUses;
     [SerializeField] private GameObject pauseUI; // 拖入PauseUI父物体
-    [SerializeField] private TextMeshProUGUI Name;
-    [SerializeField] private TextMeshProUGUI Level;
-    [SerializeField] private TextMeshProUGUI Health;
-    [SerializeField] private TextMeshProUGUI Attack;
-    [SerializeField] private TextMeshProUGUI Speed;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private TextMeshProUGUI attackText;
+    [SerializeField] private TextMeshProUGUI speedText;
 
     // Awake 方法，确保单例在场景加载时初始化
     private void Awake()
     {
         // 如果实例已存在且不是当前对象，销毁当前对象
-        if (_instance != null && _instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
             return;
         }
         // 设置实例为当前对象
-        _instance = this;
+        instance = this;
         // 确保单例在场景切换时不被销毁
         DontDestroyOnLoad(gameObject);
+        LoadBackpackItem();
     }
 
     private void Start()
@@ -95,7 +93,7 @@ public class BackpackManager : MonoBehaviour
         }
     }
 
-    public PartyMember GetCurrentPartyMember()
+    public PlayerData GetCurrentPartyMember()
     {
         return PartyManager.Instance.GetAliveParty()[currentIndex];
     }
@@ -228,14 +226,38 @@ public class BackpackManager : MonoBehaviour
             UpdatePanel();
         }
     }
+    
     public void DataUpdate()
     {
-        PartyMember currentPlayer = PartyManager.Instance.GetAliveParty()[currentIndex];
-        playerImage.sprite = currentPlayer.sprite;
-        Name.text = currentPlayer.MemberName;
-        Level.text = currentPlayer.Level.ToString();
-        Health.text = $"{currentPlayer.CurrHealth}/{currentPlayer.MaxHealth}";
-        Speed.text = currentPlayer.Speed.ToString();
-        Attack.text = currentPlayer.Strength.ToString();
+        PlayerData currentPlayer = PartyManager.Instance.GetAliveParty()[currentIndex];
+        PlayerSpawnInfo psi = PartyManager.Instance.playerInfos.GetInfoFromName(currentPlayer.memberName);
+        playerImage.sprite = psi.sprite;
+        nameText.text = currentPlayer.memberName;
+        levelText.text = currentPlayer.level.ToString();
+        healthText.text = $"{currentPlayer.currHealth}/{currentPlayer.maxHealth}";
+        speedText.text = currentPlayer.speed.ToString();
+        attackText.text = currentPlayer.strength.ToString();
+    }
+
+    public void SaveBackpackItem()
+    {
+        SaveLoadManager.SaveBinaryFile($"{ConfigString.BACKPACKITEM}_dropItems",dropItems);
+        SaveLoadManager.SaveBinaryFile($"{ConfigString.BACKPACKITEM}_itemCounts",itemCounts);
+    }
+
+    public void LoadBackpackItem()
+    {
+        object data = SaveLoadManager.LoadBinaryFile($"{ConfigString.BACKPACKITEM}_dropItems");
+        if (data != null)
+        {
+            dropItems = (List<DropItemType>)data;
+            itemCounts = (List<int>)SaveLoadManager.LoadBinaryFile($"{ConfigString.BACKPACKITEM}_itemCounts");
+        }
+        else
+        {
+            dropItems = new List<DropItemType>();
+            itemCounts = new List<int>();
+        }
+        
     }
 }

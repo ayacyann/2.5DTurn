@@ -1,14 +1,14 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SOInfo/New Enemy")]
+[CreateAssetMenu(menuName = "SOInfo/Enemy Info")]
 public class EnemyInfo : ScriptableObject
 {
-    public string EnemyName;
-    public int BaseHealth;
-    public int BaseStr;
-    public int BaseInitiative;
-    public GameObject EnemyVisualPrefab;
+    public List<EnemySpawnInfo> enemySpawnInfos = new List<EnemySpawnInfo>();
 
+    public EnemySpawnInfo GetInfoFromName(string enemyName)
+    {
+        return enemySpawnInfos.Find(x=>x.memberName==enemyName);
+    }
 }

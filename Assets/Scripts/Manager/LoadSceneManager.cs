@@ -1,36 +1,69 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class FadeCave : MonoBehaviour
+public class LoadSceneManager : MonoBehaviour
 {
-    public static FadeCave Instance;
-
+    public static LoadSceneManager Instance{get; private set;}
     public Image fadePanel;
     public float fadeDuration = 1f;
 
-    public  string sceneName = "OverworldScene";
-
-    void Awake()
+    private void Awake()
     {
-        if (Instance != null)
+        if (Instance == null)
         {
-            //先删掉之前的，再重新赋值，不要删除自己
-            Destroy(Instance.gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-        //返回菜单之后不为空，把自己删除了，导致空引用
+        else
+        {
+            Destroy(gameObject);
+        }
+        fadePanel = transform.GetComponentInChildren<Image>();
     }
 
-    public void StartTransition()
+    public void StartGame()
     {
-        StartCoroutine(TransitionRoutine(sceneName));
+        //清空存档
+        SaveLoadManager.ClearSaveFile();
+        LoadScene(ConfigString.OVERWORLDSCENE);
+        Debug.Log("开始游戏");
     }
 
-    private IEnumerator TransitionRoutine(string sceneName)
+    public void BackMenu(Action callback = null)
+    {
+        //TODO 保存数据
+        LoadScene(ConfigString.MENUSCENE,callback);
+        Debug.Log("返回菜单");
+    }
+
+    public void QuitGame()
+    {
+        // EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
+
+    public void ContinueGame()
+    {
+        //TODO 加载数据
+        LoadScene(ConfigString.OVERWORLDSCENE);
+    }
+
+    public void LoadBattleScene()
+    {
+        LoadScene(ConfigString.BATTLESCENE);
+    }
+
+    public void LoadScene(string sceneName, Action callback = null)
+    {
+        StartCoroutine(TransitionRoutine(sceneName,callback));
+    }
+
+    private IEnumerator TransitionRoutine(string sceneName,Action callback = null)
     {
         // 淡出效果
         fadePanel.raycastTarget = true; // 阻止点击穿透
@@ -60,6 +93,7 @@ public class FadeCave : MonoBehaviour
         {
             yield return null;
         }
+        callback?.Invoke();
 
         // 淡入效果
         timer = 0f;

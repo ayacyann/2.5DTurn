@@ -5,15 +5,13 @@ using UnityEngine.Serialization;
 
 public class PartyManager : MonoBehaviour
 {
-    public  PartyMemberInfo[] allMembers;//存有所有成员的数组
-    public  List<PartyMember> currentParty;
-    [SerializeField] private PartyMemberInfo defaultPartMember;
-
-    private Vector3 playerPosition;//玩家的三维坐标
+    public PlayerInfo playerInfos;//存有所有成员的数组
+    public List<PlayerData> currentParty;
     public static PartyManager Instance{ get; private set; }
 
     private void Awake()
     {
+        LoadPlayerParty();
         if (Instance != null)
         {
             Destroy(this.gameObject);
@@ -21,51 +19,31 @@ public class PartyManager : MonoBehaviour
         else
         {
             Instance = this;
-            AddMemberToPartyByName(defaultPartMember.MemberName);//添加角色信息
         }
         DontDestroyOnLoad(gameObject);
     }
-    public void AddMemberToPartyByName(string menberName)
+    
+    public void AddMemberToPartyByName(string memberName)
     {
-        for (int i=0;i< allMembers.Length; i++)
-        {
-            if (allMembers[i].MemberName == menberName)
-            {
-                PartyMember newPartyMember = new PartyMember();
-                newPartyMember.MemberName = allMembers[i].MemberName;
-                newPartyMember.sprite = allMembers[i].MemberSprite;
-                newPartyMember.Level = allMembers[i].StartingLevel;
-                newPartyMember.CurrHealth = allMembers[i].BaseHealth;
-                newPartyMember.MaxHealth = newPartyMember.CurrHealth;
-                newPartyMember.Strength = allMembers[i].BaseStr;
-                newPartyMember.Speed = allMembers[i].BaseInitiative;
-                newPartyMember.MemberBattleVisualPrefab = allMembers[i].MemberBattleVisualPrefab;
-                newPartyMember.MemberOverworVisualPrefab = allMembers[i].MemberOverworldVisualPrefab;
-
-                currentParty.Add(newPartyMember);//添加新成员
-
-
-
-            }
-        }
+        PlayerSpawnInfo psi = playerInfos.GetInfoFromName(memberName);
+        PlayerData pd = new PlayerData(psi);
+        currentParty.Add(pd);
     }
-    public List<PartyMember> GetAliveParty()
+    
+    public List<PlayerData> GetAliveParty()
     {
-        //存储所有玩家角色的列表
-        List<PartyMember> aliveParty = new List<PartyMember>();
-        aliveParty = currentParty;
-        for(int i = 0; i < aliveParty.Count; i++)
+        for(int i = 0; i < currentParty.Count; i++)
         {
             //若当前角色血量为0
-            if (aliveParty[i].CurrHealth <= 0)
+            if (currentParty[i].currHealth <= 0)
             {
-                aliveParty.RemoveAt(i);//将当前角色从列表中移除
+                currentParty.RemoveAt(i);//将当前角色从列表中移除
             }
         }
-        return aliveParty;
+        return currentParty;
     }
 
-    public List<PartyMember> GetCurrentParty()
+    public List<PlayerData> GetCurrentParty()
     {
         return currentParty;
     }
@@ -73,32 +51,25 @@ public class PartyManager : MonoBehaviour
     //同步角色的当前状态
     public void SaveHealth(int partyMember,int health)
     {
-        currentParty[partyMember].CurrHealth = health; 
-    }
-    public void SetPosition(Vector3 posistion)//获取角色当前位置
-    {
-        playerPosition = posistion;
+        currentParty[partyMember].currHealth = health; 
     }
 
-    public Vector3 GetPosition()
+    public void SavePlayerParty()
     {
-        return playerPosition;//返回玩家坐标
+        SaveLoadManager.SaveBinaryFile($"{ConfigString.PLAYERDATA}_currentParty",currentParty);
     }
-}
-[System.Serializable]
-public class PartyMember
-{
-    public string MemberName;
-    public Sprite sprite;
-    public int Level;
-    public int CurrHealth;//当前血量
-    public int MaxHealth;//最大血量
-    public int Strength;
-    [FormerlySerializedAs("speed")] [FormerlySerializedAs("Initiative")] public int Speed;
-    public int CurrExp;//当前经验
-    public int MaxExp;//最大经验
-    public GameObject MemberBattleVisualPrefab;//公共游戏对象
-    public GameObject MemberOverworVisualPrefab;//视觉预制件
-    
 
+    public void LoadPlayerParty()
+    {
+        object data = SaveLoadManager.LoadBinaryFile($"{ConfigString.PLAYERDATA}_currentParty");
+        if (data != null)
+        {
+            currentParty = (List<PlayerData>)data;
+        }
+        else
+        {
+            currentParty = new List<PlayerData>();
+            AddMemberToPartyByName(ConfigString.DEFAULTPLAYERNAME);//添加角色信息
+        }
+    }
 }

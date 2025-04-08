@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game  On
+  m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 417203567}
   - component: {fileID: 417203571}
   m_Layer: 5
-  m_Name: FadeCanvas
+  m_Name: LoadSceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,12 +368,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 417203566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd8861f4ab20d54b95a6cd9f1cfc152, type: 3}
+  m_Script: {fileID: 11500000, guid: 18227f8c47895d04fb5289b0c4e48f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fadePanel: {fileID: 425260152}
   fadeDuration: 1
-  sceneName: OverworldScene
 --- !u!1 &425260150
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +385,7 @@ GameObject:
   - component: {fileID: 425260153}
   - component: {fileID: 425260152}
   m_Layer: 5
-  m_Name: fadeImage
+  m_Name: FadeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -531,19 +530,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 739750047}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 417203571}
-        m_TargetAssemblyTypeName: FadeCave, Assembly-CSharp
-        m_MethodName: StartTransition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &739750047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -866,7 +853,7 @@ GameObject:
   - component: {fileID: 921507680}
   - component: {fileID: 921507679}
   m_Layer: 5
-  m_Name: GameOnButton
+  m_Name: ContinueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1206,7 +1193,6 @@ GameObject:
   - component: {fileID: 1523442615}
   - component: {fileID: 1523442614}
   - component: {fileID: 1523442613}
-  - component: {fileID: 1523442616}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -1277,19 +1263,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1523442614}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1523442616}
-        m_TargetAssemblyTypeName: StartGameButton, Assembly-CSharp
-        m_MethodName: AppExit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1523442614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1328,19 +1302,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1523442611}
   m_CullTransparentMesh: 1
---- !u!114 &1523442616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1523442611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73e2881bca625594c8307220bf9669f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NextSceneName: OverworldScene
 --- !u!1 &1653890742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1421,6 +1382,7 @@ GameObject:
   - component: {fileID: 1762956454}
   - component: {fileID: 1762956453}
   - component: {fileID: 1762956455}
+  - component: {fileID: 1762956456}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -1514,6 +1476,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1762956456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762956451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6498a72062f88304ba46275804b3c839, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2140695073
 GameObject:
   m_ObjectHideFlags: 0

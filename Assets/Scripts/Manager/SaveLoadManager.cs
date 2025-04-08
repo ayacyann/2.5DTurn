@@ -41,4 +41,13 @@ public static class SaveLoadManager
         sw.Dispose();
         return obj;
     }
+
+    public static void ClearSaveFile()
+    {
+        if (Directory.Exists(root))
+        {
+            Directory.Delete(root, true);
+            Debug.Log("清空存档");
+        }
+    }
 }

@@ -1,33 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] private EnemyInfo[] allEnemies;//存有所有成员的数组
-    [SerializeField] private List<Enemy> currentEnemies;//敌人列表
-
-    //这个单例的作用是什么?
-    private static GameObject instance;//用静态变量确保一个场景中一次只存在一个敌人
+    public EnemyInfo enemyInfos;//存有所有成员的数组
+    public List<EnemyData> currentEnemies;//敌人列表
+    
     private const float LEVEL_MODIFIER = 0.5f;
+    public static EnemyManager Instance{get; private set;}
 
     private void Awake()
     {
-        
-        if (instance != null)//如果实例不为空
+        if (Instance == null)
         {
-            Destroy(this.gameObject);//销毁这个对象
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            instance = this.gameObject;//否则将该变量赋给实例
+            Destroy(gameObject);
         }
-//个人认为敌人完全没有必要保持现状,应该每次战斗结束后重新随机一次敌人数量
-
-        DontDestroyOnLoad(gameObject);//保证敌人在场景切换时不被销毁
-        /**/
-
     }
+
     //用于随机生成敌人
     public void GenerateEnemiesByEncounter(Encounter[] encounters,int maxNumEnemies)
     {
@@ -39,53 +36,31 @@ public class EnemyManager : MonoBehaviour
             //用临时变量存储随机遭遇
             Encounter tempEncounter = encounters[Random.Range(0, encounters.Length)];//随机怪物数量
             //随机怪物等级
-            int level = Random.Range(tempEncounter.LevelMin, tempEncounter.LevelMax+1);
+            int level = Random.Range(tempEncounter.levelMin, tempEncounter.levelMax+1);
             //生成怪物
-            GeneratEnemyByName(tempEncounter.Enemy.EnemyName, level);
+            GenerateEnemyByName(tempEncounter.enemyName, level);
         }
-        
-
     }
-    private void GeneratEnemyByName(string enemyName,int level)
+    private void GenerateEnemyByName(string enemyName,int level)
     {
-        for(int i = 0; i < allEnemies.Length; i++)
+        EnemySpawnInfo esi = enemyInfos.GetInfoFromName(enemyName);
+        EnemyData newEnemy = new EnemyData(esi)
         {
-            if (enemyName == allEnemies[i].EnemyName)
-            {
-                Enemy newEnemy = new Enemy();
-                //敌人信息
-                newEnemy.EnemyName = allEnemies[i].EnemyName;
-                newEnemy.Level = level;
-                //怪物等级的成长曲线,怪物每加一级属性上升值为:属性*levelModifier
-                float levelModifier = (LEVEL_MODIFIER * newEnemy.Level);
-                //新敌人的最大生命=可编写脚本的对象基本生命值
-                newEnemy.MaxHealth = Mathf.RoundToInt(allEnemies[i].BaseHealth+(allEnemies[i].BaseHealth*levelModifier));
-                newEnemy.CurrHealth = newEnemy.MaxHealth;
-                newEnemy.Strength = Mathf.RoundToInt(allEnemies[i].BaseStr+(allEnemies[i].BaseStr*levelModifier));
-                newEnemy.Initiative = Mathf.RoundToInt(allEnemies[i].BaseInitiative + (allEnemies[i].BaseInitiative * levelModifier));
-                //敌人视觉预制件
-                newEnemy.EnemyVisualPrefab = allEnemies[i].EnemyVisualPrefab;
-                currentEnemies.Add(newEnemy);
-                return;
-            }
-        }
+            level = level
+        };
+        //怪物等级的成长曲线,怪物每加一级属性上升值为:属性*levelModifier
+        float levelModifier = (LEVEL_MODIFIER * newEnemy.level);
+        //新敌人的最大生命=可编写脚本的对象基本生命值
+        newEnemy.maxHealth = Mathf.RoundToInt(esi.maxHealth+(esi.maxHealth*levelModifier));
+        newEnemy.currHealth = newEnemy.maxHealth;
+        newEnemy.strength = Mathf.RoundToInt(esi.strength+(esi.strength*levelModifier));
+        newEnemy.speed = Mathf.RoundToInt(esi.speed + (esi.speed * levelModifier));
+        //敌人视觉预制件
+        currentEnemies.Add(newEnemy);
     }
 
-    public List<Enemy> GetCurrentEnemies()
+    public List<EnemyData> GetCurrentEnemies()
     {
         return currentEnemies;
     }
-}
-
-[System.Serializable]
-public class Enemy
-{
-    public string EnemyName;
-    public int Level;
-    public int CurrHealth;
-    public int MaxHealth;
-    public int Strength;
-    public int Initiative;
-    public GameObject EnemyVisualPrefab;
-
 }
