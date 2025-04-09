@@ -11,8 +11,8 @@ public static class SaveLoadManager
 
     private static void CheckRoot()
     {
-        if (!Directory.Exists(root))
-            Directory.CreateDirectory(root);
+        if (!Directory.Exists(root))//若存在这个目录
+            Directory.CreateDirectory(root);//创建
     }
 
     public static void SaveBinaryFile<T>(string fileName, T savedObject)
@@ -20,7 +20,7 @@ public static class SaveLoadManager
         CheckRoot();
         string filePath = root + "/" + fileName;
         FileStream fs;
-        if (File.Exists(filePath))
+        if (File.Exists(filePath))//若路径存在则读取,否则创建这个目录
             fs = File.Open(root + "/" + fileName, FileMode.Open);
         else
             fs = File.Create(root + "/" + fileName);
