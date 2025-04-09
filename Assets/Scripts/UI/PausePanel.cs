@@ -13,6 +13,7 @@ public class PausePanel : MonoBehaviour
         //Debug.Log((SceneManager.GetActiveScene().name == mainMenuSceneName));
         // Debug.Log("按键:" + Input.GetKeyDown(KeyCode. R));
         //若当前的活动场景为xxx并且按下ESC按钮
+        if(BackpackManager.Instance.isShowCanvas) return;
         if (SceneManager.GetActiveScene().name != ConfigString.MENU_SCENE && Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
@@ -22,6 +23,7 @@ public class PausePanel : MonoBehaviour
     public void TogglePause()
     {
         isPaused = !isPaused;
+        BackpackManager.Instance.isCanOpen = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
         pauseUI.SetActive(isPaused); // 根据状态显示/隐藏
     }
