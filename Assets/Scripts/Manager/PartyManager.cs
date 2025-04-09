@@ -83,6 +83,11 @@ public class PartyManager : MonoBehaviour
             AddMemberToPartyByName(ConfigString.DEFAULT_PLAYER_NAME);//添加角色信息
         }
     }
+
+    public void RemoveParty(string memberName)
+    {
+        currentParty.RemoveAll(x=>x.memberName == memberName);
+    }
     
     public void SetPosition(Vector3 position)//获取角色当前位置
     {

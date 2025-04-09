@@ -15,8 +15,8 @@ MonoBehaviour:
   playerSpawnInfos:
   - memberName: Player
     level: 5
-    currHealth: 100
-    maxHealth: 100
+    currHealth: 1
+    maxHealth: 1
     strength: 20
     speed: 10
     currExp: 0
@@ -26,8 +26,8 @@ MonoBehaviour:
     memberOverworldVisualPrefab: {fileID: 5586445383391607723, guid: 9d533f8cfcc94ff4a8bd9fecbcc5a370, type: 3}
   - memberName: Clear
     level: 5
-    currHealth: 50
-    maxHealth: 50
+    currHealth: 5
+    maxHealth: 5
     strength: 20
     speed: 20
     currExp: 0

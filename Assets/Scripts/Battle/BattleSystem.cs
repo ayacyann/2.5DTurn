@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Serialization;
 
 //没看懂
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField] private enum BattleState//战斗状态
+    public enum BattleState//战斗状态
     {
         //选择状态,战斗状态,胜利,失败,逃跑
         Start,Selection,Battle,Won,Lost,Run
     }
 
+    [FormerlySerializedAs("State")]
     [Header("战斗状态")]
-    [SerializeField] private BattleState State;
+    [SerializeField] private BattleState state;
+    public BattleState State => state;
 
     [Header("重生点")]
     [SerializeField] private Transform[] partySpawnPoints;//角色的重生点 
@@ -51,6 +52,7 @@ public class BattleSystem : MonoBehaviour
     private const int RUN_CHANCE = 50;
     private const string OVERWORLD_SCENE = "OverworldScene";
     // Start is called before the first frame update
+    
     void Start()
     {
         partyManager = GameObject.FindAnyObjectByType<PartyManager>();
@@ -90,14 +92,14 @@ public class BattleSystem : MonoBehaviour
     {
         //先禁用敌人的战斗状态;接着循环遍历所有的角色
         enemySelectionMenu.SetActive(false);
-        State = BattleState.Battle;//将当前状态设为战斗状态
+        state = BattleState.Battle;//将当前状态设为战斗状态
         bottomTextPopUp.SetActive(true);//打开底部的文本面板
 
         //遍历所有的角色
         for(int i = 0; i < allBattlers.Count; i++)
         {
             //若当前属于战斗状态并且角色当前血量大于0
-            if (State == BattleState.Battle && allBattlers[i].currHealth>0)
+            if (state == BattleState.Battle && allBattlers[i].currHealth>0)
             {
                 //用简单的switch检查每个战斗者要执行的动作
                 switch (allBattlers[i].battleAction)
@@ -118,7 +120,7 @@ public class BattleSystem : MonoBehaviour
         }
         RemoveDeadBattlers();
         //如果循环结束后依旧处于战斗状态,就继续执行上面的循环,返回战斗菜单
-        if (State == BattleState.Battle)
+        if (state == BattleState.Battle)
         {
             bottomTextPopUp.SetActive(false);
             currentPlayer = 0;
@@ -153,11 +155,11 @@ public class BattleSystem : MonoBehaviour
 
                 if (enemyBattlers.Count <= 0)//如果敌人数量为0,结束战斗
                 {
-                    State = BattleState.Won;//将状态改为胜利
+                    state = BattleState.Won;//将状态改为胜利
                     bottomText.text = WIN_MESSAGE;
                     yield return new WaitForSeconds(TURN_DURATION);
-                    //返回主场景
-                    SceneManager.LoadScene(OVERWORLD_SCENE);
+                    //返回主场景，不使用渐变
+                    LoadSceneManager.Instance.LoadScene(OVERWORLD_SCENE,isFade:false);
                 }
             }
         }
@@ -180,13 +182,16 @@ public class BattleSystem : MonoBehaviour
                 yield return new WaitForSeconds(TURN_DURATION);
                 playerBattlers.Remove(currTarget);//将目标玩家从玩家列表中移除
                 allBattlers.Remove(currTarget);//将该玩家从所有成员的列表中移除
+                PartyManager.Instance.RemoveParty(currTarget.memberName);
 
-                if (playerBattlers.Count <= 0)//如果玩家数量为0,结束战斗
+                if (playerBattlers.Count <= 0 || currTarget.memberName==ConfigString.DEFAULT_PLAYER_NAME)//如果玩家数量为0,结束战斗
                 {
-                    State = BattleState.Lost;//将状态改为失败
                     bottomText.text = LOST_MESSAGE;
+                    battleMenu.gameObject.SetActive(false);
+                    enemySelectionMenu.gameObject.SetActive(false);
                     yield return new WaitForSeconds(TURN_DURATION);
-                    //可以返回游戏主界面
+                    bottomText.text = "Press any key to back menu!";
+                    state = BattleState.Lost;//将状态改为失败
                 }
             }
         }
@@ -377,7 +382,7 @@ public class BattleSystem : MonoBehaviour
 
     public void SelectRunAction()//选择逃跑操作
     {
-        State = BattleState.Selection;
+        state = BattleState.Selection;
         BattleEntities currentPlayerEntity = playerBattlers[currentPlayer];//获取当前玩家实体
     
         currentPlayerEntity.battleAction = BattleEntities.Action.Run;
@@ -397,18 +402,18 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator RunRoutine()//逃跑例程
     {
-        if (State == BattleState.Battle)
+        if (state == BattleState.Battle)
         {
             if (Random.Range(1,101)>=RUN_CHANCE)
             {
                 //先显示逃跑成功文本
                 bottomText.text = SUCCESFULLY_RAN_MESSAGE;
                 //将状态改为逃跑
-                State = BattleState.Run;
+                state = BattleState.Run;
                 allBattlers.Clear();//清空所有的角色列表
 
                 yield return new WaitForSeconds(TURN_DURATION);
-                SceneManager.LoadScene(OVERWORLD_SCENE);//切换为主场景
+                LoadSceneManager.Instance.LoadScene(OVERWORLD_SCENE,isFade:false);//切换为主场景
                 yield break;
             }
             else
