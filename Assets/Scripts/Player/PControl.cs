@@ -89,8 +89,10 @@ public class PControl : MonoBehaviour
 
                 if (stepsInGrass>= stepToEncounter)//如果在草丛中行走的步数大于遭遇的步数
                 {
+                    // 关闭角色输入
+                    playerControls.Disable();
                     PartyManager.Instance.SetPosition(transform.position);//固定角色当前的战斗坐标
-                    SceneManager.LoadScene(ConfigString.BATTLE_SCENE);//加载战斗场景
+                    LoadSceneManager.Instance.LoadScene(ConfigString.BATTLE_SCENE);//加载战斗场景
                 }
             }
         }

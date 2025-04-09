@@ -28,6 +28,8 @@ public class BackpackManager : MonoBehaviour
         }
     }
 
+    public bool isCanOpen = true;
+
     public ItemUse currentItem;
     public Transform showItemInfo;
     public Transform buttons;
@@ -102,11 +104,11 @@ public class BackpackManager : MonoBehaviour
     {
         //Debug.Log("按键:"+Input.GetKeyDown(KeyCode.R));
         //若当前的活动场景为xxx并且按下ESC按钮
-        if (SceneManager.GetActiveScene().name == "OverworldScene" && Input.GetKeyDown(KeyCode.R))
+        if(!isCanOpen) return;
+        if (SceneManager.GetActiveScene().name == ConfigString.OVERWORLD_SCENE && Input.GetKeyDown(KeyCode.R))
         {
             ToggleShowPanel();
         }
-
         if (isShowCanvas)
         {
             UpdateItemInfo();

@@ -58,8 +58,13 @@ public class LoadSceneManager : MonoBehaviour
         LoadScene(ConfigString.BATTLE_SCENE);
     }
 
-    public void LoadScene(string sceneName, Action callback = null)
+    public void LoadScene(string sceneName, Action callback = null,bool isFade = true)
     {
+        if (!isFade)
+        {
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+            return;
+        }
         StartCoroutine(TransitionRoutine(sceneName,callback));
     }
 
@@ -93,8 +98,6 @@ public class LoadSceneManager : MonoBehaviour
         {
             yield return null;
         }
-        callback?.Invoke();
-
         // 淡入效果
         timer = 0f;
         while (timer < fadeDuration)
@@ -106,5 +109,6 @@ public class LoadSceneManager : MonoBehaviour
         }
         fadePanel.color = new Color(0f, 0f, 0f, 0f);
         fadePanel.raycastTarget = false; // 恢复点击
+        callback?.Invoke();
     }
 }

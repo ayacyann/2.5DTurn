@@ -13,8 +13,6 @@ public class EncounterSystem : MonoBehaviour
         //通过遭遇生成敌人
         EnemyManager.Instance.GenerateEnemiesByEncounter(enemiesInScene,maxNumEnemies);
     }
-
-
 }
 
 [System.Serializable]

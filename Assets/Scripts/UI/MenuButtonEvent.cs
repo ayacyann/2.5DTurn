@@ -8,7 +8,14 @@ public class MenuButtonEvent : MonoBehaviour
         //°´Å¥¶¯Ì¬°ó¶¨
         Button[] buttons = GetComponentsInChildren<Button>();
         buttons[0].onClick.AddListener(()=>LoadSceneManager.Instance.StartGame());
-        buttons[1].onClick.AddListener(()=>LoadSceneManager.Instance.ContinueGame());
         buttons[2].onClick.AddListener(()=>LoadSceneManager.Instance.QuitGame());
+        if (SaveLoadManager.IsExist())
+        {
+            buttons[1].onClick.AddListener(()=>LoadSceneManager.Instance.ContinueGame());
+        }
+        else
+        {
+            buttons[1].interactable = false;
+        }
     }
 }

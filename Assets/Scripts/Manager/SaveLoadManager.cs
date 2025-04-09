@@ -11,8 +11,13 @@ public static class SaveLoadManager
 
     private static void CheckRoot()
     {
-        if (!Directory.Exists(root))//若存在这个目录
-            Directory.CreateDirectory(root);//创建
+        if (!IsExist())
+            Directory.CreateDirectory(root);
+    }
+
+    public static bool IsExist()
+    {
+        return Directory.Exists(root);
     }
 
     public static void SaveBinaryFile<T>(string fileName, T savedObject)
@@ -31,7 +36,6 @@ public static class SaveLoadManager
 
     public static object LoadBinaryFile(string fileName)
     {
-        CheckRoot();
         if (!File.Exists(root + "/" + fileName))
             return null;
         FileStream sw = File.Open(root + "/" + fileName,FileMode.Open);
@@ -47,7 +51,6 @@ public static class SaveLoadManager
         if (Directory.Exists(root))
         {
             Directory.Delete(root, true);
-            Debug.Log("清空存档");
         }
     }
 }
