@@ -27,7 +27,7 @@ public class GameOver : MonoBehaviour
 
     private void BackToMainMenu()
     {
-        SaveLoadManager.ClearSaveFile();
+        // SaveLoadManager.ClearSaveFile();
         // 清除无用的单例
         LoadSceneManager.Instance.BackMenu(() =>
         {

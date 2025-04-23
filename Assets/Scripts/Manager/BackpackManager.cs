@@ -29,7 +29,6 @@ public class BackpackManager : MonoBehaviour
     }
 
     public bool isCanOpen = true;
-
     public ItemUse currentItem;
     public Transform showItemInfo;
     public Transform buttons;
@@ -226,6 +225,10 @@ public class BackpackManager : MonoBehaviour
         {
             currentIndex = 0;
             UpdatePanel();
+        }
+        else
+        {
+            currentItem = null;
         }
     }
     

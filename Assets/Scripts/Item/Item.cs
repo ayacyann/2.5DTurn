@@ -15,10 +15,9 @@ public class Item
     public int defence;
     public int maxNum;
     [Range(0,1)]public float probability;
-
-    public Item(DropItemType dropType)
+    
+    public Item(Item item)
     {
-        Item item = BackpackManager.Instance.itemInfo.GetItemByType(dropType);
         this.dropType = item.dropType;
         this.name = item.name;
         this.sprite = item.sprite;
@@ -30,8 +29,10 @@ public class Item
         this.probability = item.probability;
         this.maxNum = item.maxNum;
     }
-    public Item(Item item)
+
+    public Item(DropItemType dropType)
     {
+        Item item = BackpackManager.Instance.itemInfo.GetItemByType(dropType);
         this.dropType = item.dropType;
         this.name = item.name;
         this.sprite = item.sprite;

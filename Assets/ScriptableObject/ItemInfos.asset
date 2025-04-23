@@ -22,7 +22,7 @@ MonoBehaviour:
     speed: 0
     defence: 0
     maxNum: 20
-    probability: 0.81
+    probability: 0.8
   - dropType: 1
     name: GreenVase
     sprite: {fileID: 189166917, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}
@@ -32,7 +32,7 @@ MonoBehaviour:
     speed: 3
     defence: 0
     maxNum: 20
-    probability: 0.696
+    probability: 0.6
   - dropType: 2
     name: Heart
     sprite: {fileID: 263331153, guid: 99ab20ea4c97edd4cb5d3b78b1996807, type: 3}

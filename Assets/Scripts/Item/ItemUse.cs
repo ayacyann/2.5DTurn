@@ -31,7 +31,6 @@ public class ItemUse : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,I
             RectTransform showRect = BackpackManager.Instance.showItemInfo.GetComponent<RectTransform>();
             Vector2 offset = showRect.GetChild(0).GetComponent<RectTransform>().sizeDelta / 2;
             showRect.anchoredPosition = localPoint+offset;
-            // BackpackManager.Instance.showItemInfo.GetComponent<RectTransform>().anchoredPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
     }
 

@@ -18,15 +18,12 @@ public class AttackLine : MonoBehaviour
     
     void Start()
     {
-        if (lineRenderer == null)
-        {
-            lineRenderer = transform.GetComponent<LineRenderer>();
-            lineRenderer.startWidth = 0.1f;
-            lineRenderer.endWidth = 0.1f;
-            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-            lineRenderer.startColor = startColor;
-            lineRenderer.endColor = endColor;
-        }
+        lineRenderer = transform.GetComponent<LineRenderer>();
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = startColor;
+        lineRenderer.endColor = endColor;
         lineRenderer.positionCount = resolution;
     }
     
@@ -34,8 +31,6 @@ public class AttackLine : MonoBehaviour
     {
         if (startPoint == null || endPoint == null)
         {
-            lineRenderer.positionCount = 0;
-            timeFlow = 0;
             return;
         }
         UpdateAttackLine(startPoint.position, endPoint.position);
@@ -45,12 +40,11 @@ public class AttackLine : MonoBehaviour
     {
         startPoint = start;
         endPoint = end;
-    }
-
-    public void ResetState()
-    {
-        startPoint = null;
-        endPoint = null;
+        if (start == null || end == null)
+        {
+            lineRenderer.positionCount = 0;
+            timeFlow = 0;
+        }
     }
 
     void UpdateAttackLine(Vector3 start, Vector3 end)
@@ -71,7 +65,7 @@ public class AttackLine : MonoBehaviour
         }
     }
     
-    Vector3 CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
+    private Vector3 CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
     {
         float u = 1 - t;
         float tt = t * t;

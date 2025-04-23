@@ -160,6 +160,7 @@ public class BattleSystem : MonoBehaviour
                     yield return new WaitForSeconds(TURN_DURATION);
                     //返回主场景，不使用渐变
                     LoadSceneManager.Instance.LoadScene(OVERWORLD_SCENE,isFade:false);
+                    Save();
                 }
             }
         }
@@ -191,7 +192,7 @@ public class BattleSystem : MonoBehaviour
                     enemySelectionMenu.gameObject.SetActive(false);
                     yield return new WaitForSeconds(TURN_DURATION);
                     bottomText.text = "Press any key to back menu!";
-                    state = BattleState.Lost;//将状态改为失败
+                        state = BattleState.Lost;//将状态改为失败
                 }
             }
         }
@@ -414,6 +415,7 @@ public class BattleSystem : MonoBehaviour
 
                 yield return new WaitForSeconds(TURN_DURATION);
                 LoadSceneManager.Instance.LoadScene(OVERWORLD_SCENE,isFade:false);//切换为主场景
+                Save();
                 yield break;
             }
             else
@@ -423,5 +425,11 @@ public class BattleSystem : MonoBehaviour
                 yield return new WaitForSeconds(TURN_DURATION);
             }
         }
+    }
+
+    private void Save()
+    {
+        BackpackManager.Instance.SaveBackpackItem();
+        PartyManager.Instance.SavePlayerParty();
     }
 }

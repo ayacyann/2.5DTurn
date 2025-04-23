@@ -19,8 +19,6 @@ public class SelectionEvent : MonoBehaviour,IPointerEnterHandler,IPointerExitHan
         target = bs.GetEnemyEntities()[idx];
         BattleEntities current = bs.CurrentPlayer;
         bs.ShowLine(current.battleVisual.transform, target.battleVisual.transform);
-        Debug.Log(bs.CurrentPlayer.battleVisual.gameObject.name);
-        Debug.Log(target.battleVisual.gameObject.name);
     }
 
     public void OnPointerExit(PointerEventData eventData)

@@ -15,8 +15,8 @@ MonoBehaviour:
   playerSpawnInfos:
   - memberName: Player
     level: 5
-    currHealth: 1
-    maxHealth: 1
+    currHealth: 10
+    maxHealth: 10
     strength: 20
     speed: 10
     currExp: 0
