@@ -25,7 +25,7 @@ public static class SaveLoadManager
         CheckRoot();
         string filePath = root + "/" + fileName;
         FileStream fs;
-        if (File.Exists(filePath))
+        if (File.Exists(filePath))//若路径存在则读取,否则创建这个目录
             fs = File.Open(root + "/" + fileName, FileMode.Open);
         else
             fs = File.Create(root + "/" + fileName);

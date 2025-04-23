@@ -1,5 +1,5 @@
 ﻿
-public static class ConfigString
+public static class ConfigString//无需实例化即可获取类中的信息
 {
     #region   场景名称
     public const string OVERWORLD_SCENE = "OverworldScene";
